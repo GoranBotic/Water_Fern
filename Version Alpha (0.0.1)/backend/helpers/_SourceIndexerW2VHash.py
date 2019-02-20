@@ -17,7 +17,7 @@ class SourceIndexer(ParseTreeVisitor):
     def __init__(self, DB, theID, lang):
         self.DB = DB
         self.theID = theID
-        self.model = Word2Vec.load('helpers/word2vec_models/"+lang+"Model.bin')
+        self.model = Word2Vec.load('helpers/word2vec_models/'+lang+'Model.bin')
         __import__("helpers."+lang+"Lexer")
         self.Lexer = getattr(sys.modules["helpers."+lang+"Lexer"],lang+"Lexer")
 
