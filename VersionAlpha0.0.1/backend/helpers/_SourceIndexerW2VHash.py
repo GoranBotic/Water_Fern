@@ -23,30 +23,43 @@ class SourceIndexer(ParseTreeVisitor):
 
     #this provides some default behavior
     def visit(self, ctx):
+        #if we're at a terminal node in the tree, then that node corresponds to a symbol
+        #retrieve the appropriate symbol from the lexer, convert it to a vector with W2V, and add a few fields to hold the shape variables
         if str(type(ctx)) == "<class 'antlr4.tree.Tree.TerminalNodeImpl'>":
-            #theStuff[type(ctx.getParent())] = True
-            #by default terminals simply evaluate to their symbol
-            #to override this the vist... method which encounters the terminal should manually its children producing the desired terminal values for the terminal children
-            #if that implementation is done then this line does not need to be changed, the default behavior will still be to use the symbol name
             word = list(self.model[str(self.Lexer.symbolicNames[ctx.getSymbol().type])])
             stop = len(word)-1
             for x in range(stop):
-                word.append(0)
+                word.append(10)
             return word
 
+        #otherwise this node has a list of children, so we get the children
         theList = ctx.accept(self)
-
         theHash = []
-        
-        if len(theList) > 1:
-            #do the aggregation
-            #right now this simply concatenates all the strings and hashes
-            #this needs to be changed so that similar sub-trees will get similar hashes
 
-            #have all terminals evaluate to a type 
-            #have all non-terminals evaluate to a type
-            #name the thing according to the type frequency count
+        #ctx.accept will return None when it fails to parse some code
+        #ANTLR will simply discard tokens from the input stream until it finds sane input
+        #this code just passes None back up the tree to allow ANTLR to continue and try to find sane input
+        if theList == None:
+            return None
+
+        if theList == None:
+            return None
+
+        tmpList = []
+        for l in theList:
+            if l != None:
+                tmpList.append(l)
+
+        theList = tmpList
+        if len(theList) == 0:
+            return None
+        
+        #if the list contains more than 1 child, we need to aggregate the children into a single vector
+        if len(theList) > 1:
+            #a blank vector to contain the aggregate
             aggregate = [0 for x in range(len(theList[0]))] 
+
+            #magnitude of components start to end-1 of a vector
             def mag(start, end, X):
                 mag = 0
                 for i in range(start, end):
@@ -54,12 +67,15 @@ class SourceIndexer(ParseTreeVisitor):
                 
                 return sqrt(mag)
             
+            #dot product between components start to end-1 of vectors X and Y
             def dot(start, end, X, Y):
                 dot = 0
                 for i in range(start, end):
                     dot += (X[i]*Y[i])
                 return dot
 
+            #cosine similarity between sub-vectors in X and Y
+            #these values are used to fill in the 'shape' component of the index
             def coSim(X, Y):
                 top = int(len(X)/2)
 
@@ -84,8 +100,11 @@ class SourceIndexer(ParseTreeVisitor):
 
                 return score
 
+            #aggregate[:top+1] is the portion of aggregate which depends on the word2vec embedding 
+            #the rest of aggregate is the shape components
             top = int(len(aggregate)/2)
 
+            #average the word2vec embedding portion of all indexes
             for l in theList:
                 for v in range(len(l)):
                     aggregate[v] += l[v] 
@@ -94,7 +113,9 @@ class SourceIndexer(ParseTreeVisitor):
 
             
             for l in theList:
-                if l[-1] == 0 and l[-2] == 0:
+                #if a vector has 10 in its final component, it is not an aggregate, so we need to calculate this vectors contribution to the shape components of the aggregate
+                #the shape components are averaged cosine similarity, so can never get a value of 10
+                if l[-1] == 10:
                     # aggregate[-2] += coSim(0, 1, aggregate, l)
                     # aggregate[-1] += coSim(1,2,aggregate, l)
                     score = coSim(aggregate,l)
@@ -103,6 +124,7 @@ class SourceIndexer(ParseTreeVisitor):
                     for x in range(top):
                         aggregate[-(x+1)] += score[-(x+1)]
 
+            #final divide the shape components by the number of contributors
             for x in range(top):
                 aggregate[-(x+1)] /= len(theList)
             # aggregate[-2] /= len(theList)
@@ -110,6 +132,7 @@ class SourceIndexer(ParseTreeVisitor):
 
             theHash = aggregate
 
+            #reduce the index to a unit vector
             magHash = mag(0, len(theHash), theHash)
             theHash = [x/magHash for x in theHash]
 
@@ -122,8 +145,10 @@ class SourceIndexer(ParseTreeVisitor):
 
             def findEnd(ctx):
                 if ctx.getChildCount() > 0:
+                    
                     return findEnd(ctx.getChild(ctx.getChildCount()-1))
                 else:
+                    
                     return ctx.getSymbol().line
 
             #a method also exists that gets the index of the token in the token stream
@@ -140,10 +165,11 @@ class SourceIndexer(ParseTreeVisitor):
 				# self.DB.putBlock(theHash, self.theID, strt, findEnd(ctx)-strt)
                 self.DB.store_index("w2v_n_000", self.theID, theHash, strt, findEnd(ctx)-strt)
 
+        #this node had only 1 child, so just pass it up the tree
         else:
             theHash = theList[0]
 
-        #store the hash in the DB along with some kind of link to its accociated code 
+   
         #should also search for existing similar code
 
         return theHash
