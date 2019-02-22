@@ -3,8 +3,8 @@ from antlr4 import *
 from gensim.models import Word2Vec
 from math import sqrt
 import sys
-from SimilarityMeasures import *
-# from indexer.DB import DB
+from helpers.SimilarityMeasures import *
+#from indexer.DB import DB
 
 # This class defines a complete generic visitor for a parse tree produced by JavaParser.
 
@@ -167,19 +167,24 @@ class SourceIndexer(ParseTreeVisitor):
                     maxDepth = l[1] 
             contextList = (theHash, maxDepth, fullList[0][2], fullList[-1][2])
             
-            if contextList[1] > 10 :
-                self.DB.store_index("w2v_n_000", self.theID, theHash, contextList[2], contextList[3]-contextList[2])
+            if contextList[1] > 27 :
+                block_id = self.DB.store_index("w2v_n_000", self.theID, theHash, contextList[2], contextList[3]-contextList[2])
 
                 #add associations between this sub-tree and the most similar sub-trees
                 similarBlocks = self.DB.find_cosine_similar_indicies("w2v_n_000", theHash)
                 for r in similarBlocks:
-                    self.DB.associate_indicies(r[0], self.theID, theHash, r[1], cosineSimilarity(theHash, r[1]))
+
+                    print(r)
+                    print([r[0], self.theID, block_id, r[1], cosineSimilarity(theHash, r[2])])
+                    if r[0] != self.theID:
+                        self.DB.associate_indicies(r[0], self.theID, block_id, r[1], cosineSimilarity(theHash, r[2]))
+                        
 
 
             theHash = contextList
         #this node had only 1 child, so just pass it up the tree
         else:
-            theHash = theList[0]
+            theHash = fullList[0]
 
    
         #should also search for existing similar code

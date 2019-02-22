@@ -11,9 +11,9 @@ from helpers._SourceIndexerW2VHash import SourceIndexer
 def index(submission_id):
     manager = dbm.DatabaseManager()
     data = manager.get_file(submission_id)
-
     name        = data[0]
-    source      = bytes(data[1].tolist()).decode("utf-8")
+    print(name)
+    source      = bytes(data[1]).decode("utf-8")
     language    = data[2]
 
     #import parser and lexer based on language

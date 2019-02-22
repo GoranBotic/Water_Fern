@@ -8,4 +8,4 @@ def dot(X, Y):
         return sum([X[i]*Y[i] for i in range(len(X))])
 
 def cosineSimilarity(X, Y):
-    dot(X,Y)/(magnitude(X)*magnitude(Y))
+    return dot(X,Y)/(magnitude(X)*magnitude(Y))

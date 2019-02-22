@@ -5,7 +5,7 @@ from redis import Redis
 from rq import Queue
 
 #Create job queue
-redis_connection = Redis()
+redis_connection = Redis(host="redis_server")
 job_queue = Queue(connection=redis_connection)
 
 #Start webserver
