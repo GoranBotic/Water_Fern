@@ -162,23 +162,35 @@ class SourceIndexer(ParseTreeVisitor):
             #store_index(self, itype, submission_id, index, start_line=0, end_line=0)
 
             maxDepth = 0
+            strtLine = fullList[0][2]
+            endLine = fullList[0][2]
             for l in fullList:
                 if l[1] > maxDepth:
                     maxDepth = l[1] 
-            contextList = (theHash, maxDepth, fullList[0][2], fullList[-1][2])
+                if l[2] > endLine:
+                    endLine = l[2] 
+                if l[2] < strtLine:
+                    startLine = l[2]
             
-            if contextList[1] > 27 :
-                block_id = self.DB.store_index("w2v_n_000", self.theID, theHash, contextList[2], contextList[3]-contextList[2])
+            contextList = (theHash, maxDepth, strtLine, endLine)
+            
+            if contextList[1] > 30 or contextList[3] - contextList[2] >= 1:
+                block_id = self.DB.store_index("w2v_n_000", self.theID, theHash, contextList[2], contextList[3])
 
                 #add associations between this sub-tree and the most similar sub-trees
                 similarBlocks = self.DB.find_cosine_similar_indicies("w2v_n_000", theHash)
+                similarity = []
                 for r in similarBlocks:
-
                     print(r)
-                    print([r[0], self.theID, block_id, r[1], cosineSimilarity(theHash, r[2])])
-                    if r[0] != self.theID:
-                        self.DB.associate_indicies(r[0], self.theID, block_id, r[1], cosineSimilarity(theHash, r[2]))
-                        
+                    similarity.append(cosineSimilarity(theHash, r[2]))
+                    print([r[0], self.theID, block_id, r[1], similarity[-1]])
+                
+                if len(similarity) >0:
+                    aveSim = sum(similarity)/len(similarity)
+                    for r in range(len(similarBlocks)): 
+                        if similarBlocks[r][0] != self.theID and similarity[r] > aveSim:
+                            self.DB.associate_indicies(similarBlocks[r][0], self.theID, block_id, similarBlocks[r][1], similarity[r])
+                            
 
 
             theHash = contextList

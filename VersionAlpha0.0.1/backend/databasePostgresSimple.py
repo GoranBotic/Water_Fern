@@ -47,7 +47,7 @@ class DatabaseManager:
     def find_cosine_similar_indicies(self, itype, index):
         total = sum([v**2 for v in index])
  
-        LIMITPERDIM = 275
+        LIMITPERDIM = 300
 
         perpendicularValues = []
 
@@ -76,7 +76,9 @@ class DatabaseManager:
                cmd += " INTERSECT "
         cmd += ";"
 
-        #cmd = "(SELECT submission_id, block_id, index FROM " + config.TABLE_INDEXES + " WHERE type = '" + itype + "' AND (index[ " + str(1) + " ] >= " + str(-1) + " AND index[ " + str(1) + " ] <= " + str(1) + ") ORDER BY index[ " + str(1) + " ] );"
+
+        ##FIXME
+        cmd = "SELECT submission_id, block_id, index FROM " + config.TABLE_INDEXES + ";"
         self.cursor.execute(cmd) 
         return self.cursor.fetchall()
 
