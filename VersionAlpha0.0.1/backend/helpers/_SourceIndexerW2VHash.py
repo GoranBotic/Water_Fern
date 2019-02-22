@@ -3,6 +3,7 @@ from antlr4 import *
 from gensim.models import Word2Vec
 from math import sqrt
 import sys
+from SimilarityMeasures import *
 # from indexer.DB import DB
 
 # This class defines a complete generic visitor for a parse tree produced by JavaParser.
@@ -30,7 +31,7 @@ class SourceIndexer(ParseTreeVisitor):
             stop = len(word)-1
             for x in range(stop):
                 word.append(10)
-            return word
+            return (word, ctx.getParent().depth(), ctx.getSymbol().line,ctx.getSymbol().line)
 
         #otherwise this node has a list of children, so we get the children
         theList = ctx.accept(self)
@@ -53,6 +54,11 @@ class SourceIndexer(ParseTreeVisitor):
         theList = tmpList
         if len(theList) == 0:
             return None
+
+        #modify theList to contain only index vectors, since that what the aggregation code expects
+        #the additional information in theList will be used later
+        fullList = [l for l in theList] 
+        theList = [l[0] for l in theList]
         
         #if the list contains more than 1 child, we need to aggregate the children into a single vector
         if len(theList) > 1:
@@ -151,20 +157,26 @@ class SourceIndexer(ParseTreeVisitor):
                     
                     return ctx.getSymbol().line
 
-            #a method also exists that gets the index of the token in the token stream
-            #start and end are just recursing to an outermost terminal node and getting the line number from the token
-            #I could just save the token index for now, and get the line numbers later
-            #also could pass line numbers up the tree
-            #will likely need to pass a distance from bottom variable up so can decide how large a tree should be before its indexed
-            #which means passing up lines should be easy
+            
 
             #store_index(self, itype, submission_id, index, start_line=0, end_line=0)
-            
-            if ctx.depth() < 10 :
-                strt = findStart(ctx)
-				# self.DB.putBlock(theHash, self.theID, strt, findEnd(ctx)-strt)
-                self.DB.store_index("w2v_n_000", self.theID, theHash, strt, findEnd(ctx)-strt)
 
+            maxDepth = 0
+            for l in fullList:
+                if l[1] > maxDepth:
+                    maxDepth = l[1] 
+            contextList = (theHash, maxDepth, fullList[0][2], fullList[-1][2])
+            
+            if contextList[1] > 10 :
+                self.DB.store_index("w2v_n_000", self.theID, theHash, contextList[2], contextList[3]-contextList[2])
+
+                #add associations between this sub-tree and the most similar sub-trees
+                similarBlocks = self.DB.find_cosine_similar_indicies("w2v_n_000", theHash)
+                for r in similarBlocks:
+                    self.DB.associate_indicies(r[0], self.theID, theHash, r[1], cosineSimilarity(theHash, r[1]))
+
+
+            theHash = contextList
         #this node had only 1 child, so just pass it up the tree
         else:
             theHash = theList[0]

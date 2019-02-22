@@ -1,6 +1,5 @@
 import config
 import psycopg2 as db
-import sqlite3
 
 #A simple test database manager, does not have everything nessicary for MVP
 #TODO: THis entire this needs to be re-written from scratch once we have the database proper
@@ -40,6 +39,55 @@ class DatabaseManager:
         self.cursor.execute(
             "INSERT INTO "+config.TABLE_INDEXES+" (submission_id, start_line, end_line, type, index) VALUES (%(a)s, %(b)s, %(c)s, %(d)s, %(e)s) ON CONFLICT ON CONSTRAINT "+config.TABLE_INDEXES+"_pkey DO UPDATE SET index=%(e)s;",
             {"a":submission_id, "b":start_line, "c":end_line, "d":itype, "e":index}
+        )
+        self.connection.commit()
+
+    def find_cosine_similar_indicies(self, itype, index):
+        total = sum([v**2 for v in index])
+ 
+        LIMITPERDIM = 10
+
+        perpendicularValues = []
+
+        for v in index:
+            perpendicularValues.append((-total-(v**2))/v)
+
+        cmd = ""
+
+        for i in range(len(index)):
+
+            if index[i] < perpendicularValues[i]:
+                low = index[i] 
+                high = perpendicularValues[i]
+            else:
+                high = index[i] 
+                low = perpendicularValues[i]
+
+            cmd += "SELECT submission_id, index FROM " + config.TABLE_INDEXES + "WHERE type = " + itype + "AND (index[ " + str(i) + " ] <= " + str(low) + " OR index[ " + str(i) + " ] > " + str(high) + ") ORDER BY index[ " + str(i) + " ] "
+
+            if perpendicularValues[i] < index[i]:
+                cmd += "DESC"
+
+            cmd += " LIMIT " + str(LIMITPERDIM)
+        
+            if i < len(index)-1:
+                cmd += " INTERSECT "
+        cmd += ";"
+        self.cursor.execute(cmd) 
+        return self.cursor.fetchall()
+
+    def associate_indicies(self, doc1ID, doc2ID, index1ID, index2ID, similarity):
+        if doc1ID > doc2ID:
+            tmp = doc1ID
+            doc1ID = doc2ID
+            doc2ID = tmp
+        if index1ID > index2ID:
+            tmp = index1ID
+            index1ID = index2ID
+            index2ID = tmp 
+        
+        self.cursor.execute(
+            "INSERT INTO " + config.TABLE_ASSOCIATIONS +"(document1, document2, index1, index2, similarity) VALUES (%(a)s, %(b)s, %(c)s, %(d)s, %(e)s) ",{"a":doc1ID, "b":doc2ID, "c":index1ID, "d":index2ID, "e":similarity}
         )
         self.connection.commit()
 
