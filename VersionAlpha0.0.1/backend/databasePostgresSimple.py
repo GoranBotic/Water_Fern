@@ -47,7 +47,7 @@ class DatabaseManager:
     def find_cosine_similar_indicies(self, itype, index):
         total = sum([v**2 for v in index])
  
-        LIMITPERDIM = 300
+        LIMITPERDIM = 50
 
         perpendicularValues = []
 
@@ -58,17 +58,19 @@ class DatabaseManager:
 
         for i in range(len(index)):
 
-            if index[i] <= perpendicularValues[i]:
-                low = index[i] 
-                high = perpendicularValues[i]
-            else:
-                high = index[i] 
-                low = perpendicularValues[i]
+            # if index[i] <= perpendicularValues[i]:
+            #     low = index[i] 
+            #     high = perpendicularValues[i]
+            # else:
+            #     high = index[i] 
+            #     low = perpendicularValues[i]
+            low = index[i] - 0.01
+            high = index[i] + 0.01
 
-            cmd += "(SELECT submission_id, block_id, index FROM " + config.TABLE_INDEXES + " WHERE type = '" + itype + "' AND (index[ " + str(i+1) + " ] >= " + str(low) + " AND index[ " + str(i+1) + " ] <= " + str(high) + ") ORDER BY index[ " + str(i+1) + " ] "
+            cmd += "(SELECT submission_id, block_id, index FROM " + config.TABLE_INDEXES + " WHERE type = '" + itype + "' AND (index[ " + str(i+1) + " ] >= " + str(low) + " AND index[ " + str(i+1) + " ] <= " + str(high) + ") ORDER BY ABS(" + str(index[i]) + " - index[ " + str(i+1) + " ]) "
 
-            if perpendicularValues[i] < index[i]:
-                cmd += "DESC"
+            # if perpendicularValues[i] < index[i]:
+            #     cmd += "DESC"
 
             cmd += " LIMIT " + str(LIMITPERDIM) + ")"
 
@@ -78,7 +80,7 @@ class DatabaseManager:
 
 
         ##FIXME
-        cmd = "SELECT submission_id, block_id, index FROM " + config.TABLE_INDEXES + ";"
+        #cmd = "SELECT submission_id, block_id, index FROM " + config.TABLE_INDEXES + ";"
         self.cursor.execute(cmd) 
         return self.cursor.fetchall()
 

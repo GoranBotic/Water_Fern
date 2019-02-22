@@ -174,7 +174,7 @@ class SourceIndexer(ParseTreeVisitor):
             
             contextList = (theHash, maxDepth, strtLine, endLine)
             
-            if contextList[1] > 30 or contextList[3] - contextList[2] >= 1:
+            if contextList[1] > 40 or contextList[3] - contextList[2] >= 4:
                 block_id = self.DB.store_index("w2v_n_000", self.theID, theHash, contextList[2], contextList[3])
 
                 #add associations between this sub-tree and the most similar sub-trees
