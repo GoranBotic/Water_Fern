@@ -1,0 +1,10 @@
+
+
+python3
+    gensim
+    antlr4-python3-runtime
+    flask
+    psycopg2
+    numpy
+    redis
+    rq
