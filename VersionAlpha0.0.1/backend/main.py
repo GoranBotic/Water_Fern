@@ -28,7 +28,7 @@ def index():
 # {
 #     "ids":"[list of submission ids]"
 # }
-@app.route('/index_submissions', methods=["POST"])
+@app.route('/api/v1/index_submissions', methods=["POST"])
 def index_submissions():
     if "ids" in request.form:
         submissions = json.loads(request.form["ids"])
