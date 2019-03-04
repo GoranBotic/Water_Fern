@@ -1,0 +1,13 @@
+
+.welcome-box {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width:100%;
+   height: 100%;
+}
+
+.welcome-text {
+   width:50%;
+   text-align: center;
+}
