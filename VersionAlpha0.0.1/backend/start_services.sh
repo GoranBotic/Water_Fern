@@ -1,16 +1,7 @@
-
-
-
-VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
-
-
 docker kill redis_server
 docker rm redis_server
-docker kill psql-server 
-docker rm psql-server 
 docker kill waterfern
 docker rm waterfern
 
 docker run -d --name redis_server redis_server
-docker run -d -p5432:5432 --volume settings:/etc/postgresql --volume logs:/var/log/postgresql --volume data:/var/lib/postgresql psql-server
 docker run -it --mount src=$(pwd),target=/home/waterFern,type=bind --link redis_server --name waterfern -p 12345:5000 waterfern/backend bin/sh -c 'export LC_ALL=C.UTF-8 && export LANG=C.UTF-8 && cd home/waterFern && rq worker -c rq_settings & cd home/waterFern && python3 main.py & bash'

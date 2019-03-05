@@ -15,3 +15,5 @@ POSTGRES_USER       =        parser["POSTGRES"]["POSTGRES_USER"]
 POSTGRES_PASS       =        parser["POSTGRES"]["POSTGRES_PASS"]
 
 DATABASE_MANAGER    =        parser["POSTGRES"]["DATABASE_MANAGER"]
+
+BACKEND_ADDRESS     =        parser["BACKEND"]["BACKEND_ADDRESS"]
