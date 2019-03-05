@@ -6,8 +6,11 @@ class ReportViewer extends Component {
    render() {
       return (
          <div className="welcome-box">
-            <div className="welcome-text">
-               <h3>Welcome to WaterFern, this application was built to help ease your navigation of assignments, courses, students and more.</h3>
+            <div className="reportleft">
+               Report 1 
+            </div>
+            <div className="reportright">
+               Report 2
             </div>
          </div>
       )
