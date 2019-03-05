@@ -31,7 +31,9 @@ def index():
 @app.route('/api/v1/index_submissions', methods=["POST"])
 def index_submissions():
     if "ids" in request.form:
+        print("okokok")
         submissions = json.loads(request.form["ids"])
+        print(submissions)
         for s in submissions:
             #for each file
             for i in indexers:
@@ -40,8 +42,10 @@ def index_submissions():
 
         return "Ok.", 200
     else:
+        print("nonono")
         #no submission ids were sent
+        print(request.form)
         return "Malformed input.", 400
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')

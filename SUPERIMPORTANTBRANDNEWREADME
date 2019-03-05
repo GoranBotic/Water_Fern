@@ -1,0 +1,5 @@
+In front-end and backend there are files called config.ini
+To run the front end and back end servers you MUST replace the all the IPs (POSTGRES_ADDRESS and BACKEND_ADDRESS) with the IP of your laptop. 
+You MUST also run the start_services scripts from the directory they are located in 
+EX: type ls
+    if within the output of ls you can see start_services.sh then your good to go type sudo ./start_services.sh 
