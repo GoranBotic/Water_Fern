@@ -4,6 +4,8 @@ import './App.css';
 
 import Header from './MainBars/Header';
 import SideBar from './MainBars/SideBar';
+// eslint-disable-next-line
+import ReportSideBar from './SideBars/ReportSideBar';
 import WelcomeHome from './WelcomeHome/WelcomeHome';
 import Upload from './Upload/Upload';
 import ReportViewer from './ReportViewer/ReportViewer';

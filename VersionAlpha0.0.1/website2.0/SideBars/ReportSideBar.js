@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import './sidebar.css';
-import { Link } from "react-router-dom";
+import './reportsidebar.css';
 
 class SideBar extends Component {
 
    render() {
 
       const list = [
-         {id: 1, "title": "COSC 1P02", "path": "/report"},
-         {id: 2, "title": "MATH 1P05"},
-         {id: 3, "title": "MATH 1P66"},
-         {id: 4, "title": "MEME 1P69"}
+         {"title": "Block 1"},
+         {"title": "Block 2"},
+         {"title": "Block 3"}
       ]
 
       const li = list.map(function (elem) {
@@ -21,13 +19,15 @@ class SideBar extends Component {
          <div id="side-bar">
             <div id="side-bar-contents">
                <ul>
-                <li className="selection-list-title">COURSE LIST</li>
-                {li}
+                  <li className="back-button">Back</li>  
+                  <li className="selection-list-title">SIMILARITIES</li>
+                  {li}
                </ul>
             </div>
          </div>
       );
    }
+
 }
 
 export default SideBar;
