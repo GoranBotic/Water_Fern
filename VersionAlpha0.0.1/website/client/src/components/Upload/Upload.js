@@ -3,10 +3,6 @@ import './upload.css';
 
 class Upload extends Component {
 
-  chooseFile(e){
-
-  }
-
    render() {
 
       return (
