@@ -1,0 +1,26 @@
+<html>
+    <header>
+        <!-- html bullshit I dont understand -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+        <link rel="stylesheet" href="./css/style.css">
+        
+    </header>
+
+    <script>
+        function toClassPage(offeringID) {
+            $.cookie("offering", offeringID, {expires:10});
+            window.location.href = "classPage/classPage.html";
+        }
+        function toUploadPage() {
+            window.location.href = "submit/submit.html";
+        }
+    </script>
+    
+    <body>
+        <button type="button" onclick=toClassPage(0)>To our only class!</button>
+        <br>
+        <button type="button" onclick=toUploadPage()> To the upload page!</button>
+    </body>
+</html>

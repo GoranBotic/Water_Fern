@@ -22,13 +22,15 @@ class DatabaseManager:
         self.cursor = self.connection.cursor()
 
     #get ids for all the submissions for a single assignement
-    def get_assignment(self, aid):
-        self.cursor.execute("SELECT id FROM "+config.TABLE_SUBMISSIONS+";")
+    def get_submissions_for(self, aid):
+        self.cursor.execute("SELECT USER_ID, NAME, ID FROM "+config.TABLE_SUBMISSIONS+" WHERE ASSIGN_ID = %(a)s;", {"a":aid})
         return self.cursor.fetchall()
 
     #get a single file from a submission
     def get_file(self, sid):
-        self.cursor.execute("SELECT name,data,language FROM "+config.TABLE_SUBMISSIONS+" WHERE id=%s;",(sid,))
+        print("getfile")
+        print(sid)
+        self.cursor.execute("SELECT name,data,language FROM "+config.TABLE_SUBMISSIONS+" WHERE id=%(a)s;",{"a":sid})
         return self.cursor.fetchone()
 
     #load an assignment into the database
@@ -64,13 +66,6 @@ class DatabaseManager:
         cmd = ""
 
         for i in range(len(index)):
-
-            # if index[i] <= perpendicularValues[i]:
-            #     low = index[i] 
-            #     high = perpendicularValues[i]
-            # else:
-            #     high = index[i] 
-            #     low = perpendicularValues[i]
             low = index[i] - 0.01
             high = index[i] + 0.01
 
@@ -101,11 +96,17 @@ class DatabaseManager:
         self.connection.commit()
 
     def get_associations(self, fid):
+        #TODO this should return lineStartFile1, lineEndfile1, file2ID, lineStartFile2, lineEndfile2, score 
         self.cursor.execute("SELECT document1, document2, index1, index2, similarity FROM "+config.TABLE_ASSOCIATIONS+" WHERE document1=%(a)s OR document2 = %(a)s;",{"a":fid})
         return self.cursor.fetchall()
 
     def list_students_who_submitted(self, aid):
         self.cursor.execute("SELECT USER_ID FROM "+config.TABLE_SUBMISSIONS+" WHERE ASSIGN_ID=%s",(aid,))
+        return self.cursor.fetchall()
+
+    def get_assignment_list(self, oid):
+        print(oid)
+        self.cursor.execute("SELECT ID FROM " + config.TABLE_ASSIGNMENTS + " WHERE OFFERING_ID=%(a)s;",{"a":oid})
         return self.cursor.fetchall()
 
     #close the database connection
