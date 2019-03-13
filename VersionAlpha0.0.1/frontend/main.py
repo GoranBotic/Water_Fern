@@ -69,5 +69,14 @@ def get_associations():
         else:
                 return "Malformed input.", 400
 
+#list all the students who have a submission for assignment aID
+@app.route('/api/v1/getListOfStudentsWhoSubmitted', methods=['GET'])
+def get_student_list():
+    if "aID" in request.args:
+        aID = request.args["aID"]
+        return jsonify(students=manager.list_students_who_submitted(aID))
+    else:
+        return "Malformed input.", 400
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

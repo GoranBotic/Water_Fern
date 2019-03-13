@@ -104,6 +104,9 @@ class DatabaseManager:
         self.cursor.execute("SELECT document1, document2, index1, index2, similarity FROM "+config.TABLE_ASSOCIATIONS+" WHERE document1=%(a)s OR document2 = %(a)s;",{"a":fid})
         return self.cursor.fetchall()
 
+    def list_students_who_submitted(self, aid):
+        self.cursor.execute("SELECT USER_ID FROM "+config.TABLE_SUBMISSIONS+" WHERE ASSIGN_ID=%s",(aid,))
+        return self.cursor.fetchall()
 
     #close the database connection
     def close(self):
