@@ -1,0 +1,8 @@
+<form action='/api/v1/uploadsubmission' method='POST' enctype='multipart/form-data'>
+    <!--User ID is a users ID number in the DB-->
+    User ID: <input type='textbox' name='uID' value = '0'/><br>
+    <!--An assignment ID identifies an assignment associated with a specific offering-->
+    Assingment ID:<input type='textbox' name='aID' value = '0'/><br>
+    <input type='submit' value='Submit' />
+    <input type='file' accept='.zip' name = "file" id='uploadbar' />
+  </form>
