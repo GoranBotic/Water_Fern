@@ -1,0 +1,10 @@
+server {
+    listen 443 ssl;
+    server_name 0.0.0.0;
+    ssl_certificate /home/certificates/cert.pem;
+    ssl_certificate_key /home/certificates/key.pem;
+    location / {
+        include uwsgi_params;
+        uwsgi_pass unix:/home/waterFern/waterfernBackend.sock;
+    }
+}

@@ -53,8 +53,11 @@ def upload_submission():
                 idStr = idStr + str(i) + "," 
         idStr = idStr[:-1] 
         idStr += "]"
-        res = requests.post("http://"+config.BACKEND_ADDRESS+":12345/api/v1/index_submissions", data = {'ids':idStr})
-        #print('response from server:',res.text)
+        #TODO:once we have an actual unchanging address we need to change verify=False to verify=/path/to/public/cert
+        #A certificate is only valid on a specific address, and as of right now all our components are using the computers assigned IP, not local host, this means that when we host things externally we should skip some problems 
+        # it also means that in order to verify the backend certificate, we would need to remake a certficate every time the laptops IP changes, so for now we use verify=False  
+        res = requests.post("https://"+config.BACKEND_ADDRESS+":12345/api/v1/index_submissions", data = {'ids':idStr}, verify=False)
+        print('response from server:',res.text)
         #dictFromServer = res.json()
 
     return "Ok.", 200
