@@ -20,7 +20,7 @@ def serve(path):
     if path != "" and os.path.exists("templates/" + path):
         return send_from_directory('templates/', path)
     else:
-        return send_from_directory('templates/', 'index.html')
+        return send_from_directory('templates/', 'home.html')
 
 #upload a submission
 @app.route('/api/v1/uploadsubmission', methods=['GET','POST'])
