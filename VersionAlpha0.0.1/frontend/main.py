@@ -10,17 +10,17 @@ dbm = __import__(config.DATABASE_MANAGER)
 manager = dbm.DatabaseManager()
 
 #Start webserver
-app = Flask(__name__, static_folder='WebsiteTmp/', static_url_path="/WebsiteTmp/")
-app.config['APPLICATION_ROOT'] = "WebsiteTmp/"
+app = Flask(__name__, static_folder='templates/', static_url_path="/templates/")
+app.config['APPLICATION_ROOT'] = "templates/"
 
 #Test page
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
-    if path != "" and os.path.exists("WebsiteTmp/" + path):
-        return send_from_directory('WebsiteTmp/', path)
+    if path != "" and os.path.exists("templates/" + path):
+        return send_from_directory('templates/', path)
     else:
-        return send_from_directory('WebsiteTmp/', 'index.html')
+        return send_from_directory('templates/', 'index.html')
 
 #upload a submission
 @app.route('/api/v1/uploadsubmission', methods=['GET','POST'])
@@ -68,29 +68,38 @@ def get_associations():
             fID = request.form["fID"] 
             ret = manager.get_associations(fID)
             print(ret)
-            return jsonify(associations=ret)
+            return jsonify(ret)
         else:
                 return "Malformed input.", 400
 
-#list all the students who have a submission for assignment aID
-@app.route('/api/v1/getListOfStudentsWhoSubmitted', methods=['GET'])
-def get_student_list():
-    if "aID" in request.args:
-        aID = request.args["aID"]
-        return jsonify(students=manager.list_students_who_submitted(aID))
+#get list of offerings for a class
+@app.route('/api/v1/getClassList', methods=['GET','POST'])
+def get_classes():
+    thing = manager.get_class_list()
+    ret = jsonify(thing)
+    return ret
+
+#get list of offerings for a class
+@app.route('/api/v1/getOfferingList', methods=['GET','POST'])
+def get_offerings():
+    if "classID" in request.form:
+        oID = request.form["classID"] 
+        thing = manager.get_offering_list(oID)
+        ret = jsonify(thing)
+        return ret
     else:
         return "Malformed input.", 400
 
 #get list of assignments for an offering
 @app.route('/api/v1/getAssignmentList', methods=['GET','POST'])
 def get_assignments():
-        if "offeringID" in request.form:
-            oID = request.form["offeringID"] 
-            thing = manager.get_assignment_list(oID)
-            ret = jsonify(assignment=thing)
-            return ret
-        else:
-            return "Malformed input.", 400
+    if "offeringID" in request.form:
+        oID = request.form["offeringID"] 
+        thing = manager.get_assignment_list(oID)
+        ret = jsonify(thing)
+        return ret
+    else:
+        return "Malformed input.", 400
 
 #get list of assignments for an offering
 @app.route('/api/v1/getSubmissionsList', methods=['GET','POST'])
@@ -101,7 +110,7 @@ def get_submissions():
         thing = manager.get_submissions_for(aID)
         print("here")
         print(thing)
-        ret = jsonify(assignment=thing)
+        ret = jsonify(thing)
         return ret
     else:
         print("failed")
@@ -115,7 +124,7 @@ def get_submission():
         sID = request.form["submissionID"] 
         thing = manager.get_file(sID)
         ret = [thing[0], bytes(thing[1]).decode(), thing[2]]
-        ret = jsonify(submission=ret)
+        ret = jsonify(ret)
         return ret
     else:
         print("failed")

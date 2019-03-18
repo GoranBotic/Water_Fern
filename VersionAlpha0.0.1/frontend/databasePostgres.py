@@ -23,7 +23,15 @@ class DatabaseManager:
 
     #get ids for all the submissions for a single assignement
     def get_submissions_for(self, aid):
-        self.cursor.execute("SELECT USER_ID, NAME, ID FROM "+config.TABLE_SUBMISSIONS+" WHERE ASSIGN_ID = %(a)s;", {"a":aid})
+        self.cursor.execute(
+            "SELECT \
+                "+config.TABLE_SUBMISSIONS+".ID, \
+                "+config.TABLE_USERS+".USERNAME, \
+                "+config.TABLE_SUBMISSIONS+".NAME \
+            FROM "+config.TABLE_SUBMISSIONS+" \
+            INNER JOIN "+config.TABLE_USERS+" ON\
+                "+config.TABLE_SUBMISSIONS+".USER_ID = "+config.TABLE_USERS+".ID\
+            WHERE ASSIGN_ID = %(a)s ", {"a":aid})
         return self.cursor.fetchall()
 
     #get a single file from a submission
@@ -96,12 +104,27 @@ class DatabaseManager:
         self.connection.commit()
 
     def get_associations(self, fid):
-        #TODO this should return lineStartFile1, lineEndfile1, file2ID, lineStartFile2, lineEndfile2, score 
-        self.cursor.execute("SELECT document1, document2, index1, index2, similarity FROM "+config.TABLE_ASSOCIATIONS+" WHERE document1=%(a)s OR document2 = %(a)s;",{"a":fid})
+        self.cursor.execute("SELECT \
+            ass.document1, \
+            ass.document2, \
+            ind1.start_line,\
+            ind1.end_line, \
+            ind2.start_line,\
+            ind2.end_line, \
+            similarity \
+        FROM "+config.TABLE_ASSOCIATIONS+" ass\
+        INNER JOIN "+config.TABLE_INDEXES+" ind1 ON ind1.block_id = ass.index1\
+        INNER JOIN "+config.TABLE_INDEXES+" ind2 ON ind2.block_id = ass.index2\
+        WHERE ass.document1=%(a)s OR ass.document2 = %(a)s;",{"a":fid})
         return self.cursor.fetchall()
 
-    def list_students_who_submitted(self, aid):
-        self.cursor.execute("SELECT USER_ID FROM "+config.TABLE_SUBMISSIONS+" WHERE ASSIGN_ID=%s",(aid,))
+    def get_class_list(self):
+        self.cursor.execute("SELECT ID,COURSECODE FROM " + config.TABLE_CLASSES)
+        return self.cursor.fetchall()
+
+    def get_offering_list(self, cid):
+        print(cid)
+        self.cursor.execute("SELECT ID,SEMESTER FROM " + config.TABLE_OFFERINGS + " WHERE CLASS_ID=%(a)s;",{"a":cid})
         return self.cursor.fetchall()
 
     def get_assignment_list(self, oid):

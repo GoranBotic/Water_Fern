@@ -1,5 +1,4 @@
-
-.welcome-box {
+.content {
    display: flex;
    justify-content: center;
    align-items: center;
@@ -7,7 +6,7 @@
    height: 100%;
 }
 
-.welcome-text {
+.content-text {
    width:50%;
    text-align: center;
 }
