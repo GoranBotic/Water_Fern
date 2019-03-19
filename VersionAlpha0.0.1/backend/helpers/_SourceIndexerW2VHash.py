@@ -10,7 +10,6 @@ from helpers.SimilarityMeasures import *
 
 #theStuff = dict()
 
-
 from hashlib import md5
 
 class SourceIndexer(ParseTreeVisitor):

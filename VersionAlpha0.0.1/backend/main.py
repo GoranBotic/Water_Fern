@@ -18,11 +18,6 @@ for i in ind.__all__:
     __import__("indexers."+i)
     indexers.append(sys.modules["indexers."+i])
 
-#Test page
-@app.route('/')
-def index():
-    return render_template("index.html")
-
 #Generate indexes for a list of submissions
 #POST format:
 # {
