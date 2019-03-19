@@ -31,7 +31,9 @@ function displaySubmissionB(sidb){
 
 function updateAssociations(sida, sidb){
     association_list = associations(sida, sidb);
+  
     line_list = cleanAssociationOverlap(association_list);
+   
     for(var line in line_list[0]){
         lineelem = $("#"+line);
         lineelem.addClass("linkline");
@@ -44,6 +46,7 @@ function updateAssociations(sida, sidb){
     }
 }
 
+//TODO: ehere 
 function cleanAssociationOverlap(alist){
     suba_ass = {};
     subb_ass = {};

@@ -55,6 +55,9 @@ function submissions(assignment) {
 }
 
 function associations(sida, sidb){
+
+  console.log(sida)
+  console.log(sidb)
   ass = JSON.parse($.ajax({
     type: "POST",
     url: "/api/v1/getAssociations",
@@ -65,13 +68,28 @@ function associations(sida, sidb){
   }).responseText);
 
   new_ass = [];
-  for(var spec_ass in ass){
-    if(ass[spec_ass][0] == sida && ass[spec_ass][1] == sidb){
-      new_ass.push([ass[spec_ass][2],ass[spec_ass][3],ass[spec_ass][4],ass[spec_ass][5],ass[spec_ass][6]]);
-    }else if(ass[spec_ass][1] == sida && ass[spec_ass][0] == sidb){
-      new_ass.push([ass[spec_ass][4],ass[spec_ass][5],ass[spec_ass][2],ass[spec_ass][3],ass[spec_ass][6]]);
+  //ass.document1 ass.document2 ind1.start_line ind1.end_line ind2.start_line ind2.end_line similarity 
+  //startlineA, endlineA, startlineB, endlineB, similarity
+
+  for(var i = 0; i < ass.length; i++) {
+    var row = ass[i];
+    if(row[0] == sidb) {
+      var newRow = [row[4], row[5], row[2], row[3], row[6]]
+      new_ass.push(newRow)
+    } else if(row[1] == sidb) {
+      var newRow = [row[2], row[3], row[4], row[5], row[6]]
+      new_ass.push(newRow)
     }
+
   }
+
+  // for(var spec_ass in ass){
+  //   if(ass[spec_ass][0] == sida && ass[spec_ass][1] == sidb){
+  //     new_ass.push([ass[spec_ass][2],ass[spec_ass][3],ass[spec_ass][4],ass[spec_ass][5],ass[spec_ass][6]]);
+  //   }else if(ass[spec_ass][1] == sida && ass[spec_ass][0] == sidb){
+  //     new_ass.push([ass[spec_ass][4],ass[spec_ass][5],ass[spec_ass][2],ass[spec_ass][3],ass[spec_ass][6]]);
+  //   }
+  // }
 
   return new_ass;
   // return [

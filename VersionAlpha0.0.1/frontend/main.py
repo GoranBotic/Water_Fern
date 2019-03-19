@@ -40,13 +40,13 @@ def upload_submission():
         #TODO: zip parse error detection
         zipf = ZipFile(fi)
         names = zipf.namelist() 
+        dictToSend = dict() 
+        dictToSend["ids"] = []
         for name in names:
-                dictToSend = dict() 
-                dictToSend["ids"] = []
-                with zipf.open(name, 'r') as theFile:
-                        #TODO: need to detect the language of the file and pass the correct language to put_file
-                        theid = manager.put_file(theFile, name, "Java",assignID,userID)
-                        dictToSend["ids"].append(theid)
+            with zipf.open(name, 'r') as theFile:
+                #TODO: need to detect the language of the file and pass the correct language to put_file
+                theid = manager.put_file(theFile, name, "Java",assignID,userID)
+                dictToSend["ids"].append(theid)
         print(dictToSend)
         idStr = "["
         for i in dictToSend['ids']:

@@ -61,32 +61,28 @@ class DatabaseManager:
         self.connection.commit()
         return id_of_new_row
 
-    def find_cosine_similar_indicies(self, itype, index):
-        total = sum([v**2 for v in index])
- 
-        LIMITPERDIM = 50
+    # def find_cosine_similar_indicies(self, itype, index):
+    #     LIMITPERDIM = 300
 
-        perpendicularValues = []
+    #     perpendicularValues = []
 
-        for v in index:
-            perpendicularValues.append((-total-(v**2))/v)
+    #     cmd = ""
 
-        cmd = ""
+    #     for i in range(len(index)):
+    #         #low = index[i] - 0.3
+    #         #high = index[i] + 0.3
+         
 
-        for i in range(len(index)):
-            low = index[i] - 0.01
-            high = index[i] + 0.01
+    #         cmd += "(SELECT submission_id, block_id, index FROM " + config.TABLE_INDEXES + " WHERE type = '" + itype + "' AND (index[ " + str(i+1) + " ] >= " + str(low) + " AND index[ " + str(i+1) + " ] <= " + str(high) + ") ORDER BY ABS(" + str(index[i]) + " - index[ " + str(i+1) + " ]) "
 
-            cmd += "(SELECT submission_id, block_id, index FROM " + config.TABLE_INDEXES + " WHERE type = '" + itype + "' AND (index[ " + str(i+1) + " ] >= " + str(low) + " AND index[ " + str(i+1) + " ] <= " + str(high) + ") ORDER BY ABS(" + str(index[i]) + " - index[ " + str(i+1) + " ]) "
+    #         cmd += " LIMIT " + str(LIMITPERDIM) + ")"
 
-            cmd += " LIMIT " + str(LIMITPERDIM) + ")"
+    #         if i < len(index)-1:
+    #            cmd += " INTERSECT "
+    #     cmd += ";"
 
-            if i < len(index)-1:
-               cmd += " INTERSECT "
-        cmd += ";"
-
-        self.cursor.execute(cmd) 
-        return self.cursor.fetchall()
+    #     self.cursor.execute(cmd) 
+    #     return self.cursor.fetchall()
 
     def associate_indicies(self, doc1ID, doc2ID, index1ID, index2ID, similarity):
         if doc1ID > doc2ID:
@@ -116,11 +112,15 @@ class DatabaseManager:
         INNER JOIN "+config.TABLE_INDEXES+" ind1 ON ind1.block_id = ass.index1\
         INNER JOIN "+config.TABLE_INDEXES+" ind2 ON ind2.block_id = ass.index2\
         WHERE ass.document1=%(a)s OR ass.document2 = %(a)s;",{"a":fid})
-        return self.cursor.fetchall()
+        ret = self.cursor.fetchall()
+        print(ret)
+        return ret 
 
     def get_class_list(self):
-        self.cursor.execute("SELECT ID,COURSECODE FROM " + config.TABLE_CLASSES)
-        return self.cursor.fetchall()
+        print("tmp")
+        self.cursor.execute("SELECT ID,COURSECODE FROM " + config.TABLE_CLASSES + ";")
+        ret = self.cursor.fetchall()
+        return ret
 
     def get_offering_list(self, cid):
         print(cid)
