@@ -179,7 +179,7 @@ class SourceIndexer(ParseTreeVisitor):
                 #block_id = self.DB.store_index() 
 
                 #add associations between this sub-tree and the most similar sub-trees
-                similarBlocks = self.DB.find_cosine_similar_indicies("w2v_n_000", theHash)
+                similarBlocks = self.DB.find_cosine_similar_indicies("w2v_n_000", theHash, self.theID)
                 similarity = []
                 for r in similarBlocks:
                     print(r)

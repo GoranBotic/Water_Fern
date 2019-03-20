@@ -117,13 +117,11 @@ class DatabaseManager:
         return ret 
 
     def get_class_list(self):
-        print("tmp")
         self.cursor.execute("SELECT ID,COURSECODE FROM " + config.TABLE_CLASSES + ";")
         ret = self.cursor.fetchall()
         return ret
 
     def get_offering_list(self, cid):
-        print(cid)
         self.cursor.execute("SELECT ID,SEMESTER FROM " + config.TABLE_OFFERINGS + " WHERE CLASS_ID=%(a)s;",{"a":cid})
         return self.cursor.fetchall()
 

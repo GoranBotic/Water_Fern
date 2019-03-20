@@ -44,7 +44,7 @@ class DatabaseManager:
         self.connection.commit()
         return id_of_new_row
 
-    def find_cosine_similar_indicies(self, itype, index):
+    def find_cosine_similar_indicies(self, itype, index, sID):
         
         LIMITSKIP = 0
         LIMITPERDIM = 50
@@ -58,7 +58,7 @@ class DatabaseManager:
             low = index[i] - 0.1
             high = index[i] + 0.1
 
-            cmd += "(SELECT submission_id, block_id, index FROM " + config.TABLE_INDEXES + " WHERE type = '" + itype + "' AND (index[ " + str(i+1) + " ] >= " + str(low) + " AND index[ " + str(i+1) + " ] <= " + str(high) + ") ORDER BY ABS(" + str(index[i]) + " - index[ " + str(i+1) + " ])"
+            cmd += "(SELECT submission_id, block_id, index FROM " + config.TABLE_INDEXES + " WHERE type = '" + itype + "' AND (index[ " + str(i+1) + " ] >= " + str(low) + " AND index[ " + str(i+1) + " ] <= " + str(high) + ") AND submission_id != " + str(sID) + " ORDER BY ABS(" + str(index[i]) + " - index[ " + str(i+1) + " ])"
 
             cmd += " OFFSET " + str(LIMITSKIP) + " LIMIT " + str(LIMITPERDIM) + ")"
 

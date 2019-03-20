@@ -104,7 +104,7 @@ def get_assignments():
     else:
         return "Malformed input.", 400
 
-#get list of assignments for an offering
+#get submissions to assignment
 @app.route('/api/v1/getSubmissionsList', methods=['GET','POST'])
 def get_submissions():
     print(request.form)
