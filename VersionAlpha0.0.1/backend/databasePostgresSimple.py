@@ -37,50 +37,35 @@ class DatabaseManager:
     #store an index vector for a subsection of a file
     def store_index(self, itype, submission_id, index, start_line=0, end_line=0):
         self.cursor.execute(
-            "INSERT INTO "+config.TABLE_INDEXES+" (submission_id, start_line, end_line, type, index) VALUES (%(a)s, %(b)s, %(c)s, %(d)s, %(e)s) ON CONFLICT ON CONSTRAINT "+config.TABLE_INDEXES+"_pkey DO UPDATE SET index=%(e)s RETURNING block_id;",
-            {"a":submission_id, "b":start_line, "c":end_line, "d":itype, "e":index}
+            "INSERT INTO "+config.TABLE_INDEXES+" (submission_id, start_line, end_line, index, type) VALUES (%(a)s, %(b)s, %(c)s, %(d)s, %(e)s) ON CONFLICT ON CONSTRAINT "+config.TABLE_INDEXES+"_pkey DO UPDATE SET index=%(d)s RETURNING block_id;",
+            {"a":submission_id, "b":start_line, "c":end_line, "d":index, "e":itype}
         )
         id_of_new_row = self.cursor.fetchone()[0]
         self.connection.commit()
         return id_of_new_row
 
-    def find_cosine_similar_indicies(self, itype, index):
-        total = sum([v**2 for v in index])
- 
+    def find_cosine_similar_indicies(self, itype, index, sID):
+        
+        LIMITSKIP = 0
         LIMITPERDIM = 50
 
         perpendicularValues = []
 
-        for v in index:
-            perpendicularValues.append((-total-(v**2))/v)
-
+      
         cmd = ""
 
         for i in range(len(index)):
+            low = index[i] - 0.1
+            high = index[i] + 0.1
 
-            # if index[i] <= perpendicularValues[i]:
-            #     low = index[i] 
-            #     high = perpendicularValues[i]
-            # else:
-            #     high = index[i] 
-            #     low = perpendicularValues[i]
-            low = index[i] - 0.01
-            high = index[i] + 0.01
+            cmd += "(SELECT submission_id, block_id, index FROM " + config.TABLE_INDEXES + " WHERE type = '" + itype + "' AND (index[ " + str(i+1) + " ] >= " + str(low) + " AND index[ " + str(i+1) + " ] <= " + str(high) + ") AND submission_id != " + str(sID) + " ORDER BY ABS(" + str(index[i]) + " - index[ " + str(i+1) + " ])"
 
-            cmd += "(SELECT submission_id, block_id, index FROM " + config.TABLE_INDEXES + " WHERE type = '" + itype + "' AND (index[ " + str(i+1) + " ] >= " + str(low) + " AND index[ " + str(i+1) + " ] <= " + str(high) + ") ORDER BY ABS(" + str(index[i]) + " - index[ " + str(i+1) + " ]) "
-
-            # if perpendicularValues[i] < index[i]:
-            #     cmd += "DESC"
-
-            cmd += " LIMIT " + str(LIMITPERDIM) + ")"
+            cmd += " OFFSET " + str(LIMITSKIP) + " LIMIT " + str(LIMITPERDIM) + ")"
 
             if i < len(index)-1:
                cmd += " INTERSECT "
         cmd += ";"
 
-
-        ##FIXME
-        #cmd = "SELECT submission_id, block_id, index FROM " + config.TABLE_INDEXES + ";"
         self.cursor.execute(cmd) 
         return self.cursor.fetchall()
 

@@ -10,7 +10,6 @@ from helpers.SimilarityMeasures import *
 
 #theStuff = dict()
 
-
 from hashlib import md5
 
 class SourceIndexer(ParseTreeVisitor):
@@ -174,11 +173,13 @@ class SourceIndexer(ParseTreeVisitor):
             
             contextList = (theHash, maxDepth, strtLine, endLine)
             
-            if contextList[1] > 40 or contextList[3] - contextList[2] >= 4:
+            if (contextList[1] > 20 and contextList[1] < 30) or ((contextList[3] - contextList[2] >= 1) and (contextList[3] - contextList[2] <= 20)):
                 block_id = self.DB.store_index("w2v_n_000", self.theID, theHash, contextList[2], contextList[3])
 
+                #block_id = self.DB.store_index() 
+
                 #add associations between this sub-tree and the most similar sub-trees
-                similarBlocks = self.DB.find_cosine_similar_indicies("w2v_n_000", theHash)
+                similarBlocks = self.DB.find_cosine_similar_indicies("w2v_n_000", theHash, self.theID)
                 similarity = []
                 for r in similarBlocks:
                     print(r)

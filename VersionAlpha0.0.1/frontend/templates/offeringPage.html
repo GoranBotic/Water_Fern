@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/selection-list.css">
+        <script type="text/javascript" src="js/course-list.js"></script>
+        <script type="text/javascript" src="js/offering-list.js"></script>
+        <script type="text/javascript" src="js/data.js"></script>
+        <script type="text/javascript">
+            window.onload = function () {
+                buildSideCourseList();
+                buildOfferingList();
+            }
+        </script>
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/jquery.cookie.js"></script>  
+    </head>
+
+    <div id="header">
+        <div class="logo" onclick="window.open('home.html', '_self');">
+            <h2>WaterFern</h2> <span>Professor</span>
+        </div>
+        <div class="buttons-list">
+        <div class="header-button">
+            Logout
+        </div>
+        </div>
+    </div>
+
+    <div id="side-bar">
+        <div id="side-bar-contents">
+            <ul id="side-list">
+                <!-- <li class="selection-list-title">COURSE LIST</li>
+                <li id="assignmentPage" class="selection-list">COSC 1P02</li> -->
+            </ul>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="content-text">
+            <div id="assign-contents">
+                <ul id="assign-list">
+                    <!-- <li id="studentAssignments">Assignment 1</li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</html>

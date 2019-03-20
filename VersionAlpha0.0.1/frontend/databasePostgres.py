@@ -22,13 +22,23 @@ class DatabaseManager:
         self.cursor = self.connection.cursor()
 
     #get ids for all the submissions for a single assignement
-    def get_assignment(self, aid):
-        self.cursor.execute("SELECT id FROM "+config.TABLE_SUBMISSIONS+";")
+    def get_submissions_for(self, aid):
+        self.cursor.execute(
+            "SELECT \
+                "+config.TABLE_SUBMISSIONS+".ID, \
+                "+config.TABLE_USERS+".USERNAME, \
+                "+config.TABLE_SUBMISSIONS+".NAME \
+            FROM "+config.TABLE_SUBMISSIONS+" \
+            INNER JOIN "+config.TABLE_USERS+" ON\
+                "+config.TABLE_SUBMISSIONS+".USER_ID = "+config.TABLE_USERS+".ID\
+            WHERE ASSIGN_ID = %(a)s ", {"a":aid})
         return self.cursor.fetchall()
 
     #get a single file from a submission
     def get_file(self, sid):
-        self.cursor.execute("SELECT name,data,language FROM "+config.TABLE_SUBMISSIONS+" WHERE id=%s;",(sid,))
+        print("getfile")
+        print(sid)
+        self.cursor.execute("SELECT name,data,language FROM "+config.TABLE_SUBMISSIONS+" WHERE id=%(a)s;",{"a":sid})
         return self.cursor.fetchone()
 
     #load an assignment into the database
@@ -51,39 +61,28 @@ class DatabaseManager:
         self.connection.commit()
         return id_of_new_row
 
-    def find_cosine_similar_indicies(self, itype, index):
-        total = sum([v**2 for v in index])
- 
-        LIMITPERDIM = 50
+    # def find_cosine_similar_indicies(self, itype, index):
+    #     LIMITPERDIM = 300
 
-        perpendicularValues = []
+    #     perpendicularValues = []
 
-        for v in index:
-            perpendicularValues.append((-total-(v**2))/v)
+    #     cmd = ""
 
-        cmd = ""
+    #     for i in range(len(index)):
+    #         #low = index[i] - 0.3
+    #         #high = index[i] + 0.3
+         
 
-        for i in range(len(index)):
+    #         cmd += "(SELECT submission_id, block_id, index FROM " + config.TABLE_INDEXES + " WHERE type = '" + itype + "' AND (index[ " + str(i+1) + " ] >= " + str(low) + " AND index[ " + str(i+1) + " ] <= " + str(high) + ") ORDER BY ABS(" + str(index[i]) + " - index[ " + str(i+1) + " ]) "
 
-            # if index[i] <= perpendicularValues[i]:
-            #     low = index[i] 
-            #     high = perpendicularValues[i]
-            # else:
-            #     high = index[i] 
-            #     low = perpendicularValues[i]
-            low = index[i] - 0.01
-            high = index[i] + 0.01
+    #         cmd += " LIMIT " + str(LIMITPERDIM) + ")"
 
-            cmd += "(SELECT submission_id, block_id, index FROM " + config.TABLE_INDEXES + " WHERE type = '" + itype + "' AND (index[ " + str(i+1) + " ] >= " + str(low) + " AND index[ " + str(i+1) + " ] <= " + str(high) + ") ORDER BY ABS(" + str(index[i]) + " - index[ " + str(i+1) + " ]) "
+    #         if i < len(index)-1:
+    #            cmd += " INTERSECT "
+    #     cmd += ";"
 
-            cmd += " LIMIT " + str(LIMITPERDIM) + ")"
-
-            if i < len(index)-1:
-               cmd += " INTERSECT "
-        cmd += ";"
-
-        self.cursor.execute(cmd) 
-        return self.cursor.fetchall()
+    #     self.cursor.execute(cmd) 
+    #     return self.cursor.fetchall()
 
     def associate_indicies(self, doc1ID, doc2ID, index1ID, index2ID, similarity):
         if doc1ID > doc2ID:
@@ -101,9 +100,35 @@ class DatabaseManager:
         self.connection.commit()
 
     def get_associations(self, fid):
-        self.cursor.execute("SELECT document1, document2, index1, index2, similarity FROM "+config.TABLE_ASSOCIATIONS+" WHERE document1=%(a)s OR document2 = %(a)s;",{"a":fid})
+        self.cursor.execute("SELECT \
+            ass.document1, \
+            ass.document2, \
+            ind1.start_line,\
+            ind1.end_line, \
+            ind2.start_line,\
+            ind2.end_line, \
+            similarity \
+        FROM "+config.TABLE_ASSOCIATIONS+" ass\
+        INNER JOIN "+config.TABLE_INDEXES+" ind1 ON ind1.block_id = ass.index1\
+        INNER JOIN "+config.TABLE_INDEXES+" ind2 ON ind2.block_id = ass.index2\
+        WHERE ass.document1=%(a)s OR ass.document2 = %(a)s;",{"a":fid})
+        ret = self.cursor.fetchall()
+        print(ret)
+        return ret 
+
+    def get_class_list(self):
+        self.cursor.execute("SELECT ID,COURSECODE FROM " + config.TABLE_CLASSES + ";")
+        ret = self.cursor.fetchall()
+        return ret
+
+    def get_offering_list(self, cid):
+        self.cursor.execute("SELECT ID,SEMESTER FROM " + config.TABLE_OFFERINGS + " WHERE CLASS_ID=%(a)s;",{"a":cid})
         return self.cursor.fetchall()
 
+    def get_assignment_list(self, oid):
+        print(oid)
+        self.cursor.execute("SELECT ID FROM " + config.TABLE_ASSIGNMENTS + " WHERE OFFERING_ID=%(a)s;",{"a":oid})
+        return self.cursor.fetchall()
 
     #close the database connection
     def close(self):

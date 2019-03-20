@@ -10,21 +10,21 @@ dbm = __import__(config.DATABASE_MANAGER)
 manager = dbm.DatabaseManager()
 
 #Start webserver
-app = Flask(__name__, static_folder='website/build')
+app = Flask(__name__, static_folder='templates/', static_url_path="/templates/")
+app.config['APPLICATION_ROOT'] = "templates/"
 
 #Test page
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
-    if path != "" and os.path.exists("website/build/" + path):
-        return send_from_directory('website/build', path)
+    if path != "" and os.path.exists("templates/" + path):
+        return send_from_directory('templates/', path)
     else:
-        return send_from_directory('website/build', 'index.html')
+        return send_from_directory('templates/', 'home.html')
 
 #upload a submission
 @app.route('/api/v1/uploadsubmission', methods=['GET','POST'])
 def upload_submission():
-    print("test")
     fi = request.files['file']
     if "uID" in request.form:
         userID = request.form["uID"] 
@@ -40,34 +40,98 @@ def upload_submission():
         #TODO: zip parse error detection
         zipf = ZipFile(fi)
         names = zipf.namelist() 
+        dictToSend = dict() 
+        dictToSend["ids"] = []
         for name in names:
-                dictToSend = dict() 
-                dictToSend["ids"] = []
-                with zipf.open(name, 'r') as theFile:
-                        #TODO: need to detect the language of the file and pass the correct language to put_file
-                        theid = manager.put_file(theFile, name, "Java",assignID,userID)
-                        dictToSend["ids"].append(theid)
+            with zipf.open(name, 'r') as theFile:
+                #TODO: need to detect the language of the file and pass the correct language to put_file
+                theid = manager.put_file(theFile, name, "Java",assignID,userID)
+                dictToSend["ids"].append(theid)
         print(dictToSend)
         idStr = "["
         for i in dictToSend['ids']:
                 idStr = idStr + str(i) + "," 
         idStr = idStr[:-1] 
         idStr += "]"
-        res = requests.post("http://"+config.BACKEND_ADDRESS+":12345/api/v1/index_submissions", data = {'ids':idStr})
-        #print('response from server:',res.text)
+        #TODO:once we have an actual unchanging address we need to change verify=False to verify=/path/to/public/cert
+        #A certificate is only valid on a specific address, and as of right now all our components are using the computers assigned IP, not local host, this means that when we host things externally we should skip some problems 
+        # it also means that in order to verify the backend certificate, we would need to remake a certficate every time the laptops IP changes, so for now we use verify=False  
+        res = requests.post("https://"+config.BACKEND_ADDRESS+":12345/api/v1/index_submissions", data = {'ids':idStr}, verify=False)
+        print('response from server:',res.text)
         #dictFromServer = res.json()
 
     return "Ok.", 200
         
 
 #get similar files
-@app.route('/api/v1/getassociations', methods=['POST','GET'])
+@app.route('/api/v1/getAssociations', methods=['GET','POST'])
 def get_associations():
         if "fID" in request.form:
-                fID = request.form["fID"] 
-                return jsonify(associations=manager.get_associations(fID))
+            print("getting associations")
+            fID = request.form["fID"] 
+            ret = manager.get_associations(fID)
+            print(ret)
+            return jsonify(ret)
         else:
                 return "Malformed input.", 400
+
+#get list of offerings for a class
+@app.route('/api/v1/getClassList', methods=['GET','POST'])
+def get_classes():
+    thing = manager.get_class_list()
+    ret = jsonify(thing)
+    return ret
+
+#get list of offerings for a class
+@app.route('/api/v1/getOfferingList', methods=['GET','POST'])
+def get_offerings():
+    if "classID" in request.form:
+        oID = request.form["classID"] 
+        thing = manager.get_offering_list(oID)
+        ret = jsonify(thing)
+        return ret
+    else:
+        return "Malformed input.", 400
+
+#get list of assignments for an offering
+@app.route('/api/v1/getAssignmentList', methods=['GET','POST'])
+def get_assignments():
+    if "offeringID" in request.form:
+        oID = request.form["offeringID"] 
+        thing = manager.get_assignment_list(oID)
+        ret = jsonify(thing)
+        return ret
+    else:
+        return "Malformed input.", 400
+
+#get submissions to assignment
+@app.route('/api/v1/getSubmissionsList', methods=['GET','POST'])
+def get_submissions():
+    print(request.form)
+    if "assignmentID" in request.form:
+        aID = request.form["assignmentID"] 
+        thing = manager.get_submissions_for(aID)
+        print("here")
+        print(thing)
+        ret = jsonify(thing)
+        return ret
+    else:
+        print("failed")
+        return "Malformed input.", 400
+
+#get list of assignments for an offering
+@app.route('/api/v1/getSubmission', methods=['GET','POST'])
+def get_submission():
+    print(request.form)
+    if "submissionID" in request.form:
+        sID = request.form["submissionID"] 
+        thing = manager.get_file(sID)
+        ret = [thing[0], bytes(thing[1]).decode(), thing[2]]
+        ret = jsonify(ret)
+        return ret
+    else:
+        print("failed")
+        return "Malformed input.", 400
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

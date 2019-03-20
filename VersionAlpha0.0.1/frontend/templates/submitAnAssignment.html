@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/home.css">
+        <!-- <script type="text/javascript" src="js/course-list.js"></script>
+        <script type="text/javascript" src="js/data.js"></script>
+        <script type="text/javascript">
+            window.onload = function () {
+                buildSideCourseList();
+            }
+        </script>
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/jquery.cookie.js"></script> -->
+    </head>
+
+    <div id="header">
+        <div class="logo" onclick="window.open('home.html', '_self');">
+            <h2>WaterFern</h2> <span>Professor</span>
+        </div>
+        <div class="buttons-list">
+        <div class="header-button">
+            Logout
+        </div>
+        </div>
+    </div>
+
+    <div id="side-bar">
+        <div id="side-bar-contents">
+            <ul id="side-list">
+                <!-- <li class="selection-list-title">COURSE LIST</li>
+                <li id="assignmentPage" class="selection-list">COSC 1P02</li> -->
+            </ul>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="content-text">
+            <form action='/api/v1/uploadsubmission' method='POST' enctype='multipart/form-data'>
+                <!--User ID is a users ID number in the DB-->
+                User ID: <input type='textbox' name='uID' value = '0'/><br>
+                <!--An assignment ID identifies an assignment associated with a specific offering-->
+                Assingment ID:<input type='textbox' name='aID' value = '0'/><br>
+                <input type='submit' value='Submit' />
+                <input type='file' accept='.zip' name = "file" id='uploadbar' />
+              </form>
+        </div>
+    </div>
+
+</html>
