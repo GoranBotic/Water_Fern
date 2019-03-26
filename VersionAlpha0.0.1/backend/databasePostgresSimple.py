@@ -47,7 +47,7 @@ class DatabaseManager:
     def find_cosine_similar_indicies(self, itype, index, sID):
         
         LIMITSKIP = 0
-        LIMITPERDIM = 50
+        LIMITPERDIM = 25
 
         perpendicularValues = []
 
@@ -55,8 +55,8 @@ class DatabaseManager:
         cmd = ""
 
         for i in range(len(index)):
-            low = index[i] - 0.1
-            high = index[i] + 0.1
+            low = index[i] - 0.001
+            high = index[i] + 0.001
 
             cmd += "(SELECT submission_id, block_id, index FROM " + config.TABLE_INDEXES + " WHERE type = '" + itype + "' AND (index[ " + str(i+1) + " ] >= " + str(low) + " AND index[ " + str(i+1) + " ] <= " + str(high) + ") AND submission_id != " + str(sID) + " ORDER BY ABS(" + str(index[i]) + " - index[ " + str(i+1) + " ])"
 

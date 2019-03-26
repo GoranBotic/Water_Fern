@@ -1,0 +1,528 @@
+indexing: trainData/033.419b5
+indexing: trainData/hanoi.orig
+indexing: trainData/square.5d59f61358e7f6e
+indexing: trainData/queens.a0ca6f03c603913
+indexing: trainData/038.4eac6
+indexing: trainData/113.b73c4
+indexing: trainData/076.orig
+indexing: trainData/241.c3c85
+indexing: trainData/000.c2748
+indexing: trainData/008.4de35
+indexing: trainData/078.8fd5d
+indexing: trainData/023.34285
+indexing: trainData/SqrtAlgorithm.d174c008fd04c4d
+indexing: trainData/118.f4491
+indexing: trainData/241.7424b
+indexing: trainData/176.b39e9
+indexing: trainData/225.f1279
+indexing: trainData/038.6e05c
+indexing: trainData/queens.51af2280c5413b7
+indexing: trainData/009.f1c6d
+indexing: trainData/015.orig
+indexing: trainData/slinkedlist.bddebc50dd78038
+indexing: trainData/116.797d2
+indexing: trainData/187.5065e
+indexing: trainData/kaprekar.436d28242a65189
+indexing: trainData/076.e406e
+indexing: trainData/023.e43ff
+indexing: trainData/007.a390c
+indexing: trainData/002.a06d2
+indexing: trainData/182.7a166
+indexing: trainData/007.62835
+indexing: trainData/038.orig
+indexing: trainData/118.orig
+indexing: trainData/038.889ff
+indexing: trainData/113.85ef1
+indexing: trainData/187.5e9b0
+indexing: trainData/123.22cdc
+indexing: trainData/033.27dba
+indexing: trainData/181.c675c
+indexing: trainData/123.2bd66
+indexing: trainData/023.orig
+indexing: trainData/queens.690ac2f51ab6832
+indexing: trainData/square.627a5c4a9d144e0
+indexing: trainData/queens.orig
+indexing: trainData/118.823aa
+indexing: trainData/129.a064a
+indexing: trainData/108.84278
+indexing: trainData/107.4f3c4
+indexing: trainData/225.df9d2
+indexing: trainData/002.d5e88
+indexing: trainData/108.4df1a
+indexing: trainData/000.c6fcf
+indexing: trainData/078.orig
+indexing: trainData/187.orig
+indexing: trainData/096.61128
+indexing: trainData/033.41eaf
+indexing: trainData/033.7813b
+indexing: trainData/182.5a172
+indexing: trainData/007.ea49c
+indexing: trainData/007.54107
+indexing: trainData/107.28417
+indexing: trainData/002.2ed63
+indexing: trainData/115.c9a83
+indexing: trainData/212.e4e8c
+indexing: trainData/079.36fcd
+indexing: trainData/038.73753
+indexing: trainData/123.26412
+indexing: trainData/queens.55b2b61ccd4e0dd
+indexing: trainData/181.orig
+indexing: trainData/002.b19e4
+indexing: trainData/181.36449
+indexing: trainData/187.3f054
+indexing: trainData/010.b97e8
+indexing: trainData/107.bef13
+indexing: trainData/112.914a0
+indexing: trainData/hanoi.ed85f5af069c347
+indexing: trainData/182.orig
+indexing: trainData/241.23035
+indexing: trainData/010.a32a6
+indexing: trainData/115.b0f75
+indexing: trainData/bubblesort.orig
+indexing: trainData/225.cbb28
+indexing: trainData/bubblesort.de579280e0dba39
+indexing: trainData/InfixConverter.4d26a57353a6b5a
+indexing: trainData/guessword.orig
+indexing: trainData/034.e4af0
+indexing: trainData/115.6987e
+indexing: trainData/107.orig
+indexing: trainData/096.e3c79
+indexing: trainData/000.75b3b
+indexing: trainData/slinkedlist.cc5594a78bd36bd
+indexing: trainData/guessword.520aec0150916fd
+indexing: trainData/118.b6707
+indexing: trainData/010.1cd07
+indexing: trainData/116.7d3f6
+indexing: trainData/hanoi.0effa3469b3de27
+indexing: trainData/023.f65a5
+indexing: trainData/038.ef2a3
+indexing: trainData/009.7f5b7
+indexing: trainData/SqrtAlgorithm.1ae7261fd98905b
+indexing: trainData/113.5a41d
+indexing: trainData/008.b2d94
+indexing: trainData/034.3fea0
+indexing: trainData/SqrtAlgorithm.ef6af2d0d6cc43a
+indexing: trainData/096.22021
+indexing: trainData/033.orig
+indexing: trainData/hanoi.0284a7f8d314801
+indexing: trainData/slinkedlist.825d1c2af99fdeb
+indexing: trainData/213.a0a54
+indexing: trainData/225.e2c7b
+indexing: trainData/116.6820f
+indexing: trainData/square.7e9983e173e5cc0
+indexing: trainData/241.90f42
+indexing: trainData/SqrtAlgorithm.0585fe442f7b7ed
+indexing: trainData/187.76989
+indexing: trainData/002.fc017
+indexing: trainData/guessword.c5d1631e39ff80f
+indexing: trainData/112.orig
+indexing: trainData/212.orig
+indexing: trainData/008.9ee63
+indexing: trainData/107.9f78c
+indexing: trainData/187.4fafd
+indexing: trainData/120.3a448
+indexing: trainData/213.6be28
+indexing: trainData/010.5302f
+indexing: trainData/113.a8263
+indexing: trainData/078.2f0b0
+indexing: trainData/182.00581
+indexing: trainData/023.e440b
+indexing: trainData/225.693e2
+indexing: trainData/096.a24c7
+indexing: trainData/079.370eb
+indexing: trainData/108.orig
+indexing: trainData/241.186bf
+indexing: trainData/187.4af58
+indexing: trainData/120.21a5d
+indexing: trainData/038.4a90a
+indexing: trainData/hanoi.b3e91639eb4f2d1
+indexing: trainData/SqrtAlgorithm.25ffc57a72a4ae3
+indexing: trainData/176.68160
+indexing: trainData/213.5283f
+indexing: trainData/slinkedlist.753016e734683f3
+indexing: trainData/guessword.72c31f086ae722d
+indexing: trainData/010.81daf
+indexing: trainData/212.ff64a
+indexing: trainData/guessword.7050b3e72ab7dd4
+indexing: trainData/129.bb143
+indexing: trainData/120.orig
+indexing: trainData/096.1ecc3
+indexing: trainData/023.a3377
+indexing: trainData/033.ad3ee
+indexing: trainData/225.orig
+indexing: trainData/034.c2cbe
+indexing: trainData/queens.9045492cc4f5ef3
+indexing: trainData/kaprekar.e1ddae4bc4f98fe
+indexing: trainData/015.48f6e
+indexing: trainData/078.faedc
+indexing: trainData/112.dbac9
+indexing: trainData/096.c91f6
+indexing: trainData/009.43297
+indexing: trainData/112.bbdf9
+indexing: trainData/108.aff3e
+indexing: trainData/010.f7f2c
+indexing: trainData/115.884ab
+indexing: trainData/railroadcar.orig
+indexing: trainData/096.480b8
+indexing: trainData/bubblesort.80ecb770791fcbd
+indexing: trainData/079.13632
+indexing: trainData/010.7106c
+indexing: trainData/107.7f8c7
+indexing: trainData/129.50348
+indexing: trainData/187.61ea8
+indexing: trainData/002.42d56
+indexing: trainData/120.1d40f
+indexing: trainData/213.da01c
+indexing: trainData/000.orig
+indexing: trainData/038.3f0af
+indexing: trainData/076.a857d
+indexing: trainData/123.30188
+indexing: trainData/182.cd961
+indexing: trainData/212.658d7
+indexing: trainData/225.c9671
+indexing: trainData/009.1b75e
+indexing: trainData/034.e1516
+indexing: trainData/kaprekar.8a489b14b4435b7
+indexing: trainData/hanoi.4d89d8c307133a9
+indexing: trainData/008.157c5
+indexing: trainData/123.4240c
+indexing: trainData/213.orig
+indexing: trainData/008.efb1e
+indexing: trainData/007.a7b41
+indexing: trainData/000.62e53
+indexing: trainData/000.ca6d2
+indexing: trainData/023.8f76d
+indexing: trainData/225.221c8
+indexing: trainData/guessword.6821cff0bf980ea
+indexing: trainData/hanoi.3ebb2bd79fe11c3
+indexing: trainData/002.bec94
+indexing: trainData/118.10a32
+indexing: trainData/076.2bc76
+indexing: trainData/225.e482b
+indexing: trainData/129.d0fe9
+indexing: trainData/002.c0bf5
+indexing: trainData/InfixConverter.0d697ebbb0771af
+indexing: trainData/hanoi.f7ec1362bc0a89e
+indexing: trainData/181.b235c
+indexing: trainData/096.32b58
+indexing: trainData/015.9c95a
+indexing: trainData/railroadcar.f5a2a79aae6b9bf
+indexing: trainData/078.32335
+indexing: trainData/108.20715
+indexing: trainData/187.324ae
+indexing: trainData/129.f52f7
+indexing: trainData/115.e2a64
+indexing: trainData/015.e5aae
+indexing: trainData/hanoi.4027dd7d651d5fb
+indexing: trainData/116.f5404
+indexing: trainData/InfixConverter.826cc1ac2da4e1a
+indexing: trainData/000.ce8ac
+indexing: trainData/InfixConverter.90321fee8dae448
+indexing: trainData/SqrtAlgorithm.fa02e4f5a214e68
+indexing: trainData/108.fcb96
+indexing: trainData/square.6727a09316b1c71
+indexing: trainData/queens.96f7aab185d4676
+indexing: trainData/123.6de05
+indexing: trainData/009.8ebaa
+indexing: trainData/kaprekar.a2b8974c11e86d8
+indexing: trainData/176.4119e
+indexing: trainData/015.e37cc
+indexing: trainData/113.9dd20
+indexing: trainData/113.04992
+indexing: trainData/slinkedlist.orig
+indexing: trainData/116.07d40
+indexing: trainData/078.bc311
+indexing: trainData/slinkedlist.eab0f403dce9888
+indexing: trainData/176.8ec72
+indexing: trainData/129.71d28
+indexing: trainData/108.f8613
+indexing: trainData/009.orig
+indexing: trainData/034.orig
+indexing: trainData/107.40c59
+indexing: trainData/112.f2f6d
+indexing: trainData/115.34a4e
+indexing: trainData/square.a0776e5d5fd04eb
+indexing: trainData/009.5e6e9
+indexing: trainData/guessword.8e743f9143720f9
+indexing: trainData/078.28ffb
+indexing: trainData/033.e84ae
+indexing: trainData/kaprekar.6cdcda4212f60ce
+indexing: trainData/railroadcar.4673c8d4ea7a4aa
+indexing: trainData/129.47f75
+indexing: trainData/116.83cbf
+indexing: trainData/railroadcar.ff4b400d7705227
+indexing: trainData/176.0db63
+indexing: trainData/115.5014c
+indexing: trainData/129.orig
+indexing: trainData/107.c1469
+indexing: trainData/181.52502
+indexing: trainData/116.070ab
+indexing: trainData/181.abdab
+indexing: trainData/034.14833
+indexing: trainData/120.c7bd6
+indexing: trainData/008.orig
+indexing: trainData/120.b7843
+indexing: trainData/hanoi.4db030717233472
+indexing: trainData/079.1812d
+indexing: trainData/015.cddd1
+indexing: trainData/120.241d0
+indexing: trainData/225.3b0f1
+indexing: trainData/015.20f5f
+indexing: trainData/076.55710
+indexing: trainData/bubblesort.5ca90bd2933b059
+indexing: trainData/076.e4d5f
+indexing: trainData/008.e6638
+indexing: trainData/010.b93d6
+indexing: trainData/241.cb927
+indexing: trainData/182.3e82f
+indexing: trainData/000.40f4e
+indexing: trainData/015.2b441
+indexing: trainData/176.df722
+indexing: trainData/033.55fc4
+indexing: trainData/007.52d05
+indexing: trainData/107.bb557
+indexing: trainData/079.9ab70
+indexing: trainData/008.8ce87
+indexing: trainData/129.348f8
+indexing: trainData/038.e3ec1
+indexing: trainData/InfixConverter.cc5ff5f0e511c00
+indexing: trainData/079.0acef
+indexing: trainData/railroadcar.8ce59274b0fbf0a
+indexing: trainData/212.2fd9c
+indexing: trainData/181.f2abb
+indexing: trainData/InfixConverter.06752322a71eddf
+indexing: trainData/182.98089
+indexing: trainData/107.a6703
+indexing: trainData/181.6b4f1
+indexing: trainData/112.2ad25
+indexing: trainData/square.9b496ae0743cef6
+indexing: trainData/118.fddf1
+indexing: trainData/176.49fc1
+indexing: trainData/015.7a62e
+indexing: trainData/123.66357
+indexing: trainData/034.87b2f
+indexing: trainData/096.3938f
+indexing: trainData/212.11457
+indexing: trainData/InfixConverter.ef6077cca4a0783
+indexing: trainData/123.3602d
+indexing: trainData/kaprekar.c3940c43e3b23b3
+indexing: trainData/241.orig
+indexing: trainData/212.755fd
+indexing: trainData/187.4f527
+indexing: trainData/123.706ca
+indexing: trainData/bubblesort.79cc21d1b5b4a84
+indexing: trainData/guessword.05449a263328f7c
+indexing: trainData/railroadcar.caad9aec453cf87
+indexing: trainData/034.c680c
+indexing: trainData/078.8eb6d
+indexing: trainData/182.1db6b
+indexing: trainData/square.34edeecc016daf1
+indexing: trainData/176.orig
+indexing: trainData/076.88e76
+indexing: trainData/square.orig
+indexing: trainData/009.25bcc
+indexing: trainData/023.a0983
+indexing: trainData/000.b0f8b
+indexing: trainData/010.24053
+indexing: trainData/SqrtAlgorithm.f6db3843800baaa
+indexing: trainData/034.4ed71
+indexing: trainData/023.684f4
+indexing: trainData/113.56279
+indexing: trainData/queens.76024aebce80973
+indexing: trainData/079.orig
+indexing: trainData/002.orig
+indexing: trainData/queens.ba3f4577c2a4de1
+indexing: trainData/108.d935d
+indexing: trainData/023.12fc0
+indexing: trainData/078.df4cf
+indexing: trainData/slinkedlist.135e57cdeea6ebb
+indexing: trainData/railroadcar.4bff8ba47f468cd
+indexing: trainData/slinkedlist.c077141ee55eb88
+indexing: trainData/118.76d7b
+indexing: trainData/120.5a9f6
+indexing: trainData/square.99a98f55d324f25
+indexing: trainData/InfixConverter.736c510874d0c6f
+indexing: trainData/079.9d75c
+indexing: trainData/118.ab032
+indexing: trainData/181.2800b
+indexing: trainData/213.056de
+indexing: trainData/010.orig
+indexing: trainData/033.d5b28
+indexing: trainData/212.8e1fa
+indexing: trainData/116.orig
+indexing: trainData/InfixConverter.orig
+indexing: trainData/112.32ca4
+indexing: trainData/038.8bba8
+indexing: trainData/096.orig
+indexing: trainData/108.47aad
+indexing: trainData/212.71b28
+indexing: trainData/bubblesort.06ab93841dabb5a
+indexing: trainData/079.48ffe
+indexing: trainData/034.8b6ed
+indexing: trainData/bubblesort.5e33f446be2a805
+indexing: trainData/129.2523a
+indexing: trainData/InfixConverter.28188f00eb08b28
+indexing: trainData/bubblesort.ccd2022858f4a71
+indexing: trainData/213.f8538
+indexing: trainData/bubblesort.ace071e289ac15a
+indexing: trainData/slinkedlist.9b5000f5af6e6df
+indexing: trainData/square.4fee299d1e881f8
+indexing: trainData/015.1a527
+indexing: trainData/slinkedlist.8421e3dc98c5b47
+indexing: trainData/182.2dd33
+indexing: trainData/241.3091a
+indexing: trainData/182.b2923
+indexing: trainData/076.1d65c
+indexing: trainData/212.9ce2a
+indexing: trainData/009.ddb93
+indexing: trainData/076.c387b
+indexing: trainData/113.94277
+indexing: trainData/113.orig
+indexing: trainData/bubblesort.726beaa1beca2d8
+indexing: trainData/176.3ddcb
+indexing: trainData/002.de01c
+indexing: trainData/079.a562c
+indexing: trainData/SqrtAlgorithm.6a3a7a45b57d9ef
+indexing: trainData/213.bd2c3
+indexing: trainData/112.8eaf1
+indexing: trainData/120.dc00a
+indexing: trainData/007.34e23
+indexing: trainData/241.af021
+indexing: trainData/213.0550f
+indexing: trainData/kaprekar.88165e7fbb3b48e
+indexing: trainData/SqrtAlgorithm.5f9d6ed1fb9b52c
+indexing: trainData/115.58567
+indexing: trainData/033.b20e1
+indexing: trainData/123.orig
+indexing: trainData/kaprekar.orig
+indexing: trainData/railroadcar.ae33f04a35a0216
+indexing: trainData/009.c146a
+indexing: trainData/guessword.1fccd0d748a1c20
+indexing: trainData/176.65fba
+indexing: trainData/008.c30dd
+indexing: trainData/078.2ce9e
+indexing: trainData/SqrtAlgorithm.orig
+indexing: trainData/181.de90e
+indexing: trainData/076.d5c48
+indexing: trainData/queens.e05fd21596f5612
+indexing: trainData/118.dddcb
+indexing: trainData/112.2b84c
+indexing: trainData/kaprekar.897da7cb7f72492
+indexing: trainData/213.c4efc
+indexing: trainData/000.44d36
+indexing: trainData/118.0a779
+indexing: trainData/116.29d17
+indexing: trainData/railroadcar.5c87c002d3a7bd2
+indexing: trainData/kaprekar.72c9c0cddb2053e
+indexing: trainData/116.8fbc9
+indexing: trainData/112.e61c1
+indexing: trainData/120.9b876
+indexing: trainData/108.934f5
+indexing: trainData/115.orig
+indexing: trainData/007.orig
+indexing: trainData/007.750fc
+indexing: trainData/007.403c4
+indexing: trainData/guessword.c9f889d50dd7217
+indexing: trainData/008.736ff
+indexing: trainData/113.8fa83
+indexing: trainData/241.d68f6
+indexing: trainData/115.7a9ff
+indexing: trainData/railroadcar.b7f60f1709e2e94
+002.b19e4 was more similar to arbitrary code than to mutations of 002.b19e4
+002.bec94 was more similar to arbitrary code than to mutations of 002.bec94
+002.c0bf5 was more similar to arbitrary code than to mutations of 002.c0bf5
+002.d5e88 was more similar to arbitrary code than to mutations of 002.d5e88
+002.fc017 was more similar to arbitrary code than to mutations of 002.fc017
+002.orig was more similar to arbitrary code than to mutations of 002.orig
+007.34e23 was more similar to arbitrary code than to mutations of 007.34e23
+007.52d05 was more similar to arbitrary code than to mutations of 007.52d05
+007.54107 was more similar to arbitrary code than to mutations of 007.54107
+007.a390c was more similar to arbitrary code than to mutations of 007.a390c
+007.ea49c was more similar to arbitrary code than to mutations of 007.ea49c
+007.orig was more similar to arbitrary code than to mutations of 007.orig
+009.25bcc was more similar to arbitrary code than to mutations of 009.25bcc
+009.43297 was more similar to arbitrary code than to mutations of 009.43297
+009.c146a was more similar to arbitrary code than to mutations of 009.c146a
+009.ddb93 was more similar to arbitrary code than to mutations of 009.ddb93
+010.1cd07 was more similar to arbitrary code than to mutations of 010.1cd07
+010.24053 was more similar to arbitrary code than to mutations of 010.24053
+010.5302f was more similar to arbitrary code than to mutations of 010.5302f
+010.b97e8 was more similar to arbitrary code than to mutations of 010.b97e8
+078.28ffb was more similar to arbitrary code than to mutations of 078.28ffb
+078.2f0b0 was more similar to arbitrary code than to mutations of 078.2f0b0
+078.32335 was more similar to arbitrary code than to mutations of 078.32335
+078.8fd5d was more similar to arbitrary code than to mutations of 078.8fd5d
+079.0acef was more similar to arbitrary code than to mutations of 079.0acef
+079.13632 was more similar to arbitrary code than to mutations of 079.13632
+079.48ffe was more similar to arbitrary code than to mutations of 079.48ffe
+079.9d75c was more similar to arbitrary code than to mutations of 079.9d75c
+079.a562c was more similar to arbitrary code than to mutations of 079.a562c
+079.orig was more similar to arbitrary code than to mutations of 079.orig
+107.a6703 was more similar to arbitrary code than to mutations of 107.a6703
+107.orig was more similar to arbitrary code than to mutations of 107.orig
+108.4df1a was more similar to arbitrary code than to mutations of 108.4df1a
+108.orig was more similar to arbitrary code than to mutations of 108.orig
+112.914a0 was more similar to arbitrary code than to mutations of 112.914a0
+112.orig was more similar to arbitrary code than to mutations of 112.orig
+113.8fa83 was more similar to arbitrary code than to mutations of 113.8fa83
+113.orig was more similar to arbitrary code than to mutations of 113.orig
+116.070ab was more similar to arbitrary code than to mutations of 116.070ab
+116.f5404 was more similar to arbitrary code than to mutations of 116.f5404
+181.36449 was more similar to arbitrary code than to mutations of 181.36449
+181.52502 was more similar to arbitrary code than to mutations of 181.52502
+181.6b4f1 was more similar to arbitrary code than to mutations of 181.6b4f1
+181.b235c was more similar to arbitrary code than to mutations of 181.b235c
+181.de90e was more similar to arbitrary code than to mutations of 181.de90e
+181.orig was more similar to arbitrary code than to mutations of 181.orig
+182.1db6b was more similar to arbitrary code than to mutations of 182.1db6b
+182.2dd33 was more similar to arbitrary code than to mutations of 182.2dd33
+182.3e82f was more similar to arbitrary code than to mutations of 182.3e82f
+182.b2923 was more similar to arbitrary code than to mutations of 182.b2923
+182.cd961 was more similar to arbitrary code than to mutations of 182.cd961
+182.orig was more similar to arbitrary code than to mutations of 182.orig
+187.324ae was more similar to arbitrary code than to mutations of 187.324ae
+187.3f054 was more similar to arbitrary code than to mutations of 187.3f054
+187.4af58 was more similar to arbitrary code than to mutations of 187.4af58
+187.4f527 was more similar to arbitrary code than to mutations of 187.4f527
+187.5065e was more similar to arbitrary code than to mutations of 187.5065e
+187.5e9b0 was more similar to arbitrary code than to mutations of 187.5e9b0
+187.61ea8 was more similar to arbitrary code than to mutations of 187.61ea8
+187.orig was more similar to arbitrary code than to mutations of 187.orig
+212.11457 was more similar to arbitrary code than to mutations of 212.11457
+212.2fd9c was more similar to arbitrary code than to mutations of 212.2fd9c
+212.658d7 was more similar to arbitrary code than to mutations of 212.658d7
+212.71b28 was more similar to arbitrary code than to mutations of 212.71b28
+212.755fd was more similar to arbitrary code than to mutations of 212.755fd
+212.8e1fa was more similar to arbitrary code than to mutations of 212.8e1fa
+212.9ce2a was more similar to arbitrary code than to mutations of 212.9ce2a
+212.e4e8c was more similar to arbitrary code than to mutations of 212.e4e8c
+212.ff64a was more similar to arbitrary code than to mutations of 212.ff64a
+212.orig was more similar to arbitrary code than to mutations of 212.orig
+213.0550f was more similar to arbitrary code than to mutations of 213.0550f
+213.056de was more similar to arbitrary code than to mutations of 213.056de
+213.5283f was more similar to arbitrary code than to mutations of 213.5283f
+213.6be28 was more similar to arbitrary code than to mutations of 213.6be28
+213.a0a54 was more similar to arbitrary code than to mutations of 213.a0a54
+213.bd2c3 was more similar to arbitrary code than to mutations of 213.bd2c3
+213.c4efc was more similar to arbitrary code than to mutations of 213.c4efc
+213.da01c was more similar to arbitrary code than to mutations of 213.da01c
+213.f8538 was more similar to arbitrary code than to mutations of 213.f8538
+213.orig was more similar to arbitrary code than to mutations of 213.orig
+241.186bf was more similar to arbitrary code than to mutations of 241.186bf
+241.23035 was more similar to arbitrary code than to mutations of 241.23035
+241.7424b was more similar to arbitrary code than to mutations of 241.7424b
+241.90f42 was more similar to arbitrary code than to mutations of 241.90f42
+241.c3c85 was more similar to arbitrary code than to mutations of 241.c3c85
+241.orig was more similar to arbitrary code than to mutations of 241.orig
+guessword.520aec0150916fd was more similar to arbitrary code than to mutations of guessword.520aec0150916fd
+guessword.6821cff0bf980ea was more similar to arbitrary code than to mutations of guessword.6821cff0bf980ea
+guessword.72c31f086ae722d was more similar to arbitrary code than to mutations of guessword.72c31f086ae722d
+guessword.c5d1631e39ff80f was more similar to arbitrary code than to mutations of guessword.c5d1631e39ff80f
+0.790697674419 percent of files were more similar to mutations of themselves than to arbitary code.
+The p-value of a student's t test, testing the difference in similarity between mutations of code, and arbitrary code is:
+0.0121456459018
+The 95% confidence interval of the difference is:
+[1] 1.860756e-05 1.512956e-04
+attr(,"conf.level")
+[1] 0.95
+

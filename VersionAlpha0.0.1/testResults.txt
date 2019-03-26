@@ -1,0 +1,49 @@
+Testing to ensure that found associations can be retrieved. ... ok
+Testing that associations between the submit files from the flat zip were stored in the DB ... ok
+Testing to ensure that the endpoint for retrieving associations rejects malformed requests. ... ok
+Testing for malformed input to getSubmission after submit from the flat zip ... ok
+Geting submission with id 1 from the flat zip ... ok
+Testing that indexes were generated on each file from the flat zip ... ok
+Testing that the submit files from the flat zip were stored in the DB ... ok
+Testing to ensure that found associations can be retrieved. After submission from the non-flat zip ... ok
+Testing that associations between the submit files were stored in the DB ... ok
+Testing to ensure that the endpoint for retrieving associations rejects malformed requests. ... ok
+Testing for malformed input to the getSubmission page ... ok
+Geting submission with id 1 from the non-flat zip ... ok
+Testing that indexes were generated on each file from the non-flat zip ... ok
+Testing that the submit files from the non-flat zip were stored in the DB ... FAIL
+test_invalid_source_code_java (Tests.TestSubmissionOfBrokenCode) ... FAIL
+test_missing_assignment_ID_field (Tests.TestSubmissionOfBrokenCode) ... ok
+test_missing_user_ID_field (Tests.TestSubmissionOfBrokenCode) ... ok
+test_get_assignment_list (Tests.TestVisitingFrontEnd) ... ok
+test_get_assignment_list_malformed_input (Tests.TestVisitingFrontEnd) ... ok
+test_get_list_of_classes (Tests.TestVisitingFrontEnd) ... ok
+test_get_offerings (Tests.TestVisitingFrontEnd) ... ok
+test_https_redirect (Tests.TestVisitingFrontEnd) ... ok
+
+======================================================================
+FAIL: Testing that the submit files from the non-flat zip were stored in the DB
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cody/Documents/school/cosc/4f00/github/Water_Fern/VersionAlpha0.0.1/Tests.py", line 173, in test_submissions_were_stored
+    self.assertTrue(totalSubmissions == 2, "There should be 2 submissions in the DB not " + str(totalSubmissions))
+AssertionError: False is not true : There should be 2 submissions in the DB not 4
+
+======================================================================
+FAIL: test_invalid_source_code_java (Tests.TestSubmissionOfBrokenCode)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cody/Documents/school/cosc/4f00/github/Water_Fern/VersionAlpha0.0.1/Tests.py", line 254, in test_invalid_source_code_java
+    cls.assertTrue(str(r.content).find("Invalid Code") != -1, "Invalid code should have been detected")
+AssertionError: False is not true : Invalid code should have been detected
+-------------------- >> begin captured logging << --------------------
+requests.packages.urllib3.connectionpool: DEBUG: Starting new HTTPS connection (1): 0.0.0.0
+requests.packages.urllib3.connectionpool: DEBUG: https://0.0.0.0:8001 "POST /api/v1/uploadsubmission HTTP/1.1" 200 3
+--------------------- >> end captured logging << ---------------------
+
+----------------------------------------------------------------------
+Ran 22 tests in 60.593s
+
+FAILED (failures=2)
+
+
