@@ -172,8 +172,8 @@ class SourceIndexer(ParseTreeVisitor):
                     startLine = l[2]
             
             contextList = (theHash, maxDepth, strtLine, endLine)
-            
-            if (contextList[1] > 20 and contextList[1] < 30) or ((contextList[3] - contextList[2] >= 1) and (contextList[3] - contextList[2] <= 20)):
+            #(contextList[1] > 20 and contextList[1] < 30) or
+            if ((contextList[3] - contextList[2] >= 1) and (contextList[3] - contextList[2] <= 10)):
                 block_id = self.DB.store_index("w2v_n_000", self.theID, theHash, contextList[2], contextList[3])
 
                 #block_id = self.DB.store_index() 
