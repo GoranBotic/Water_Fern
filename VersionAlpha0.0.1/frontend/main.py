@@ -73,7 +73,7 @@ def upload_submission():
 
                 
                 if lang == None:
-                    failedtoSubmit.append(name)
+                    failedToSubmit.append(name)
                     continue 
                 
                 if bulkUpload:
