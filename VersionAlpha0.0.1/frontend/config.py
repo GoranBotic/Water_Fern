@@ -23,3 +23,8 @@ POSTGRES_PASS       =        parser["POSTGRES"]["POSTGRES_PASS"]
 DATABASE_MANAGER    =        parser["POSTGRES"]["DATABASE_MANAGER"]
 
 BACKEND_ADDRESS     =        parser["BACKEND"]["BACKEND_ADDRESS"]
+
+
+JAVA_EXTENSIONS     =       parser["EXTENSIONS"]["JAVA"]
+CPP_EXTENSIONS      =       parser["EXTENSIONS"]["CPP"]
+C_EXTENSIONS        =       parser["EXTENSIONS"]["C"]

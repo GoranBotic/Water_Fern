@@ -25,43 +25,114 @@ def serve(path):
 #upload a submission
 @app.route('/api/v1/uploadsubmission', methods=['GET','POST'])
 def upload_submission():
-    fi = request.files['file']
-    if "uID" in request.form:
-        userID = request.form["uID"] 
+    if "file" in request.files:
+        fi = request.files['file']
     else:
         return "Malformed input.", 400
     if "aID" in request.form:
         assignID = request.form["aID"] 
     else:
         return "Malformed input.", 400
+    bulkUpload = False 
+    if "bulkUpload" in request.form:
+        bulkUpload = bool(request.form["bulkUpload"])
+    
+    if not bulkUpload:
+        if "uID" in request.form:
+            userID = request.form["uID"] 
+        else:
+            return "Malformed input.", 400
 
 
     if fi is not None:
-        #TODO: zip parse error detection
-        zipf = ZipFile(fi)
-        names = zipf.namelist() 
-        dictToSend = dict() 
-        dictToSend["ids"] = []
-        for name in names:
-            with zipf.open(name, 'r') as theFile:
-                #TODO: need to detect the language of the file and pass the correct language to put_file
-                theid = manager.put_file(theFile, name, "Java",assignID,userID)
-                dictToSend["ids"].append(theid)
-        print(dictToSend)
-        idStr = "["
-        for i in dictToSend['ids']:
-                idStr = idStr + str(i) + "," 
-        idStr = idStr[:-1] 
-        idStr += "]"
-        #TODO:once we have an actual unchanging address we need to change verify=False to verify=/path/to/public/cert
-        #A certificate is only valid on a specific address, and as of right now all our components are using the computers assigned IP, not local host, this means that when we host things externally we should skip some problems 
-        # it also means that in order to verify the backend certificate, we would need to remake a certficate every time the laptops IP changes, so for now we use verify=False  
-        res = requests.post("https://"+config.BACKEND_ADDRESS+":12345/api/v1/index_submissions", data = {'ids':idStr}, verify=False)
-        print('response from server:',res.text)
-        #dictFromServer = res.json()
+        try:
+            zipf = ZipFile(fi)
+            names = zipf.namelist() 
 
-    return "Ok.", 200
+            #this dictionary defines the data to be posted to the backend server
+            dictToSend = dict() 
+            dictToSend["ids"] = []
+            dictToSend["lang"] = [] 
+
+            failedToSubmit = [] 
+
+            for name in names:
+                extensionStart = name.rfind(".") 
+                if extensionStart == -1:
+                    continue 
+
+                extension = name[extensionStart+1:] 
+
+                lang = None 
+                if extension in config.JAVA_EXTENSIONS:
+                    lang = "Java"
+                if extension in config.CPP_EXTENSIONS:
+                    lang = "cpp" 
+                if extension in config.C_EXTENSIONS:
+                    lang = "c" 
+
+                
+                if lang == None:
+                    failedToSubmit.append(name)
+                    continue 
+                
+                if bulkUpload:
+                    userID = None
+                    uIDStop = name.find("/")
+                    #TODO: extract the userame from the top level folder 
+                    #When the bulk upload flag is set, the sytem will assume that a zip file containing folders is sent 
+                    #each folder is assumed to be named according to the user name of the user who submit the assignment in that folder 
+                    #everying under the top folder is considered to be the submission 
+                    #ex cd15oy <- a folder in the zip file VV contents
+                    #       src 
+                    #           file1
+                    #           file2
+                    #       tests
+                    #           file1
+                    #           file2
+                    #we need to check that the user actually exists
+                    #if not, we need to warn the user, however, we should still process the other folders
+                    #if one student screws up the formatting, it should not stop the entire bulk submission 
+                    if uIDStop == -1:
+                        failedToSubmit.append(name) 
+                        continue
+                    else:
+                        userID = manager.look_up_user_ID(name[:uIDStop])
+                        
+
+                with zipf.open(name, 'r') as theFile: 
+                    nameStart = name.rfind("/")
+                    name = name[nameStart+1:]
+                    theid = manager.put_file(theFile, name, lang, assignID, userID)
+
+                    dictToSend["ids"].append(theid)
+
+            
+            idStr = "["
+            for i in dictToSend['ids']:
+                idStr = idStr + str(i) + "," 
+            idStr = idStr[:-1] 
+            idStr += "]"
+
+            #TODO:once we have an actual unchanging address we need to change verify=False to verify=/path/to/public/cert
+            #A certificate is only valid on a specific address, and as of right now all our components are using the computers assigned IP, not local host, this means that when we host things externally we should skip some problems 
+            # it also means that in order to verify the backend certificate, we would need to remake a certficate every time the laptops IP changes, so for now we use verify=False  
+            res = requests.post("https://"+config.BACKEND_ADDRESS+":12345/api/v1/index_submissions", data = {'ids':idStr}, verify=False)
+            
+            #TODO: this needs to redirect the user, and it should explain any issues which came up 
+            if len(failedToSubmit) > 0:
+                return "Failed to submit: " + str(failedToSubmit), 200
+            else:
+                return redirect("/home.html", code=302)
+
+        except Exception as e:
+            print(e)
+            return "Invalid Zip Archive", 400
         
+#upload submissions in bulk
+@app.route('/api/v1/uploadBulkSubmissions', methods=['GET','POST'])
+def upload_bulk_submissions():
+    pass
 
 #get similar files
 @app.route('/api/v1/getAssociations', methods=['GET','POST'])

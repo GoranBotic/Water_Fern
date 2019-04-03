@@ -130,6 +130,10 @@ class DatabaseManager:
         self.cursor.execute("SELECT ID FROM " + config.TABLE_ASSIGNMENTS + " WHERE OFFERING_ID=%(a)s;",{"a":oid})
         return self.cursor.fetchall()
 
+    def look_up_user_ID(self, uName):
+        self.cursor.execute("SELECT ID FROM " + config.TABLE_USERS + " WHERE USERNAME = '" + uName + "';")
+        return self.cursor.fetchone() 
+
     #close the database connection
     def close(self):
         self.cursor.close()

@@ -5,7 +5,8 @@ RUN apt update && apt -y install postgresql postgresql-contrib postgresql-client
 COPY postgresql.conf    /tmp/postgresql.conf
 COPY databaseInit.sql   /tmp/initdb.sql
 
-USER   postgres
+#sds
+USER   postgres 
 # RUN     update-rc.d postgresql enable &&\
 #         service postgresql start &&\
 ENV PGPASSWORD waterfern
