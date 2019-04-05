@@ -40,7 +40,7 @@ function goToReport(id) {
 
 //-----------------------------------------------------------------------------
 
-function buildSideSubmissionsList() {
+function buildSideSubmissionsList(sel=-1) {
     let assign = $.cookie("assign");
     let sida = $.cookie("submissionA");
     let list = submissions(assign);
@@ -58,20 +58,24 @@ function buildSideSubmissionsList() {
  
     for (let i = 0; i < list.length; i++) {
         if(list[i][0] != sida){
-            let sub = buildSideSubmissions(list[i]);
+            let sub = buildSideSubmissions(list[i],sel);
             sideList.appendChild(sub);
         }
     }
  
 }
  
-function buildSideSubmissions(sub) {
+function buildSideSubmissions(sub,sel) {
  
     let li = document.createElement("li");
     li.setAttribute("class", "selection-list");
     li.setAttribute("onclick", "displaySubmissionB("+sub[0]+")");
  
-    let text = document.createTextNode(sub[1]);
+    let text = document.createTextNode(sub[1]+": "+sub[2]+" "+sub[3]);
+
+    if(sub[0] == sel){
+        li.setAttribute("class", "selection-list selected");
+    }
  
     li.appendChild(text);
  

@@ -11,6 +11,11 @@ function displaySubmissionA(){
         report.append(lineelem);
     }
 
+    for(var i=0; i<50; i++){
+        let lineelem = $('<a id="'+line+'b" class="line" href=""></a>');
+        report.append(lineelem);
+    }
+
 }
 
 function displaySubmissionB(sidb){
@@ -23,6 +28,13 @@ function displaySubmissionB(sidb){
         lineelem.html("<pre>"+line_list[line]+"</pre>");
         report.append(lineelem);
     }
+
+    for(var i=0; i<50; i++){
+        let lineelem = $('<a id="'+line+'b" class="line" href=""></a>');
+        report.append(lineelem);
+    }
+
+    buildSideSubmissionsList(sidb);
 
     let sida = $.cookie("submissionA");
     displaySubmissionA(); //clear first display of associations
