@@ -1,0 +1,87 @@
+package Assign5B;
+
+ 
+
+ import Media.*;                  // for Picture and Sound etc.
+import java.awt.*;               // for Color objects and methods
+import static java.lang.Math.*;  // for math constants and functions
+import static java.awt.Color.*;  // for Color constants
+
+ 
+
+ 
+
+/** COSC 1P02
+
+  * Aminah Hassan
+  * 653133
+
+  * @version 1.0 (March 15, 2019)                                                        */
+
+ 
+
+public class NoiseReduction {
+
+ 
+
+  private SoundPlayer player;
+  private Sound bad;
+  private Sound good;
+
+ 
+
+  // instance variables
+                                                   
+public NoiseReduction ( ) {
+
+   
+
+    player = new SoundPlayer();
+    bad = new Sound();
+
+    player.placeSound(bad);
+    player.waitForUser();
+    player.close();
+
+  }; // constructor
+private Sound clean (Sound original, int factor) {
+
+    Sound  result;
+    double total;
+    int s1 = 0;
+    int s2 =0;
+    int    numSamp;
+    int    amp;
+    int    newAmp;
+
+
+    numSamp = original.getNumSamples();
+
+    result = new Sound(numSamp, original);
+
+    for (int i=factor;i <numSamp-factor; i++) {
+
+      original.getSample(i);
+
+
+      for (int j=0; j<(2-factor+4) ; j++) {
+        original.getSample(j);
+
+        s2 = s2 + original.getSample(j).getAmp();
+
+        total = (double)(s2/5);
+
+   original.getSample(i).setAmp((int)total);
+
+      
+
+      }
+      
+
+      
+
+    }
+    return result;
+  }
+public static void main ( String[] args ) { NoiseReduction s = new NoiseReduction(); };
+}
