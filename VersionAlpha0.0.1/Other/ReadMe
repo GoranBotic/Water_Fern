@@ -1,0 +1,10 @@
+https://redislabs.com/ebook/part-2-core-concepts/chapter-5-using-redis-for-application-support/5-1-logging-to-redis/5-1-2-common-logs/
+
+The above link has a fairly in-depth example of how to build a simple logging function as need be.
+
+The keys are set at the bottom of the redis file. There are comment blocks in the config file as such:
+#========================================================================================
+#========================================================================================
+#========================================================================================
+
+Which dictates what was changed from the original file by me below the block. The rest is auto-generated as need be. 

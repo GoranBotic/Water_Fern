@@ -1,5 +1,5 @@
 body {
-  background-color: #dcdcdc;
+  background-color: #eaeaea;
 }
 
 .content {
@@ -10,21 +10,55 @@ body {
   justify-content: center;
   align-items: center;
   width: calc(96% - 13em);
-  height: calc(96% - 130px);
+  height: calc(96% - 30px);
 }
 
 .content-text {
-  /* width: 50%; */
   text-align: center;
 }
 
+.top-bar {
+  margin-left:15em;
+  width:83%;
+  height: 38px;
+  margin-top: 15px;
+  /* border: 1px solid #000; */
+}
+.top-bar .top-col {
+  float:left;
+  /* border: 1px solid #000; */
+  width:33.33%;
+}
+
+.button {
+  background-color: #0099ce;
+  display: inline-block;
+  cursor: pointer;
+  padding:10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 5px;
+  color: #fff;
+}
+.button:hover {
+  background-color: #0089b9;
+}
+
+.center-middle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .reportleft, .reportright {
-  overflow: scroll;
-  top: 0;
+  overflow: auto;
+  top: 10;
   margin-left: 3%;
   width: 47%;
   height: 100%;
-  padding: 0;
+  padding: 15;
+  /* padding-top:0;
+  padding-bottom:0; */
   float: left;
   font-size: 15px;
   display: block;
