@@ -7,6 +7,7 @@ function buildSubmissionsList() {
 
     let studentList = document.getElementById("student-list");
     studentList.innerHTML = "";
+
     let highest = 0; //the highest score
     for (let i = 0; i < list.length; i++) {
         let li = buildSubmissions(list[i]);
@@ -16,12 +17,15 @@ function buildSubmissionsList() {
 
         li.style.backgroundColor = 'hsl(0,100%, (100+((li.getAttribute("score"))/highest)*(-50))%)'; //sets the coloring, with 1 giving a full red, the lowest being white
         studentList.appendChild(li);
+
     }
+ 
 }
 
 function buildSubmissions(item) {
 
     let li = document.createElement("li");
+
     li.setAttribute("onclick", "goToReport(" + item[0] + ")");
     let text = document.createTextNode(item[1] + " | " + item[3]);
     li.setAttribute("score", item[3]);//gives each element an attribute called score

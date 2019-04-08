@@ -1,0 +1,22 @@
+
+.inputxt {
+   padding: 10px;
+   border:1px solid #ccc;
+   width:250px;
+}
+
+.assign-submit {
+   background-color:#00abe5;
+   border: 1px solid #00abe5;
+   padding:12px;
+   width: 100px;
+   font-size: 17px;
+   border-radius:5px;
+   color:#fff;
+   cursor: pointer;
+}
+
+.assign-submit:hover {
+   border: 1px solid #0085b2;
+   background-color: #0099ce;
+}
