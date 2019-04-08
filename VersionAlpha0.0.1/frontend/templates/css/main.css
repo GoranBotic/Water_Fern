@@ -1,4 +1,13 @@
 
+@font-face {
+   src: url('fonts/Quicksand/Quicksand-Light.ttf');
+   font-family: quicksand;
+}
+
+* {
+   font-family: quicksand;
+}
+
 #header {
    position: fixed;
    z-index: 5;
@@ -53,14 +62,42 @@
 #side-bar {
    position: fixed;
    overflow: auto;
-   width: 12em;
-   height:90%;
-   top: 70px;
+   width: 13em;
+   height:100%;
+   top: 0px;
    left: 0;
    background-color: #00abe5;
    z-index: 4;
-   -webkit-box-shadow: 0 10px 26px 0 rgba(0,0,0,0.4), 0 6px 20px 0 rgba(0,0,0,0.38);
-   box-shadow: 0 10px 26px 0 rgba(0,0,0,0.4), 0 6px 20px 0 rgba(0,0,0,0.38);
+   /* -webkit-box-shadow: 0 10px 26px 0 rgba(0,0,0,0.4), 0 6px 20px 0 rgba(0,0,0,0.38);
+   box-shadow: 0 10px 26px 0 rgba(0,0,0,0.4), 0 6px 20px 0 rgba(0,0,0,0.38); */
+}
+
+#side-bar-contents .title {
+   width: 100%;
+   text-align: center;
+}
+
+#side-bar-contents .title h2 {
+   font-weight: bold;
+   color: #005572;
+}
+
+#side-bar-contents .back-button-container {
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.back-button-container .back-button {
+   padding: 15px;
+   border-radius: 3em;
+   cursor: pointer;
+   transition: background-color ease 400ms;
+}
+
+.back-button-container .back-button:hover {
+   background-color: #0099ce;
 }
 
 #side-bar-contents ul{
@@ -88,10 +125,11 @@
 
 #side-bar-contents ul li.selection-list:hover {
    background-color: rgba(0,133,179, 0.5);
+   font-weight: bold;
 }
 
-.selected {
-    background-color: rgba(0, 96, 128, 0.5) !important;
+#side-bar-contents ul li.selected {
+   background-color: rgba(0,133,179, 0.5);
+   font-weight: bold;
 }
-
 

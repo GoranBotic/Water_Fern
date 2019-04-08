@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/home.css">
+        <link rel="stylesheet" href="css/test.css">
+
+        <script type="text/javascript" src="js/course-list.js"></script>
+        <!-- <script type="text/javascript" src="js/data.js"></script> -->
+        <script type="text/javascript">
+            // window.onload = function () {
+            //     buildSideCourseList();
+            // }
+        </script>
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/jquery.cookie.js"></script>
+
+    </head>
+
+    <div id="content" class="content" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="leave()">
+        <div class="content-text">
+            <h1 id="welcome-message">WaterFern</h1><br>
+            <div class="test-button" onclick="document.querySelector('.inputFile').click();">Test</div>
+            <input class="inputFile" id="fileupload" type="file" style="display: none;" multiple="multiple">
+        </div>
+    </div>
+
+    <script>
+    
+      function allowDrop(e) {
+         e.preventDefault();
+         let content = document.getElementById("content");
+         content.setAttribute("class", "content content-hover");
+      }
+
+      function leave() {
+         let content = document.getElementById("content");
+         content.setAttribute("class", "content");
+      }
+
+      document.getElementById('fileupload').onchange = function(e) {
+          upload_files(e.target.files);
+      }
+
+      function drop(e) {
+
+        e.preventDefault();
+        let content = document.getElementById("content");
+        content.setAttribute("class", "content");
+
+        upload_files(e.dataTransfer.files);
+
+      }
+      function upload_files(data) {
+         
+         let formData = new FormData();
+         for (let i = 0; i < data.length; i++) {
+             console.log(data[i].name);
+            formData.append('file[]', data[i]);
+         }
+
+         // send data to server, can use photographer
+         // go to 
+         
+      }
+
+    </script>
+
+</html>

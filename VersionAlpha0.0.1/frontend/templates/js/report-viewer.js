@@ -1,4 +1,3 @@
-
 function displaySubmissionA(){
     let sida = $.cookie("submissionA");
     let report = $("#reportleft");

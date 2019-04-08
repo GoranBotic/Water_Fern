@@ -5,18 +5,23 @@
         <script type="text/javascript" src="js/submission-list.js"></script>
         <script type="text/javascript" src="js/report-viewer.js"></script>
         <script type="text/javascript" src="js/data.js"></script>
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/jquery.cookie.js"></script>
         <script type="text/javascript">
             window.onload = function () {
                 buildSideSubmissionsList();
+                let student1Id = 0;
+                let student2Id = 1;
+
                 displaySubmissionA();
+                displaySubmissionB();
             }
         </script>
-        <script src="js/jquery-3.3.1.min.js"></script>
-        <script src="js/jquery.cookie.js"></script>
+        
 
     </head>
 
-    <div id="header">
+    <!-- <div id="header">
         <div class="logo" onclick="window.open('home.html', '_self');">
         <h2>WaterFern</h2> <span>Professor</span>
         </div>
@@ -25,25 +30,71 @@
             Logout
         </div>
         </div>
-    </div>
+    </div> -->
 
     <div id="side-bar">
         <div id="side-bar-contents">
+            <div class="title">
+                <h1>WaterFern</h1>
+                <h2>Professor</h2>
+            </div>
+            <div class="back-button-container">
+                <div class="back-button">
+                    Back To List
+                </div>
+            </div>
             <ul id="side-list">
-                <li id="assignmentPage" class="selection-list">Back</li>
-                <li class="selection-list-title">Similar Blocks</li>
-                <li class="selection-list">Change this</li>
-                <li class="selection-list">to list of</li>
-                <li class="selection-list">files</li>
-                <li class="selection-list">Code Block 4</li>
+                <li class="selection-list-title"><h3>Similar Files</h3></li>
+                <li class="selection-list selected" style="border-top: 1px solid #0085b2;">Demo.java</li>
+                <li class="selection-list">LinkedList.java</li>
+                <li class="selection-list">Node.java</li>
+                <li class="selection-list">List.java</li>
             </ul>
         </div>
     </div>
 
+    <div class="top-bar">
+        <div class="top-col">
+            <div class="button">
+                <div class="center-middle">
+                    < Previous
+                </div>
+            </div>
+        </div>
+        <div class="top-col"><center>
+            <div class="button">
+                <div class="center-middle">
+                    Return To List
+                </div>
+            </div>
+        </center></div>
+        <div class="top-col">
+            <div class="button" style="float: right;">
+                <div class="center-middle">
+                    Next >
+                </div>
+            </div>
+        </div>
+    </div><br>
+
+    <div class="top-bar names">
+        <div class="top-col" style="width:50%;">
+            <b>Name: </b> <div id="name1" style="display: inline-block;"></div>
+        </div>
+        <div class="top-col" style="color: #eaeaea;width:20%;">
+            
+        </div>
+        <div class="top-col" style="width:50%;">
+            <b>Name: </b> <div id="name2" style="display: inline-block;"></div>
+        </div>
+    </div>
     <div class="content">
-        <div class="reportleft" id="reportleft"></div>
+        
+        <div class="reportleft" id="reportleft">
+            
+        </div>
         <div class="reportright" id="reportright">
-            <div class="content-text"><h3>Select a submission from the left to compare.</h3></div>
+            
         </div>
     </div>
 
