@@ -7,6 +7,7 @@ function move() {
   function frame() {
     if (width >= 100) {
       clearInterval(id);
+
       window.location.href = 'submissionsPage.html';
       
     } else {

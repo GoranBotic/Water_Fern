@@ -25,6 +25,4 @@
     transition: background-color ease 300ms;
  }
  
- #assign-contents ul li:hover {
-    background-color: gray;
- }
+
