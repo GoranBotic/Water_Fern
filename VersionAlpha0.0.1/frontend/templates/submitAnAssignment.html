@@ -1,7 +1,8 @@
 <html>
     <head>
         <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/home.css">
+        <link rel="stylesheet" href="css/submitAssignment.css">
+        <link rel="stylesheet" href="css/input.css">
         <!-- <script type="text/javascript" src="js/course-list.js"></script>
         <script type="text/javascript" src="js/data.js"></script>
         <script type="text/javascript">
@@ -13,7 +14,7 @@
         <script src="js/jquery.cookie.js"></script> -->
     </head>
 
-    <div id="header">
+    <!-- <div id="header">
         <div class="logo" onclick="window.open('home.html', '_self');">
             <h2>WaterFern</h2> <span>Professor</span>
         </div>
@@ -22,11 +23,20 @@
             Logout
         </div>
         </div>
-    </div>
+    </div> -->
 
     <div id="side-bar">
         <div id="side-bar-contents">
+            <div class="title">
+                <h1>WaterFern</h1>
+                <h2>Professor</h2>
+            </div>
             <ul id="side-list">
+                <li class="selection-list-title">COURSE LIST</li>
+                <li id="assignmentPage" class="selection-list" style="border-top: 1px solid #0085b2;">COSC 1P02</li>
+                <li id="assignmentPage" class="selection-list">COSC 1P03</li>
+                <li id="assignmentPage" class="selection-list">COSC 2P03</li>
+                <li id="assignmentPage" class="selection-list">COSC 2P05</li>
                 <!-- <li class="selection-list-title">COURSE LIST</li>
                 <li id="assignmentPage" class="selection-list">COSC 1P02</li> -->
             </ul>
@@ -35,15 +45,46 @@
 
     <div class="content">
         <div class="content-text">
+            <div class="page-title">
+                <h1>Upload Assignment</h1>
+            </div>
             <form action='/api/v1/uploadsubmission' method='POST' enctype='multipart/form-data'>
+                <div class="form-row">
+                    <div class="form-col form-label center-middle">
+                        User ID:
+                    </div>
+                    <div class="form-col">
+                        <input type='textbox' name='uID' class="inputxt" placeholder="ab14st"/>
+                    </div>
+                </div><br><br>
+                <div class="form-row">
+                    <div class="form-col form-label center-middle">
+                        Assingment ID:
+                    </div>
+                    <div class="form-col">
+                        <input type='textbox' class="inputxt"  name='aID' placeholder="2"/>
+                    </div>
+                </div><br><br>
+                <div class="form-row">
+                    <div class="form-col form-label" style="padding:10px;">
+                        <input type='file' accept='.zip' name = "file" id='uploadbar' />
+                    </div>
+                    <div class="form-col"></div>
+                </div><br><br>
+                <div class="drop-box center-middle">
+                        <div class="img">
+                            <img src="pictures/upload1.png">
+                        </div>
+                        <div class="label">
+                            Drag a file here
+                        </div>
+                </div>
                 <!--User ID is a users ID number in the DB-->
-                User ID: <input type='textbox' name='uID' value = '0'/><br>
+                 <br>
                 <!--An assignment ID identifies an assignment associated with a specific offering-->
-                Assingment ID:<input type='textbox' name='aID' value = '0'/><br>
-
-                Bulk Upload (True or False):<input type='textbox' name='bulkUpload' value = 'False'/>
-                <input type='submit' value='Submit' />
-                <input type='file' accept='.zip' name = "file" id='uploadbar' />
+                <br>
+                <input type='submit' value='Submit' class="assign-submit"/>
+                
               </form>
         </div>
     </div>

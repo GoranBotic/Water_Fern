@@ -1,11 +1,10 @@
-
 @font-face {
-    font-family: 'quicksand';
-    src: url("Quicksand/Quicksand-Light.ttf") format('truetype');
+   src: url('fonts/Quicksand/Quicksand-Light.ttf');
+   font-family: quicksand;
 }
 
-*{
-    font-family: quicksand;
+* {
+   font-family: quicksand;
 }
 
 #header {
@@ -14,9 +13,10 @@
    top:0;
    left: 0;
    width: 100%;
-   background-color:#4897d8;
+   background-color:#00bfff;
    height:70px;
-   color: white;
+   -webkit-box-shadow: 0 10px 26px 0 rgba(0,0,0,0.4), 0 6px 20px 0 rgba(0,0,0,0.38);
+   box-shadow: 0 10px 26px 0 rgba(0,0,0,0.4), 0 6px 20px 0 rgba(0,0,0,0.38);
 }
 
 .logo:hover{
@@ -49,31 +49,60 @@
 #header .header-button {
    padding:25px;
    float:right;
-   background-color:#4897d8;
+   background-color:#00bfff;
    cursor: pointer;
    transition: background-color ease 300ms;
 }
 
 #header .header-button:hover {
-   background-color: #6cabdf;
+   background-color: #0098cc;
 }
 
 #side-bar {
    position: fixed;
    overflow: auto;
-   width: 12em;
-   height:90%;
-   top: 70px;
+   width: 13em;
+   height:100%;
+   top: 0px;
    left: 0;
-   background-color: #7eb6e3;
-   border-right: 1px solid #dcdcdc;
+   background-color: #00abe5;
    z-index: 4;
+   /* -webkit-box-shadow: 0 10px 26px 0 rgba(0,0,0,0.4), 0 6px 20px 0 rgba(0,0,0,0.38);
+   box-shadow: 0 10px 26px 0 rgba(0,0,0,0.4), 0 6px 20px 0 rgba(0,0,0,0.38); */
+}
+
+#side-bar-contents .title {
+   width: 100%;
+   text-align: center;
+}
+
+#side-bar-contents .title h2 {
+   font-weight: bold;
+   color: #005572;
+}
+
+#side-bar-contents .back-button-container {
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.back-button-container .back-button {
+   padding: 15px;
+   border-radius: 3em;
+   cursor: pointer;
+   transition: background-color ease 400ms;
+}
+
+.back-button-container .back-button:hover {
+   background-color: #0099ce;
 }
 
 #side-bar-contents ul{
    list-style-type: none;
    margin:0;
-   margin-top:0px;
+   margin-top:10px;
    padding:0;
 }
 
@@ -87,14 +116,18 @@
 }
 
 #side-bar-contents ul li.selection-list {
-   border-bottom: 1px solid #4897d8;
-   background-color: #7eb6e3;
+   border-bottom: 1px solid #0085b2;
+   background-color: #00abe5;
    cursor: pointer;
    transition: background-color ease 300ms;
 }
 
 #side-bar-contents ul li.selection-list:hover {
-   background-color: #97C4E8;
+   background-color: rgba(0,133,179, 0.5);
+   font-weight: bold;
 }
 
-
+#side-bar-contents ul li.selected {
+   background-color: rgba(0,133,179, 0.5);
+   font-weight: bold;
+}
