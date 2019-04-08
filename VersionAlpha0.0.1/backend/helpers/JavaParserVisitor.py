@@ -1,84 +1,17 @@
 # Generated from JavaParser.g4 by ANTLR 4.7.1
 from antlr4 import *
-from indexer.JavaLexer import JavaLexer
 
 # This class defines a complete generic visitor for a parse tree produced by JavaParser.
 
-#theStuff = dict()
-
-from hashlib import md5
-
 class JavaParserVisitor(ParseTreeVisitor):
-
-    #this provides some default behavior
-    def visit(self, ctx):
-        if str(type(ctx)) == "<class 'antlr4.tree.Tree.TerminalNodeImpl'>":
-            #theStuff[type(ctx.getParent())] = True
-            #by default terminals simply evaluate to their symbol
-            #to override this the vist... method which encounters the terminal should manually its children producing the desired terminal values for the terminal children
-            #if that implementation is done then this line does not need to be changed, the default behavior will still be to use the symbol name
-            return str(JavaLexer.symbolicNames[ctx.getSymbol().type])
-
-        theList = ctx.accept(self)
-
-        theHash = ""
-        
-        if len(theList) > 1:
-            #do the aggregation
-            #right now this simply concatenates all the strings and hashes
-            #this needs to be changed so that similar sub-trees will get similar hashes
-
-            #have all terminals evaluate to a type 
-            #have all non-terminals evaluate to a type
-            #name the thing according to the type frequency count
-            for x in theList:
-                if str(x).strip() != "":
-                    theHash = theHash + x + "\n"
-            
-            #theHash = md5(theHash.encode()).hexdigest()
-        else:
-            theHash = theList[0]
-
-        #store the hash in the DB along with some kind of link to its accociated code 
-        #should also search for existing similar code
-
-        return theHash
-
-    def visitChildren(self, ctx):
-        ret = []
-
-        for x in range(ctx.getChildCount()):
-            # if str(type(ctx.getChild(x))) == "<class 'antlr4.tree.Tree.TerminalNodeImpl'>":
-            #     print(ctx.getChild(x).getSymbol())
-            # else:
-            #     print(ctx.getChild(x).getPayload().toStringTree())
-            ret.append(self.visit(ctx.getChild(x)))
-
-        return ret
-
-    # def visitTerminal(self, ctx):
-    #     return 1
-        
 
     # Visit a parse tree produced by JavaParser#compilationUnit.
     def visitCompilationUnit(self, ctx):
-        print("Start parsing")
-        print(ctx.getChildCount())
-
-        tmp =  self.visitChildren(ctx)
-
-        print(tmp) 
-        #define a file scope dict called theStuff
-        #in the visit method add something like theStuff[type(ctx.getParent())] = True 
-        #then all vist... s with terminal children will be added to the stuff, and the keys of the stuff can be print to produce a list of terminal visit...s which required an implementation
-        # for k in theStuff.keys():
-        #     print(k)
-        return tmp
+        return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by JavaParser#packageDeclaration.
     def visitPackageDeclaration(self, ctx):
-        print("packages")
         return self.visitChildren(ctx)
 
 
