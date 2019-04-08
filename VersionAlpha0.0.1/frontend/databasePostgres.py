@@ -1,6 +1,13 @@
 import config
 import psycopg2 as db
 
+#fun garbage because psycopg2 returns a weird format when querying "Numeric" columns
+DEC2FLOAT = db.extensions.new_type(
+    db.extensions.DECIMAL.values,
+    'DEC2FLOAT',
+    lambda value, curs: float(value) if value is not None else None)
+db.extensions.register_type(DEC2FLOAT)
+
 #A simple test database manager, does not have everything nessicary for MVP
 #TODO: THis entire this needs to be re-written from scratch once we have the database proper
 #TODO: Most other functions
@@ -27,11 +34,13 @@ class DatabaseManager:
             "SELECT \
                 "+config.TABLE_SUBMISSIONS+".ID, \
                 "+config.TABLE_USERS+".USERNAME, \
-                "+config.TABLE_SUBMISSIONS+".NAME \
+                "+config.TABLE_SUBMISSIONS+".NAME, \
+                "+config.TABLE_SUBMISSIONS+".SIMILARITY\
             FROM "+config.TABLE_SUBMISSIONS+" \
             INNER JOIN "+config.TABLE_USERS+" ON\
                 "+config.TABLE_SUBMISSIONS+".USER_ID = "+config.TABLE_USERS+".ID\
-            WHERE ASSIGN_ID = %(a)s ", {"a":aid})
+            WHERE ASSIGN_ID = %(a)s \
+            ORDER BY "+config.TABLE_SUBMISSIONS+".SIMILARITY", {"a":aid})
         return self.cursor.fetchall()
 
     #get a single file from a submission

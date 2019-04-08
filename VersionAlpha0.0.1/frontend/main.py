@@ -63,7 +63,7 @@ def upload_submission():
 
                 extension = name[extensionStart+1:] 
 
-                lang = None 
+                lang = None
                 if extension in config.JAVA_EXTENSIONS:
                     lang = "Java"
                 if extension in config.CPP_EXTENSIONS:
@@ -113,6 +113,9 @@ def upload_submission():
                 idStr = idStr + str(i) + "," 
             idStr = idStr[:-1] 
             idStr += "]"
+            print("poke")
+            print(dictToSend)
+            print(names)
 
             #TODO:once we have an actual unchanging address we need to change verify=False to verify=/path/to/public/cert
             #A certificate is only valid on a specific address, and as of right now all our components are using the computers assigned IP, not local host, this means that when we host things externally we should skip some problems 

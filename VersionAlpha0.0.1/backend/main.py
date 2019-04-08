@@ -26,7 +26,7 @@ for i in ind.__all__:
 @app.route('/api/v1/index_submissions', methods=["POST"])
 def index_submissions():
     if "ids" in request.form:
-        print("okokok")
+        print(request.form)
         submissions = json.loads(request.form["ids"])
         print(submissions)
         for s in submissions:
