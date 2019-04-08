@@ -38,7 +38,12 @@ def getSourceIndexer(argDB, argtheID, arglang):
             #if we're at a terminal node in the tree, then that node corresponds to a symbol
             #retrieve the appropriate symbol from the lexer, convert it to a vector with W2V, and add a few fields to hold the shape variables
             if str(type(ctx)) == "<class 'antlr4.tree.Tree.TerminalNodeImpl'>":
-                word = list(self.model[str(self.Parser.symbolicNames[ctx.getSymbol().type])])
+                word = None
+                try:
+                    word = list(self.model[str(self.Parser.symbolicNames[ctx.getSymbol().type])])
+                except:
+                    return None 
+                    
                 stop = len(word)-1
                 for x in range(stop):
                     word.append(10)
