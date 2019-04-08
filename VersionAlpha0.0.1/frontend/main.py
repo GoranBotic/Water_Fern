@@ -4,6 +4,7 @@ from flask import Flask, render_template, redirect, request, send_from_directory
 from zipfile import ZipFile
 import os 
 import requests
+import time
 
 import config
 dbm = __import__(config.DATABASE_MANAGER)
@@ -100,7 +101,7 @@ def upload_submission():
                         failedToSubmit.append(name) 
                         continue
                     else:
-                        userID = manager.look_up_user_ID(name[:uIDStop])
+                        userID = manager.look_up_user_ID(name[:uIDStop],True) #get the user id, or make one if it is missing
                         
                 with zipf.open(name, 'r') as theFile: 
                     nameStart = name.rfind("/")
@@ -130,7 +131,9 @@ def upload_submission():
             if len(failedToSubmit) > 0:
                 return "Failed to submit: " + str(failedToSubmit), 200
             else:
-                return redirect("/progressBar.html", code=302)
+
+                return redirect("/progressBar.html", code=302)#str(manager.find_progress(dictToSend["ids"]))#
+
 
         except Exception as e:
             print(e)
