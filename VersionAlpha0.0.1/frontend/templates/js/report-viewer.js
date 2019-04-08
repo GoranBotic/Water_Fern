@@ -1,84 +1,43 @@
-
 function displaySubmissionA(){
     let sida = $.cookie("submissionA");
-    let report = document.getElementById("reportleft");
-    report.innerHTML = "";
+    let report = $("#reportleft");
+    report.html("");
 
-    // console.log("student1Id = "+student1Id);
-    let name1 = document.getElementById("name1");
-    var data = dummyData()[0];
-    console.log(data);
-    let text = document.createTextNode(data["name"]);
-    name1.appendChild(text);
-
-    let file = data.files[0].data;
-    let div = document.createElement("div");
-    
-    for (let i = 0; i < file.length; i++) {
-        div = document.createElement("div");
-        // div.style.backgroundColor = 'hsl(0, 100%, '+(((i/file.length)*50)+50)+'%)';
-        if (file[i] == "") {
-            text = document.createTextNode(" ");
-        } else {
-            text = document.createTextNode(file[i]);
-        }
-        div.appendChild(text);
-        report.appendChild(div);
+    let line_list = submission(sida)[1].split(/\r?\n/);
+    for(var line in line_list){
+        let lineelem = $('<a id="'+line+'a" class="line" href=""></a>');
+        lineelem.html("<pre>"+line_list[line]+"</pre>");
+        report.append(lineelem);
     }
 
-    // let line_list = submission(sida)[1].split(/\r?\n/);
-    // for(var line in line_list){
-    //     let lineelem = $('<a id="'+line+'a" class="line" href=""></a>');
-    //     lineelem.html("<pre>"+line_list[line]+"</pre>");
-    //     report.append(lineelem);
-    // }
+    for(var i=0; i<50; i++){
+        let lineelem = $('<a id="'+line+'b" class="line" href=""></a>');
+        report.append(lineelem);
+    }
 
 }
-// displaySubmissionA();
 
 function displaySubmissionB(sidb){
-    let report = document.getElementById("reportright");
-    report.innerHTML = "";
+    let report = $("#reportright");
+    report.html("");
 
-    let name2 = document.getElementById("name2");
-    var data = dummyData()[1];
-    console.log(data);
-    let text = document.createTextNode(data.name);
-    name2.appendChild(text);
-
-    let file = data.files[0].data;
-    let div = document.createElement("div");
-    
-    for (let i = 0; i < file.length; i++) {
-        div = document.createElement("div");
-        if (file[i] == "") {
-            text = document.createTextNode(" ");
-        } else {
-            text = document.createTextNode(file[i]);
-        }
-        div.appendChild(text);
-        report.appendChild(div);
+    let line_list = submission(sidb)[1].split(/\r?\n/);
+    for(var line in line_list){
+        let lineelem = $('<a id="'+line+'b" class="line" href=""></a>');
+        lineelem.html("<pre>"+line_list[line]+"</pre>");
+        report.append(lineelem);
     }
 
-    // let line_list = submission(sidb)[1].split(/\r?\n/);
-    // for(var line in line_list){
-    //     let lineelem = $('<a id="'+line+'b" class="line" href=""></a>');
-    //     lineelem.html("<pre>"+line_list[line]+"</pre>");
-    //     report.append(lineelem);
-    // }
+    for(var i=0; i<50; i++){
+        let lineelem = $('<a id="'+line+'b" class="line" href=""></a>');
+        report.append(lineelem);
+    }
 
-    // let sida = $.cookie("submissionA");
-    // displaySubmissionA(); //clear first display of associations
-    // updateAssociations(sida,sidb); //add back associations
-}
+    buildSideSubmissionsList(sidb);
 
-function buildSideSubmissionsList() {
-    // get data.js
-    // go through both students
-    // get the files that are similar to each other
-    // display the files for the first student that have a high similarity rate
-    // make the file names clickable
-    let data = dummyData();
+    let sida = $.cookie("submissionA");
+    displaySubmissionA(); //clear first display of associations
+    updateAssociations(sida,sidb); //add back associations
 }
 
 function updateAssociations(sida, sidb){

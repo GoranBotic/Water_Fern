@@ -1,0 +1,16 @@
+ #myProgress {
+  display: flex;
+  
+  margin-left: 5%;
+  margin-right: 5%;
+  width:100%;
+  height: 10%;
+  background-color: grey;
+}
+
+#myBar {
+   display: flex;
+   width:1%;
+   height: 100%;
+  background-color: green;
+}
