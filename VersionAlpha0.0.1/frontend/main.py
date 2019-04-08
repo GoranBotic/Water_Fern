@@ -33,16 +33,19 @@ def upload_submission():
         assignID = request.form["aID"] 
     else:
         return "Malformed input.", 400
+    print(assignID)
     bulkUpload = False 
     if "bulkUpload" in request.form:
-        bulkUpload = bool(request.form["bulkUpload"])
+        if request.form["bulkUpload"] == "True":
+            bulkUpload = True 
+ 
     
+    userID = None 
     if not bulkUpload:
         if "uID" in request.form:
             userID = request.form["uID"] 
         else:
             return "Malformed input.", 400
-
 
     if fi is not None:
         try:
@@ -67,9 +70,9 @@ def upload_submission():
                 if extension in config.JAVA_EXTENSIONS:
                     lang = "Java"
                 if extension in config.CPP_EXTENSIONS:
-                    lang = "cpp" 
+                    lang = "CPP" 
                 if extension in config.C_EXTENSIONS:
-                    lang = "c" 
+                    lang = "C" 
 
                 
                 if lang == None:
@@ -99,7 +102,6 @@ def upload_submission():
                     else:
                         userID = manager.look_up_user_ID(name[:uIDStop])
                         
-
                 with zipf.open(name, 'r') as theFile: 
                     nameStart = name.rfind("/")
                     name = name[nameStart+1:]
@@ -120,7 +122,9 @@ def upload_submission():
             #TODO:once we have an actual unchanging address we need to change verify=False to verify=/path/to/public/cert
             #A certificate is only valid on a specific address, and as of right now all our components are using the computers assigned IP, not local host, this means that when we host things externally we should skip some problems 
             # it also means that in order to verify the backend certificate, we would need to remake a certficate every time the laptops IP changes, so for now we use verify=False  
-            res = requests.post("https://"+config.BACKEND_ADDRESS+":12345/api/v1/index_submissions", data = {'ids':idStr}, verify=False)
+
+            if len(dictToSend["ids"]) > 0:
+                res = requests.post("https://"+config.BACKEND_ADDRESS+":12345/api/v1/index_submissions", data = {'ids':idStr}, verify=False)
             
             #TODO: this needs to redirect the user, and it should explain any issues which came up 
             if len(failedToSubmit) > 0:
