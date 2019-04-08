@@ -97,4 +97,8 @@
    background-color: #97C4E8;
 }
 
+.selected {
+    background-color: rgba(0, 96, 128, 0.5) !important;
+}
+
 
