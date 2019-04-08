@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/home.css">
+        <link rel="stylesheet" href="css/progressBar.css">
+    
+        <script type="text/javascript" src="js/progressBar.js"></script>
+        <script type="text/javascript">
+            window.onload = function () {
+                buildSideCourseList();
+            }
+        </script>
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/jquery.cookie.js"></script>
+    </head>
+
+    <div id="header">
+        <div class="logo" onclick="window.open('home.html', '_self');">
+            <h2>WaterFern</h2> <span>Professor</span>
+        </div>
+        <div class="buttons-list">
+        <div class="header-button">
+            Logout
+        </div>
+        
+        </div>
+        
+    </div>
+
+    <div class="content">
+        <div id="myProgress">
+            <div id="myBar">
+                    <script type="text/javascript">
+                        move();    
+                    </script>
+            </div>
+        </div>
+    </div>    
+    
+
+</html>
