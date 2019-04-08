@@ -43,6 +43,13 @@ class DatabaseManager:
             ORDER BY "+config.TABLE_SUBMISSIONS+".SIMILARITY", {"a":aid})
         return self.cursor.fetchall()
 
+    #generate a student if they dont exist already
+    def gen_student(self, uid):
+        self.cursor.execute("INSERT INTO "+config.TABLE_USERS+" (USERNAME,PASSWORD) SELECT %(a)s, %(p)s \
+            WHERE NOT EXISTS (SELECT (USERNAME,PASSWORD) FROM "+config.TABLE_USERS+" WHERE USERNAME=%(a)s)",{"a":uid,"p":"pass"})
+        self.connection.commit()
+        return 
+
     #get a single file from a submission
     def get_file(self, sid):
         print("getfile")
@@ -53,12 +60,35 @@ class DatabaseManager:
     #load an assignment into the database
     def put_file(self,theFile,name,language,assignID,userID):
         contents = theFile.read()
+        length = contents.decode("utf-8").count("\n")
         #TODO:figure out if an assignment is late
         late = '0'
-        self.cursor.execute("INSERT INTO "+config.TABLE_SUBMISSIONS+" (ASSIGN_ID, USER_ID, LATE, DATA, NAME, LANGUAGE) VALUES (%s,%s,%s,%s,%s,%s) RETURNING ID;",(assignID,userID,late,contents,name,language))
+        self.cursor.execute("INSERT INTO "+config.TABLE_SUBMISSIONS+" (ASSIGN_ID, USER_ID, LATE, DATA, NAME, LENGTH, LANGUAGE) VALUES (%s,%s,%s,%s,%s,%s,%s) RETURNING ID;",(assignID,userID,late,contents,name,length,language))
         id_of_new_row = self.cursor.fetchone()[0]
         self.connection.commit()
         return id_of_new_row
+
+    #find the progress of indexing of a set of files
+    #WARNING: EXTREMELY SLOW
+    def find_progress(self,file_ids):
+
+        n_indexers = 1 #TODO: query number of indexers
+        # "+config.TABLE_SUBMISSIONS+".LENGTH, \
+        self.cursor.execute("\
+        SELECT \
+            MAX(CAST(("+ config.TABLE_INDEXES +".END_LINE - "+ config.TABLE_INDEXES +".START_LINE) AS REAL) / CAST("+config.TABLE_SUBMISSIONS+".LENGTH AS REAL)),\
+            "+ config.TABLE_INDEXES +".TYPE,\
+            "+ config.TABLE_INDEXES +".SUBMISSION_ID\
+        FROM "+ config.TABLE_INDEXES +"\
+        INNER JOIN "+config.TABLE_SUBMISSIONS+" ON\
+            "+config.TABLE_INDEXES+".SUBMISSION_ID = "+config.TABLE_SUBMISSIONS+".ID\
+        GROUP BY \
+            "+ config.TABLE_INDEXES +".TYPE,\
+            "+ config.TABLE_INDEXES +".SUBMISSION_ID\
+        ;")
+        rows = filter(lambda x: x[2] in file_ids,self.cursor.fetchall())
+        avg = sum(list(zip(*rows))[0])/(len(file_ids)*n_indexers)
+        return (avg/0.15)
 
     #store an index vector for a subsection of a file
     def store_index(self, itype, submission_id, index, start_line=0, end_line=0):
@@ -104,7 +134,7 @@ class DatabaseManager:
             index2ID = tmp 
         
         self.cursor.execute(
-            "INSERT INTO " + config.TABLE_ASSOCIATIONS +"(document1, document2, index1, index2, similarity) VALUES (%(a)s, %(b)s, %(c)s, %(d)s, %(e)s) ",{"a":doc1ID, "b":doc2ID, "c":index1ID, "d":index2ID, "e":similarity}
+            "INSERT INTO "+ config.TABLE_ASSOCIATIONS +"(document1, document2, index1, index2, similarity) VALUES (%(a)s, %(b)s, %(c)s, %(d)s, %(e)s) ",{"a":doc1ID, "b":doc2ID, "c":index1ID, "d":index2ID, "e":similarity}
         )
         self.connection.commit()
 
@@ -139,7 +169,9 @@ class DatabaseManager:
         self.cursor.execute("SELECT ID FROM " + config.TABLE_ASSIGNMENTS + " WHERE OFFERING_ID=%(a)s;",{"a":oid})
         return self.cursor.fetchall()
 
-    def look_up_user_ID(self, uName):
+    def look_up_user_ID(self, uName, generate_if_missing):
+        if(generate_if_missing):
+            self.gen_student(uName)
         self.cursor.execute("SELECT ID FROM " + config.TABLE_USERS + " WHERE USERNAME = '" + uName + "';")
         return self.cursor.fetchone() 
 
