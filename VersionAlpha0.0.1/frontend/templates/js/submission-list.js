@@ -14,8 +14,9 @@ function buildSubmissionsList() {
         if (i == 0) {
             highest = li.getAttribute("score"); //the first score in the list will have the highest score
         }
-
-        li.style.backgroundColor = 'hsl(0,100%, (100+((li.getAttribute("score"))/highest)*(-50))%)'; //sets the coloring, with 1 giving a full red, the lowest being white
+        
+        let col =(100+((li.getAttribute("score"))/highest)*(-50));
+        li.style.backgroundColor = "hsl(0,100%, col%)"; //sets the coloring, with 1 giving a full red, the lowest being white
         studentList.appendChild(li);
 
     }

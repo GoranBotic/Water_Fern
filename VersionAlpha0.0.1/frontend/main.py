@@ -64,7 +64,7 @@ def upload_submission():
                 if extensionStart == -1:
                     continue 
 
-                extension = name[extensionStart+1:] 
+                extension = name[extensionStart+1:].lower()
 
                 lang = None
                 if extension in config.JAVA_EXTENSIONS:
@@ -130,7 +130,7 @@ def upload_submission():
             if len(failedToSubmit) > 0:
                 return "Failed to submit: " + str(failedToSubmit), 200
             else:
-                return redirect("/home.html", code=302)
+                return redirect("/progressBar.html", code=302)
 
         except Exception as e:
             print(e)
