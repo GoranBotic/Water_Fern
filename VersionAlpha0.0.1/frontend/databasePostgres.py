@@ -35,12 +35,12 @@ class DatabaseManager:
                 "+config.TABLE_SUBMISSIONS+".ID, \
                 "+config.TABLE_USERS+".USERNAME, \
                 "+config.TABLE_SUBMISSIONS+".NAME, \
-                "+config.TABLE_SUBMISSIONS+".SIMILARITY\
+                ("+config.TABLE_SUBMISSIONS+".SIMILARITY/"+config.TABLE_SUBMISSIONS+".ASSOCIATIONCOUNT) as scr\
             FROM "+config.TABLE_SUBMISSIONS+" \
             INNER JOIN "+config.TABLE_USERS+" ON\
                 "+config.TABLE_SUBMISSIONS+".USER_ID = "+config.TABLE_USERS+".ID\
             WHERE ASSIGN_ID = %(a)s \
-            ORDER BY "+config.TABLE_SUBMISSIONS+".SIMILARITY", {"a":aid})
+            ORDER BY scr DESC", {"a":aid})
         return self.cursor.fetchall()
 
     #get a single file from a submission
@@ -120,7 +120,7 @@ class DatabaseManager:
         FROM "+config.TABLE_ASSOCIATIONS+" ass\
         INNER JOIN "+config.TABLE_INDEXES+" ind1 ON ind1.block_id = ass.index1\
         INNER JOIN "+config.TABLE_INDEXES+" ind2 ON ind2.block_id = ass.index2\
-        WHERE ass.document1=%(a)s OR ass.document2 = %(a)s;",{"a":fid})
+        WHERE ass.document1=%(a)s OR ass.document2 = %(a)s ORDER BY similarity DESC;",{"a":fid})
         ret = self.cursor.fetchall()
         print(ret)
         return ret 

@@ -6,7 +6,7 @@ import os
 import antlr4
 from math import sqrt
 
-from helpers._SourceIndexerW2VHash import SourceIndexer
+from helpers._SourceIndexerW2VHash import getSourceIndexer
 
 def index(submission_id):
     manager = dbm.DatabaseManager()
@@ -18,11 +18,17 @@ def index(submission_id):
 
     #import parser and lexer based on language
     #TODO: vulnerability, filter language field
-    __import__("helpers."+language+"Parser")
-    Parser = getattr(sys.modules["helpers."+language+"Parser"],language+"Parser")
+    #TODO: add a less hacky way of dealing with the C CPP problem 
 
-    __import__("helpers."+language+"Lexer")
-    Lexer  = getattr(sys.modules["helpers."+language+"Lexer"] ,language+"Lexer" )
+    parserLang = language 
+    if parserLang == "C":
+        parserLang = "CPP" 
+
+    __import__("helpers."+parserLang+"Parser")
+    Parser = getattr(sys.modules["helpers."+parserLang+"Parser"],parserLang+"Parser")
+
+    __import__("helpers."+parserLang+"Lexer")
+    Lexer  = getattr(sys.modules["helpers."+parserLang+"Lexer"] ,parserLang+"Lexer" )
 
     inputData = antlr4.InputStream(source)
     lexer = Lexer(inputData)
@@ -30,7 +36,8 @@ def index(submission_id):
     parser = Parser(tokens) 
     tree = parser.compilationUnit()
 
-    tokenList = SourceIndexer(manager,submission_id,language).visit(tree)
+    sourceIndexer = getSourceIndexer(manager,submission_id,language)
+    tokenList = sourceIndexer.visit(tree)
 
     print(tokenList)
 
