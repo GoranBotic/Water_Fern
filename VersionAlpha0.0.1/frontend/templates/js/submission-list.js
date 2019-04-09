@@ -16,7 +16,8 @@ function buildSubmissionsList() {
         }
         
         let col =(100+((li.getAttribute("score"))/highest)*(-50));
-        li.style.backgroundColor = "hsl(0,100%, col%)"; //sets the coloring, with 1 giving a full red, the lowest being white
+        li.style.backgroundColor = "hsl(0,100%, "+col+"%)"; //sets the coloring, with 1 giving a full red, the lowest being white
+        // li.setAttribute("style","background_color : rgb(255,0,0);");
         studentList.appendChild(li);
 
     }
@@ -29,7 +30,7 @@ function buildSubmissions(item) {
 
     li.setAttribute("onclick", "goToReport(" + item[0] + ")");
     let text = document.createTextNode(item[1] + " | " + item[3]);
-    li.setAttribute("score", item[3]);//gives each element an attribute called score
+    li.setAttribute("score", Math.log(item[3]/(1.0-item[3])));//gives each element an attribute called score
 
     li.appendChild(text);
 
@@ -81,7 +82,7 @@ function buildSideSubmissions(sub) {
     li.setAttribute("class", "selection-list");
     li.setAttribute("onclick", "displaySubmissionB(" + sub[0] + ")");
 
-    let text = document.createTextNode(sub[1]);
+    let text = document.createTextNode(sub[1] + " : " + sub[2] + " " + sub[3]);
 
     li.appendChild(text);
 
