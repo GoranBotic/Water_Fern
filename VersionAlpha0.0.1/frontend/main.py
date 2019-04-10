@@ -144,17 +144,29 @@ def upload_submission():
 def upload_bulk_submissions():
     pass
 
+#get the progress of an indexing
+@app.route('/api/v1/getProgress', methods=['GET','POST'])
+def get_progress():
+    if "assignmentID" in request.form:
+        assid = request.form["assignmentID"]
+        res = manager.find_progress(assid)
+        print("poke")
+        print(res)
+        return str(res)
+    else:
+        return "Malformed input.", 400
+
 #get similar files
 @app.route('/api/v1/getAssociations', methods=['GET','POST'])
 def get_associations():
-        if "fID" in request.form:
-            print("getting associations")
-            fID = request.form["fID"] 
-            ret = manager.get_associations(fID)
-            print(ret)
-            return jsonify(ret)
-        else:
-                return "Malformed input.", 400
+    if "fID" in request.form:
+        print("getting associations")
+        fID = request.form["fID"] 
+        ret = manager.get_associations(fID)
+        print(ret)
+        return jsonify(ret)
+    else:
+        return "Malformed input.", 400
 
 #get list of offerings for a class
 @app.route('/api/v1/getClassList', methods=['GET','POST'])

@@ -4,11 +4,10 @@
         <link rel="stylesheet" href="css/home.css">
         <link rel="stylesheet" href="css/progressBar.css">
     
+        <script type="text/javascript" src="js/data.js"></script>
         <script type="text/javascript" src="js/progressBar.js"></script>
         <script type="text/javascript">
             window.onload = function () {
-                window.onload = function () {
-                buildSideCourseList();
                 $.cookie("courseId", 0, {
                     expires : 10,
                     path    : '/'
@@ -17,7 +16,7 @@
                     expires : 10,
                     path    : '/'
                 });
-            }
+                move(); 
             }
         </script>
         <script src="js/jquery-3.3.1.min.js"></script>
@@ -40,9 +39,6 @@
     <div class="content">
         <div id="myProgress">
             <div id="myBar">
-                    <script type="text/javascript">
-                        move();    
-                    </script>
             </div>
         </div>
     </div>    
