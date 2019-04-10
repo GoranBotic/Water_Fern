@@ -70,7 +70,7 @@ class DatabaseManager:
 
     #find the progress of indexing of a set of files
     #WARNING: EXTREMELY SLOW
-    def find_progress(self,file_ids):
+    def find_progress(self,assign_id):
 
         n_indexers = 1 #TODO: query number of indexers
         # "+config.TABLE_SUBMISSIONS+".LENGTH, \
@@ -82,13 +82,25 @@ class DatabaseManager:
         FROM "+ config.TABLE_INDEXES +"\
         INNER JOIN "+config.TABLE_SUBMISSIONS+" ON\
             "+config.TABLE_INDEXES+".SUBMISSION_ID = "+config.TABLE_SUBMISSIONS+".ID\
+        WHERE "+config.TABLE_SUBMISSIONS+".ASSIGN_ID = %s \
         GROUP BY \
             "+ config.TABLE_INDEXES +".TYPE,\
             "+ config.TABLE_INDEXES +".SUBMISSION_ID\
-        ;")
-        rows = filter(lambda x: x[2] in file_ids,self.cursor.fetchall())
-        avg = sum(list(zip(*rows))[0])/(len(file_ids)*n_indexers)
-        return (avg/0.15)
+        ;",(assign_id,))
+        rows = self.cursor.fetchall()
+
+        self.cursor.execute("\
+        SELECT \
+            COUNT(ID)\
+        FROM "+config.TABLE_SUBMISSIONS+"\
+        WHERE ASSIGN_ID = %s",(assign_id,))
+        count = self.cursor.fetchone()[0]
+
+        if(len(rows)>0):
+            avg = sum(list(zip(*rows))[0])/(count*n_indexers)
+            return (avg/0.15)
+        else:
+            return 1
 
     #store an index vector for a subsection of a file
     def store_index(self, itype, submission_id, index, start_line=0, end_line=0):
