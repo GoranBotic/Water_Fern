@@ -74,33 +74,52 @@ class DatabaseManager:
 
         n_indexers = 1 #TODO: query number of indexers
         # "+config.TABLE_SUBMISSIONS+".LENGTH, \
-        self.cursor.execute("\
-        SELECT \
-            MAX(CAST(("+ config.TABLE_INDEXES +".END_LINE - "+ config.TABLE_INDEXES +".START_LINE) AS REAL) / CAST("+config.TABLE_SUBMISSIONS+".LENGTH AS REAL)),\
-            "+ config.TABLE_INDEXES +".TYPE,\
-            "+ config.TABLE_INDEXES +".SUBMISSION_ID\
-        FROM "+ config.TABLE_INDEXES +"\
-        INNER JOIN "+config.TABLE_SUBMISSIONS+" ON\
-            "+config.TABLE_INDEXES+".SUBMISSION_ID = "+config.TABLE_SUBMISSIONS+".ID\
-        WHERE "+config.TABLE_SUBMISSIONS+".ASSIGN_ID = %s \
-        GROUP BY \
-            "+ config.TABLE_INDEXES +".TYPE,\
-            "+ config.TABLE_INDEXES +".SUBMISSION_ID\
-        ;",(assign_id,))
-        rows = self.cursor.fetchall()
+        # self.cursor.execute("\
+        # SELECT \
+        #     MAX(CAST(("+ config.TABLE_INDEXES +".END_LINE - "+ config.TABLE_INDEXES +".START_LINE) AS REAL) / CAST("+config.TABLE_SUBMISSIONS+".LENGTH AS REAL)),\
+        #     "+ config.TABLE_INDEXES +".TYPE,\
+        #     "+ config.TABLE_INDEXES +".SUBMISSION_ID\
+        # FROM "+ config.TABLE_INDEXES +"\
+        # INNER JOIN "+config.TABLE_SUBMISSIONS+" ON\
+        #     "+config.TABLE_INDEXES+".SUBMISSION_ID = "+config.TABLE_SUBMISSIONS+".ID\
+        # WHERE "+config.TABLE_SUBMISSIONS+".ASSIGN_ID = %s \
+        # GROUP BY \
+        #     "+ config.TABLE_INDEXES +".TYPE,\
+        #     "+ config.TABLE_INDEXES +".SUBMISSION_ID\
+        # ;",(assign_id,))
+        # rows = self.cursor.fetchall()
+
+        # self.cursor.execute("\
+        # SELECT \
+        #     COUNT(ID)\
+        # FROM "+config.TABLE_SUBMISSIONS+"\
+        # WHERE ASSIGN_ID = %s",(assign_id,))
+        # count = self.cursor.fetchone()[0]
+
+        # if(len(rows)>0):
+        #     avg = sum(list(zip(*rows))[0])/(count*n_indexers)
+        #     return (avg/0.15)
+        # else:
+        #     return 1
 
         self.cursor.execute("\
         SELECT \
             COUNT(ID)\
         FROM "+config.TABLE_SUBMISSIONS+"\
         WHERE ASSIGN_ID = %s",(assign_id,))
-        count = self.cursor.fetchone()[0]
+        total = self.cursor.fetchone()[0]*n_indexers
 
-        if(len(rows)>0):
-            avg = sum(list(zip(*rows))[0])/(count*n_indexers)
-            return (avg/0.15)
-        else:
-            return 1
+        self.cursor.execute(
+            "SELECT COUNT(ID) FROM " + config.TABLE_SUBMISSIONS + "\
+                INNER JOIN " + config.TABLE_PROGRESS + " ON \
+                    " + config.TABLE_SUBMISSIONS + ".ID = " + config.TABLE_PROGRESS + ".SUBMISSION_ID\
+                WHERE ASSIGN_ID = %(a)s;\
+            ", {"a":assign_id}
+        )
+
+        finished = self.cursor.fetchone()[0]
+
+        return finished/total 
 
     #store an index vector for a subsection of a file
     def store_index(self, itype, submission_id, index, start_line=0, end_line=0):

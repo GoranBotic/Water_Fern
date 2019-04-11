@@ -15,12 +15,12 @@
    left: 0;
    width: 100%;
    background-color:#00bfff;
-   height:70px;
+   /* height:70px;
    -webkit-box-shadow: 0 10px 26px 0 rgba(0,0,0,0.4), 0 6px 20px 0 rgba(0,0,0,0.38);
-   box-shadow: 0 10px 26px 0 rgba(0,0,0,0.4), 0 6px 20px 0 rgba(0,0,0,0.38);
+   box-shadow: 0 10px 26px 0 rgba(0,0,0,0.4), 0 6px 20px 0 rgba(0,0,0,0.38); */
 }
 
-.logo:hover{
+.logo:hover, .title:hover{
    cursor: pointer;
 }
 

@@ -35,7 +35,7 @@ def upload_submission():
     else:
         return "Malformed input.", 400
     print(assignID)
-    bulkUpload = False 
+    bulkUpload = True#False 
     if "bulkUpload" in request.form:
         if request.form["bulkUpload"] == "True":
             bulkUpload = True 

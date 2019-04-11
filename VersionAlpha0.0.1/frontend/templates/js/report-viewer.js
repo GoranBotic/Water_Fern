@@ -3,7 +3,9 @@ function displaySubmissionA(){
     let report = $("#reportleft");
     report.html("");
 
-    let line_list = submission(sida)[1].split(/\r?\n/);
+    let sub = submission(sida);
+    $("#name1").html(sub[0])
+    let line_list = sub[1].split(/\r?\n/);
     for(var line in line_list){
         let lineelem = $('<a id="'+line+'a" class="line" href=""></a>');
         lineelem.html("<pre>"+line_list[line]+"</pre>");
@@ -21,7 +23,9 @@ function displaySubmissionB(sidb){
     let report = $("#reportright");
     report.html("");
 
-    let line_list = submission(sidb)[1].split(/\r?\n/);
+    let sub = submission(sidb);
+    $("#name2").html(sub[0])
+    let line_list = sub[1].split(/\r?\n/);
     for(var line in line_list){
         let lineelem = $('<a id="'+line+'b" class="line" href=""></a>');
         lineelem.html("<pre>"+line_list[line]+"</pre>");

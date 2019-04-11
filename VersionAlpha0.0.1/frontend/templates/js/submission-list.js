@@ -30,7 +30,7 @@ function buildSubmissions(item) {
 
     li.setAttribute("onclick", "goToReport(" + item[0] + ")");
     let text = document.createTextNode(item[1] + " | " + item[3]);
-    li.setAttribute("score", Math.log(item[3]/(1.0-item[3])));//gives each element an attribute called score
+    li.setAttribute("score", item[3]);//Math.log(item[3]/(1.0-item[3])));//gives each element an attribute called score
 
     li.appendChild(text);
 
