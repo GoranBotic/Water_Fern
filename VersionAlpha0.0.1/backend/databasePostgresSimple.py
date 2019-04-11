@@ -21,6 +21,12 @@ class DatabaseManager:
         self.cursor = self.connection.cursor()
 
        
+    #this method is used to record that the indexing of a submission is finished
+    def finish_indexing(self, sid,iid):
+        self.cursor.execute(
+            "INSERT INTO " + config.TABLE_PROGRESS + " (SUBMISSION_ID, INDEXER_ID) VALUES (%(a)s, %(b)s);", {"a":sid, "b":iid}
+            )
+        self.connection.commit()
 
         
 

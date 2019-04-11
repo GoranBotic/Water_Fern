@@ -38,7 +38,7 @@ def index(submission_id):
 
     sourceIndexer = getSourceIndexer(manager,submission_id,language)
     tokenList = sourceIndexer.visit(tree)
-
+    manager.finish_indexing(submission_id, sourceIndexer.get_indexer_id())
     print(tokenList)
 
 

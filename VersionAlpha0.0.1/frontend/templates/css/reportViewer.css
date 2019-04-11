@@ -17,6 +17,10 @@ body {
   text-align: center;
 }
 
+#yeet{
+  visibility: hidden;
+}
+
 .top-bar {
   margin-left:15em;
   width:83%;

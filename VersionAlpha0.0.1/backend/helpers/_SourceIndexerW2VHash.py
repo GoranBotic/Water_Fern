@@ -33,6 +33,9 @@ def getSourceIndexer(argDB, argtheID, arglang):
             __import__("helpers."+parserLang+"Parser")
             self.Parser = getattr(sys.modules["helpers."+parserLang+"Parser"],parserLang+"Parser")
 
+        def get_indexer_id(self):
+            return self.indexerID 
+
         #this provides some default behavior
         def visit(self, ctx):
             #if we're at a terminal node in the tree, then that node corresponds to a symbol
@@ -190,13 +193,12 @@ def getSourceIndexer(argDB, argtheID, arglang):
                 
                 contextList = (theHash, maxDepth, strtLine, endLine)
                 #(contextList[1] > 20 and contextList[1] < 30) or
-                if ((contextList[3] - contextList[2] >= 1) and (contextList[3] - contextList[2] <= 10)):
+                if ((contextList[3] - contextList[2] >= 2) and (contextList[3] - contextList[2] <= 20)):
                     block_id = self.DB.store_index(self.indexerID, self.theID, theHash, contextList[2], contextList[3])
 
                     #block_id = self.DB.store_index() 
 
                     #add associations between this sub-tree and the most similar sub-trees
-                    #TODO: only search for similar files in same language
                     similarBlocks = self.DB.find_cosine_similar_indicies(self.indexerID, theHash, self.theID)
                     similarity = []
                     for r in similarBlocks:
