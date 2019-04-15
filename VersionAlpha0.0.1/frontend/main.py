@@ -1,6 +1,7 @@
 import sys
 import json
-from flask import Flask, render_template, redirect, request, send_from_directory,jsonify
+from flask import Flask, render_template, redirect, request, send_from_directory,jsonify, flash, session
+from flask_login import LoginManager, login_user, login_required, current_user, UserMixin, logout_user
 from zipfile import ZipFile
 import os 
 import requests
@@ -10,21 +11,115 @@ import config
 dbm = __import__(config.DATABASE_MANAGER)
 manager = dbm.DatabaseManager()
 
+
 #Start webserver
 app = Flask(__name__, static_folder='templates/', static_url_path="/templates/")
 app.config['APPLICATION_ROOT'] = "templates/"
 
-#Test page
+#Set the secret key for session management 
+app.secret_key = b'aldj3kl2j59f90idD^$%DSF#&$)sdkl234ip0s9d#%#$#$'
+
+@app.before_request 
+def make_session_permanent():
+    session.permanent = True
+
+#Initialize a login_manager 
+login_manager = LoginManager()
+login_manager.login_view = "/api/v1/login"
+login_manager.init_app(app)
+login_manager.session_protection = "strong"
+
+
+#define a class for users 
+class User(UserMixin):
+    pass 
+
+#This is cheesy, but its all we need
+#TODO: periodically check this dict for dead users to prune 
+loggedInUsers = dict() 
+    
+@login_manager.user_loader
+def load_user(id):
+    print(id)
+    print("load user")
+    #If we get to this point then flask has already verified that the sessionID is valid, and has not expired
+    #so we just grab the user from out collection of logged in users 
+    if id in loggedInUsers:
+        return loggedInUsers[id]
+    else:
+        return None 
+
+#validates credentials and logs users in 
+@app.route('/api/v1/login', methods=['GET', 'POST'])
+def login():
+    if "uID" in request.form and "pWord" in request.form:
+        
+        user = User() 
+        uID = request.form["uID"]
+        user.id = uID
+        pWord = request.form["pWord"]
+        
+        #check credentials 
+        validCredentials = manager.validateUser(uID, pWord)[0][0]
+        #if validation succeeds 
+        if validCredentials:
+            global loggedInUsers 
+            print("the uID is: " + uID)
+         
+            loggedInUsers[uID] = user
+            login_user(user, remember = True)
+        
+            return redirect("/home.html", code=302)
+
+    return send_from_directory('templates/', 'login.html')
+
+#logs users out 
+@app.route("/api/v1/logout")
+@login_required
+def logout():
+    logout_user()
+    loggedInUsers[current_user.id] = None 
+    return redirect("/api/v1/login", code=302)
+
+#Retrives pages from the website root
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
+@login_required
 def serve(path):
     if path != "" and os.path.exists("templates/" + path):
         return send_from_directory('templates/', path)
     else:
-        return send_from_directory('templates/', 'home.html')
+        return send_from_directory('templates/', 'login.html')
+
+#Retrives pages from the website root
+@app.route('/api/v1/god', methods=['GET', 'POST'])
+@login_required
+def god():
+    if current_user.get_id() == "Paetric":
+        if "uID" in request.form and "pWord" in request.form:
+            uID = request.form["uID"] 
+            pWord = request.form["pWord"] 
+            manager.addUser(uID, pWord) 
+            return redirect("/api/v1/god", code=302)
+        else:
+            return "<form action='/api/v1/god' method='POST'> \
+                    User ID: <input type='textbox' name='uID' placeholder='ab14st'/> \
+                    <br> \
+                    <br> \
+                    Password: <input type='textbox' name='pWord' placeholder='******'/> \
+                    <br> \
+                    <br> \
+                    <input type='submit' value='Submit'/>\
+                    </form>", 200
+
+    else:
+        return redirect("/home.html", code=302)
+
+
 
 #upload a submission
-@app.route('/api/v1/uploadsubmission', methods=['GET','POST'])
+@app.route('/api/v1/uploadsubmission', methods=['POST'])
+@login_required
 def upload_submission():
     if "file" in request.files:
         fi = request.files['file']
@@ -139,13 +234,9 @@ def upload_submission():
             print(e)
             return "Invalid Zip Archive", 400
         
-#upload submissions in bulk
-@app.route('/api/v1/uploadBulkSubmissions', methods=['GET','POST'])
-def upload_bulk_submissions():
-    pass
-
 #get the progress of an indexing
-@app.route('/api/v1/getProgress', methods=['GET','POST'])
+@app.route('/api/v1/getProgress', methods=['POST'])
+@login_required
 def get_progress():
     if "assignmentID" in request.form:
         assid = request.form["assignmentID"]
@@ -157,7 +248,8 @@ def get_progress():
         return "Malformed input.", 400
 
 #get similar files
-@app.route('/api/v1/getAssociations', methods=['GET','POST'])
+@app.route('/api/v1/getAssociations', methods=['POST'])
+@login_required
 def get_associations():
     if "fID" in request.form:
         print("getting associations")
@@ -169,14 +261,16 @@ def get_associations():
         return "Malformed input.", 400
 
 #get list of offerings for a class
-@app.route('/api/v1/getClassList', methods=['GET','POST'])
+@app.route('/api/v1/getClassList', methods=['POST'])
+@login_required
 def get_classes():
     thing = manager.get_class_list()
     ret = jsonify(thing)
     return ret
 
 #get list of offerings for a class
-@app.route('/api/v1/getOfferingList', methods=['GET','POST'])
+@app.route('/api/v1/getOfferingList', methods=['POST'])
+@login_required
 def get_offerings():
     if "classID" in request.form:
         oID = request.form["classID"] 
@@ -187,7 +281,8 @@ def get_offerings():
         return "Malformed input.", 400
 
 #get list of assignments for an offering
-@app.route('/api/v1/getAssignmentList', methods=['GET','POST'])
+@app.route('/api/v1/getAssignmentList', methods=['POST'])
+@login_required
 def get_assignments():
     if "offeringID" in request.form:
         oID = request.form["offeringID"] 
@@ -198,7 +293,8 @@ def get_assignments():
         return "Malformed input.", 400
 
 #get submissions to assignment
-@app.route('/api/v1/getSubmissionsList', methods=['GET','POST'])
+@app.route('/api/v1/getSubmissionsList', methods=['POST'])
+@login_required
 def get_submissions():
     print(request.form)
     if "assignmentID" in request.form:
@@ -213,7 +309,8 @@ def get_submissions():
         return "Malformed input.", 400
 
 #get list of assignments for an offering
-@app.route('/api/v1/getSubmission', methods=['GET','POST'])
+@app.route('/api/v1/getSubmission', methods=['POST'])
+@login_required
 def get_submission():
     print(request.form)
     if "submissionID" in request.form:

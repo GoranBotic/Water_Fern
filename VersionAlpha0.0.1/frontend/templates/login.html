@@ -1,0 +1,22 @@
+<script>
+    function refresh(){
+        var mydate = new Date();mydate.setTime(mydate.getTime() - 1)
+        document.cookie = "username=; expires=" + mydate.toGMTString()
+    }
+</script>
+
+
+<body onload = refresh() >
+    <form action='/api/v1/login' method='POST'>
+        
+        User ID: <input type='textbox' name='uID' placeholder="ab14st"/>
+        <br>
+        <br>
+
+        Password: <input type='password' name='pWord' placeholder="******"/>
+        
+        <br>
+        <br>
+        <input type='submit' value='Submit' class="assign-submit"/>    
+    </form>
+</body>

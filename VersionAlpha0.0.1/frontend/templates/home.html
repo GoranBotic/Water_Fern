@@ -2,94 +2,57 @@
     <head>
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/home.css">
-        <link rel="stylesheet" href="css/test.css">
-
         <script type="text/javascript" src="js/course-list.js"></script>
-        <!-- <script type="text/javascript" src="js/data.js"></script> -->
+        <script type="text/javascript" src="js/data.js"></script>
         <script type="text/javascript">
-            // window.onload = function () {
-            //     buildSideCourseList();
-            // }
+            window.onload = function () {
+                buildSideCourseList();
+                $.cookie("courseId", 0, {
+                    expires : 10,
+                    path    : '/'
+                });
+                $.cookie("assign", 0, {
+                    expires : 10,
+                    path    : '/'
+                });
+            }
+           
         </script>
         <script src="js/jquery-3.3.1.min.js"></script>
         <script src="js/jquery.cookie.js"></script>
-
     </head>
 
-    <!-- ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="leave()" -->
-    <div class="form-container">
-        
-        <form action='/api/v1/uploadsubmission' method='POST' enctype='multipart/form-data'>
-            <div id="content" class="content">
-                <div class="content-text">
-                    <h1 id="welcome-message">WaterFern</h1><br>
-                    <div class="test-button" onclick="document.querySelector('.inputFile').click();">Select Files</div><br>
-                    <div class="filename" id="filename"></div><br>
-                    <input type="submit" value="Test" class="test-button">
-
-                    <input type='hidden' name='uID' class="inputxt" placeholder="ab14st" value="0"/>
-                    <input type='hidden' class="inputxt"  name='aID' placeholder="2" value="0"/>
-                    <input class="inputFile" id="uploadbar" type="file" accept='.zip' style="display: none;" name="file">
-                </div>
+    <div id="side-bar">
+        <div id="side-bar-contents">
+            <div class="title">
+                <h1>WaterFern</h1>
+                <h2>Professor</h2>
             </div>
-        </form>
+            <ul id="side-list">
+                <li class="selection-list-title">COURSE LIST</li>
+                <li id="assignmentPage" class="selection-list" style="border-top: 1px solid #0085b2;">COSC 1P02</li>
+                <li id="assignmentPage" class="selection-list">COSC 1P03</li>
+                <li id="assignmentPage" class="selection-list">COSC 2P03</li>
+                <li id="assignmentPage" class="selection-list">COSC 2P05</li>
+            </ul>
+        </div>
     </div>
 
-    <script>
-    
-      function allowDrop(e) {
-         e.preventDefault();
-         let content = document.getElementById("content");
-         content.setAttribute("class", "content content-hover");
-      }
+    <div class="content">
+        <div class="content-text">
+            <h3 id="welcome-message">Welcome to WaterFern, this application was built to help ease your navigation of assignments, courses, students and more.</h3>
 
-      function leave() {
-         let content = document.getElementById("content");
-         content.setAttribute("class", "content");
-      }
+            <form action='/api/v1/uploadsubmission' method='POST' enctype='multipart/form-data'>
+                <!--User ID is a users ID number in the DB-->
+                User ID: <input type='textbox' name='uID' value = '0'/><br>
+                <!--An assignment ID identifies an assignment associated with a specific offering-->
+                Assingment ID:<input type='textbox' name='aID' value = '0'/><br>
 
-      document.getElementById('uploadbar').onchange = function(e) {
-          upload_files(e.target.files);
-      }
-
-      function drop(e) {
-
-        e.preventDefault();
-        let content = document.getElementById("content");
-        content.setAttribute("class", "content");
-
-        let droppedFiles = document.getElementById("droppedFiles");
-        droppedFiles.value = e;
-
-        console.log(droppedFiles.value);
-
-        //upload_files(e.dataTransfer.files);
-
-      }
-      function upload_files(data) {
-         
-         let formData = new FormData();
-         let filename = document.getElementById("filename");
-         for (let i = 0; i < data.length; i++) {
-             filename.innerHTML = "";
-             let text = document.createTextNode(data[i].name);
-             let h3 = document.createElement("h3");
-             h3.appendChild(text);
-            filename.appendChild(h3);
-         }
-
-         // send data to server, can use photographer
-         // go to 
-        //  $.ajax({
-        //      type: "POST",
-        //      url: "/api/v1/uploadsubmission",
-        //      data: {
-                 
-        //      }
-        //  });
-         
-      }
-
-    </script>
+                Bulk Upload (True or False):<input type='textbox' name='bulkUpload' value = 'False'/>
+                <input type='submit' value='Submit' />
+                <input type='file' accept='.zip' name = "file" id='uploadbar' />
+              </form>
+        </div>
+    </div>
 
 </html>
