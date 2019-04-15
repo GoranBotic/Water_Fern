@@ -1,5 +1,6 @@
 import config
 import psycopg2 as db
+import datetime
 
 #fun garbage because psycopg2 returns a weird format when querying "Numeric" columns
 DEC2FLOAT = db.extensions.new_type(
@@ -205,6 +206,27 @@ class DatabaseManager:
             self.gen_student(uName)
         self.cursor.execute("SELECT ID FROM " + config.TABLE_USERS + " WHERE USERNAME = '" + uName + "';")
         return self.cursor.fetchone() 
+
+    def make_class(self, cid):
+        self.cursor.execute("SELECT * FROM " + config.TABLE_CLASSES+ " WHERE COURSECODE = '" + cid + "';")
+        ret = self.cursor.fetchall()
+        print(ret)
+        if len(ret) == 0:
+            self.cursor.execute("INSERT INTO "+ config.TABLE_CLASSES +"(COURSECODE) VALUES (%(a)s) ",{"a":cid})
+            self.connection.commit()
+            return True
+        else:
+            return False
+
+    def make_offering(self, cid):
+        self.cursor.execute("INSERT INTO "+ config.TABLE_OFFERINGS +"(CLASS_ID,SEMESTER,DONE) VALUES (%(a)s,%(b)s,%(c)s) ",{"a":cid,"b":datetime.date().today(),"c":0})
+        self.connection.commit()
+        return True
+
+    def make_assignment(self, oid):
+        self.cursor.execute("INSERT INTO "+ config.TABLE_ASSIGNMENTS +"(OFFERING_ID,OPENING,CLOSE) VALUES (%(a)s,%(b)s,%(c)s) ",{"a":oid,"b":datetime.date().today(),"c":datetime.date().today()})
+        self.connection.commit()
+        return True
 
     #close the database connection
     def close(self):

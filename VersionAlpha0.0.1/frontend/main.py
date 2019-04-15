@@ -226,5 +226,55 @@ def get_submission():
         print("failed")
         return "Malformed input.", 400
 
+#add a new class
+@app.route('/api/v1/makeClass', methods=['GET','POST'])
+def make_class():
+    print(request.form)
+    if "className" in request.form:
+        cID = request.form["className"] 
+        thing = manager.make_class(cID)
+
+        if thing:
+            return redirect("/", code=302)
+        else:
+            return "Class failed to be added, possibly already exists?", 400
+    else:
+        print("failed")
+        return "Malformed input.", 400
+
+#add a new offering
+@app.route('/api/v1/makeOffering', methods=['GET','POST'])
+def make_offering():
+    print(request.form)
+    if "cid" in request.form:
+        cID = request.form["cid"] 
+        thing = manager.make_offering(cID)
+
+        if thing:
+            return redirect("/offeringPage.html", code=302)
+        else:
+            return "Offering failed to be added, possibly already exists?", 400
+    else:
+        print("failed")
+        return "Malformed input.", 400
+
+#add a new assignment
+@app.route('/api/v1/makeAssignment', methods=['GET','POST'])
+def make_assignment():
+    print(request.form)
+    if "oid" in request.form:
+        oID = request.form["oid"] 
+        thing = manager.make_assignment(oID)
+
+        if thing:
+            return redirect("/assignmentPage.html", code=302)
+        else:
+            return "Assignment failed to be added, possibly already exists?", 400
+    else:
+        print("failed")
+        return "Malformed input.", 400
+
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
