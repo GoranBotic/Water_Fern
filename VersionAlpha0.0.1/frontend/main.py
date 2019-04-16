@@ -324,7 +324,8 @@ def get_submission():
         return "Malformed input.", 400
 
 #add a new class
-@app.route('/api/v1/makeClass', methods=['GET','POST'])
+@app.route('/api/v1/makeClass', methods=['POST'])
+@login_required
 def make_class():
     print(request.form)
     if "className" in request.form:
@@ -340,7 +341,8 @@ def make_class():
         return "Malformed input.", 400
 
 #add a new offering
-@app.route('/api/v1/makeOffering', methods=['GET','POST'])
+@app.route('/api/v1/makeOffering', methods=['POST'])
+@login_required
 def make_offering():
     print(request.form)
     if "cid" in request.form:
@@ -356,7 +358,8 @@ def make_offering():
         return "Malformed input.", 400
 
 #add a new assignment
-@app.route('/api/v1/makeAssignment', methods=['GET','POST'])
+@app.route('/api/v1/makeAssignment', methods=['POST'])
+@login_required
 def make_assignment():
     print(request.form)
     if "oid" in request.form:
