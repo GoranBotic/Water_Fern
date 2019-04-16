@@ -60,16 +60,17 @@ def login():
         pWord = request.form["pWord"]
         
         #check credentials 
-        validCredentials = manager.validateUser(uID, pWord)[0][0]
-        #if validation succeeds 
-        if validCredentials:
-            global loggedInUsers 
-            print("the uID is: " + uID)
-         
-            loggedInUsers[uID] = user
-            login_user(user, remember = True)
-        
-            return redirect("/home.html", code=302)
+        validCredentials = manager.validateUser(uID, pWord)
+        if len(validCredentials) > 0:
+            if len(validCredentials[0]) > 0:
+                if validCredentials[0][0]:
+                    global loggedInUsers 
+                    print("the uID is: " + uID)
+                
+                    loggedInUsers[uID] = user
+                    login_user(user, remember = True)
+                
+                    return redirect("/home.html", code=302)
 
     return send_from_directory('templates/', 'login.html')
 
@@ -77,8 +78,8 @@ def login():
 @app.route("/api/v1/logout")
 @login_required
 def logout():
-    logout_user()
     loggedInUsers[current_user.id] = None 
+    logout_user()
     return redirect("/api/v1/login", code=302)
 
 #Retrives pages from the website root
@@ -89,7 +90,7 @@ def serve(path):
     if path != "" and os.path.exists("templates/" + path):
         return send_from_directory('templates/', path)
     else:
-        return send_from_directory('templates/', 'login.html')
+        return send_from_directory('templates/', 'home.html')
 
 #Retrives pages from the website root
 @app.route('/api/v1/god', methods=['GET', 'POST'])
@@ -274,7 +275,8 @@ def get_classes():
 def get_offerings():
     if "classID" in request.form:
         oID = request.form["classID"] 
-        thing = manager.get_offering_list(oID)
+        uID = manager.look_up_user_ID(current_user.get_id(), False)
+        thing = manager.get_offering_list(oID, uID)
         ret = jsonify(thing)
         return ret
     else:
@@ -333,7 +335,7 @@ def make_class():
         thing = manager.make_class(cID)
 
         if thing:
-            return redirect("/", code=302)
+            return redirect("/home.html", code=302)
         else:
             return "Class failed to be added, possibly already exists?", 400
     else:
@@ -349,8 +351,11 @@ def make_offering():
         cID = request.form["cid"] 
         thing = manager.make_offering(cID)
 
-        if thing:
-            return redirect("/offeringPage.html", code=302)
+        if thing != None :
+            if manager.own_offering(thing, manager.look_up_user_ID(current_user.get_id(), False)):
+                return redirect("/offeringPage.html", code=302)
+            else:
+                "Failed to take ownership of offering.", 400
         else:
             return "Offering failed to be added, possibly already exists?", 400
     else:

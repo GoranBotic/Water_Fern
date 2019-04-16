@@ -206,8 +206,8 @@ class DatabaseManager:
         ret = self.cursor.fetchall()
         return ret
 
-    def get_offering_list(self, cid):
-        self.cursor.execute("SELECT ID,SEMESTER FROM " + config.TABLE_OFFERINGS + " WHERE CLASS_ID=%(a)s;",{"a":cid})
+    def get_offering_list(self, cid,uid):
+        self.cursor.execute("SELECT ID,SEMESTER FROM " + config.TABLE_OFFERINGS + "," + config.TABLE_OFFERING_OWNERS +" WHERE "+ config.TABLE_OFFERINGS +".CLASS_ID=%(a)s and " + config.TABLE_OFFERING_OWNERS +".OFFERINGID=" + config.TABLE_OFFERINGS + ".ID and " + config.TABLE_OFFERING_OWNERS +".USERID=%(b)s;",{"a":cid,"b":uid})
         return self.cursor.fetchall()
 
     def get_assignment_list(self, oid):
@@ -232,13 +232,21 @@ class DatabaseManager:
         else:
             return False
 
-    def make_offering(self, cid):
-        self.cursor.execute("INSERT INTO "+ config.TABLE_OFFERINGS +"(CLASS_ID,SEMESTER,DONE) VALUES (%(a)s,%(b)s,%(c)s) ",{"a":cid,"b":datetime.date().today(),"c":0})
+    def own_offering(self, oid, uid):
+        self.cursor.execute(
+            "INSERT INTO " + config.TABLE_OFFERING_OWNERS + " (USERID, OFFERINGID) VALUES (%(a)s, %(b)s);", {"a":uid, "b":oid})
         self.connection.commit()
-        return True
+        return True 
+
+    def make_offering(self, cid):
+        self.cursor.execute("INSERT INTO "+ config.TABLE_OFFERINGS +"(CLASS_ID,SEMESTER,DONE) VALUES (%(a)s,%(b)s,%(c)s) RETURNING ID;",{"a":cid,"b":datetime.datetime.today(),"c":0})
+        id_of_new_row = self.cursor.fetchone()[0]
+        self.connection.commit()
+        
+        return id_of_new_row
 
     def make_assignment(self, oid):
-        self.cursor.execute("INSERT INTO "+ config.TABLE_ASSIGNMENTS +"(OFFERING_ID,OPENING,CLOSE) VALUES (%(a)s,%(b)s,%(c)s) ",{"a":oid,"b":datetime.date().today(),"c":datetime.date().today()})
+        self.cursor.execute("INSERT INTO "+ config.TABLE_ASSIGNMENTS +"(OFFERING_ID,OPENING,CLOSE) VALUES (%(a)s,%(b)s,%(c)s) ",{"a":oid,"b":datetime.datetime.today(),"c":datetime.datetime.today()})
         self.connection.commit()
         return True
 
