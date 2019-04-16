@@ -1,0 +1,95 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/home.css">
+        <link rel="stylesheet" href="css/test.css">
+
+        <script type="text/javascript" src="js/course-list.js"></script>
+        <!-- <script type="text/javascript" src="js/data.js"></script> -->
+        <script type="text/javascript">
+            // window.onload = function () {
+            //     buildSideCourseList();
+            // }
+        </script>
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/jquery.cookie.js"></script>
+
+    </head>
+
+    <!-- ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="leave()" -->
+    <div class="form-container">
+        
+        <form action='/api/v1/uploadsubmission' method='POST' enctype='multipart/form-data'>
+            <div id="content" class="content">
+                <div class="content-text">
+                    <h1 id="welcome-message">WaterFern</h1><br>
+                    <div class="test-button" onclick="document.querySelector('.inputFile').click();">Select Files</div><br>
+                    <div class="filename" id="filename"></div><br>
+                    <input type="submit" value="Test" class="test-button">
+
+                    <input type='hidden' name='uID' class="inputxt" placeholder="ab14st" value="0"/>
+                    <input type='hidden' class="inputxt"  name='aID' placeholder="2" value="0"/>
+                    <input class="inputFile" id="uploadbar" type="file" accept='.zip' style="display: none;" name="file">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+    
+      function allowDrop(e) {
+         e.preventDefault();
+         let content = document.getElementById("content");
+         content.setAttribute("class", "content content-hover");
+      }
+
+      function leave() {
+         let content = document.getElementById("content");
+         content.setAttribute("class", "content");
+      }
+
+      document.getElementById('uploadbar').onchange = function(e) {
+          upload_files(e.target.files);
+      }
+
+      function drop(e) {
+
+        e.preventDefault();
+        let content = document.getElementById("content");
+        content.setAttribute("class", "content");
+
+        let droppedFiles = document.getElementById("droppedFiles");
+        droppedFiles.value = e;
+
+        console.log(droppedFiles.value);
+
+        //upload_files(e.dataTransfer.files);
+
+      }
+      function upload_files(data) {
+         
+         let formData = new FormData();
+         let filename = document.getElementById("filename");
+         for (let i = 0; i < data.length; i++) {
+             filename.innerHTML = "";
+             let text = document.createTextNode(data[i].name);
+             let h3 = document.createElement("h3");
+             h3.appendChild(text);
+            filename.appendChild(h3);
+         }
+
+         // send data to server, can use photographer
+         // go to 
+        //  $.ajax({
+        //      type: "POST",
+        //      url: "/api/v1/uploadsubmission",
+        //      data: {
+                 
+        //      }
+        //  });
+         
+      }
+
+    </script>
+
+</html>

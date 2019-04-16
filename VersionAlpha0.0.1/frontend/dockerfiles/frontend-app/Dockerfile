@@ -14,5 +14,7 @@ RUN ln -s /etc/nginx/sites-available/waterfernFrontend /etc/nginx/sites-enabled
 COPY certificates/cert.pem /home/certificates/cert.pem
 copy certificates/key.pem /home/certificates/key.pem
 
+RUN pip3 install flask-login
+
 EXPOSE 80
 expose 443

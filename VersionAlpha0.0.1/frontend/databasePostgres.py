@@ -29,6 +29,20 @@ class DatabaseManager:
         print("setting cursor")
         self.cursor = self.connection.cursor()
 
+    def addUser(self, id, password):
+        self.cursor.execute(
+            "INSERT INTO "+config.TABLE_USERS+" (USERNAME,PASSWORD) SELECT %(a)s, crypt(%(p)s,gen_salt('md5'))\
+            WHERE NOT EXISTS (SELECT (USERNAME, PASSWORD) FROM "+config.TABLE_USERS+" WHERE USERNAME=%(a)s);",{"a":id,"p":password})
+        self.connection.commit()
+
+
+
+    def validateUser(self, id, password):
+        self.cursor.execute(
+            "SELECT PASSWORD = crypt(%(a)s, PASSWORD) FROM " + config.TABLE_USERS + " WHERE USERNAME = %(b)s;", {"a":password,"b":id}
+        )
+        return self.cursor.fetchall()
+
     #get ids for all the submissions for a single assignement
     def get_submissions_for(self, aid):
         self.cursor.execute(
