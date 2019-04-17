@@ -1,22 +1,28 @@
-<script>
-    function refresh(){
-        var mydate = new Date();mydate.setTime(mydate.getTime() - 1)
-        document.cookie = "username=; expires=" + mydate.toGMTString()
-    }
-</script>
-
-
-<body onload = refresh() >
-    <form action='/api/v1/login' method='POST'>
-        
-        User ID: <input type='textbox' name='uID' placeholder="ab14st"/>
-        <br>
-        <br>
-
-        Password: <input type='password' name='pWord' placeholder="******"/>
-        
-        <br>
-        <br>
-        <input type='submit' value='Submit' class="assign-submit"/>    
-    </form>
-</body>
+<html>
+   <head>
+      <title>WaterFern - Login</title>
+      <link rel="stylesheet" href="css/login.css" type="text/css">
+      <link rel="stylesheet" href="css/input.css" type="text/css">
+   </head>
+   <body>
+      <div class="bg-image"></div>
+      <div class="holder">
+         <div class="middle-box">
+            <div class="things">
+            <form method="POST" action='/api/v1/login'>
+               <!--<div class="logo-container"><center>
+                  <img src="pictures/logo.png">
+               </center></div></p>-->
+               <div class="title">
+                 <p>WaterFern</p>
+               </div>
+               <input type="textbox" autofocus="on" placeholder="Login" class="login-inputxt" name='uID'></p>
+               <input type="password" placeholder="Password" class="login-inputxt" name='pWord'></p>
+               <input type="checkbox" value="remember-me">Remember me</p>
+               <input type="submit" value="Login" class="login-submit">
+            </form>
+         </div>
+         </div>
+      </div>
+   </body>
+</html>
