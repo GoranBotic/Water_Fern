@@ -36,8 +36,6 @@ function postCreateAssignment() {
         },
         async:false,
         success: function(data, status){
-            alert(data)
-            alert(status)
             if(status == "success") {
                 window.open("assignmentPage.html", "_self");
             } else {
