@@ -8,6 +8,8 @@ function buildSubmissionsList() {
     let studentList = document.getElementById("student-list");
     studentList.innerHTML = "";
 
+    $("#student-list").append(buildSubmitForm());
+
     let highest = 0; //the highest score
     for (let i = 0; i < list.length; i++) {
         let li = buildSubmissions(list[i]);
@@ -22,6 +24,16 @@ function buildSubmissionsList() {
 
     }
  
+}
+
+function buildSubmitForm() {
+    $form = $("<form action='/api/v1/uploadsubmission' method='POST' enctype='multipart/form-data'></form>");
+    let assign = $.cookie("assign");
+    let str = '<input type="hidden" name="aID" value=' + assign + '>';
+    $form.append(str);
+    $form.append("<input type='file' accept='.zip' name = 'file' id='uploadbar' />");
+    $form.append("<input type='submit' value='Submit'/>")
+    return $form 
 }
 
 function buildSubmissions(item) {

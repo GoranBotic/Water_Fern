@@ -13,6 +13,8 @@ function buildSideCourseList() {
 
     sideList.appendChild(header);
 
+    sideList.appendChild(buildSideAddCourseButton());
+
     for (let i = 0; i < courseList.length; i++) {
         var course = buildSideCourse(courseList[i]);
         sideList.appendChild(course);
@@ -32,6 +34,18 @@ function buildSideCourseList() {
  
     return li;
  
+}
+
+function buildSideAddCourseButton(){
+    let li = document.createElement("li");
+    li.setAttribute("class", "selection-list");
+    li.setAttribute("onclick", "window.open('newCourse.html','_self');");
+ 
+    let text = document.createTextNode("+Add New Class");
+ 
+    li.appendChild(text);
+ 
+    return li;
 }
  
  function goToCourse(id) {

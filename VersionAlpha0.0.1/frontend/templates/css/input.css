@@ -20,3 +20,42 @@
    border: 1px solid #0085b2;
    background-color: #0099ce;
 }
+
+
+.inputxt {
+   padding: 10px;
+   border:1px solid #ccc;
+   width:250px;
+}
+
+.login-submit {
+   background-color:#0099ce;
+   border: 1px solid #0099ce;
+   padding:8px;
+   width: 250px;
+   font-size: 17px;
+   border-radius:5px;
+   color:#fff;
+   cursor: pointer;
+}
+
+.login-submit:hover {
+   border: 1px solid #00abe5;
+   background-color: #00abe5;
+}
+
+.login-inputxt {
+   padding: 10px;
+   border:1px solid #ccc;
+   width:100%;
+   background-color: rgba(255, 255, 255, 0.5);
+   border-radius:2px;
+}
+
+/*.login-submit {
+   background-color: rgba(0,137,185, 0.9);
+   border:1px solid #0099ce;
+   width:100%;
+   border-radius:2px;
+   padding: 10px;
+}*/

@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/home.css">
+        <link rel="stylesheet" href="css/progressBar.css">
+    
+        <script type="text/javascript" src="js/data.js"></script>
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/jquery.cookie.js"></script>
+    </head>
+
+    <div id="header">
+        <div class="logo" onclick="window.open('home.html', '_self');">
+            <h2>WaterFern</h2> <span>Professor</span>
+        </div>
+        <div class="buttons-list">
+        <div class="header-button">
+            Logout
+        </div>
+        
+        </div>
+        
+    </div>
+
+    <div class="content">
+        <form action="/api/v1/makeClass" method="POST">
+            <input type="text" name="className" id="className">
+            <input type="submit" value="class">
+        </form>
+    </div>    
+    
+
+</html>

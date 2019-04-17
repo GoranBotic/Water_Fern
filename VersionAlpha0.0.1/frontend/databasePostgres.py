@@ -1,5 +1,6 @@
 import config
 import psycopg2 as db
+import datetime
 
 #fun garbage because psycopg2 returns a weird format when querying "Numeric" columns
 DEC2FLOAT = db.extensions.new_type(
@@ -27,6 +28,20 @@ class DatabaseManager:
         #Generate cursor
         print("setting cursor")
         self.cursor = self.connection.cursor()
+
+    def addUser(self, id, password):
+        self.cursor.execute(
+            "INSERT INTO "+config.TABLE_USERS+" (USERNAME,PASSWORD) SELECT %(a)s, crypt(%(p)s,gen_salt('md5'))\
+            WHERE NOT EXISTS (SELECT (USERNAME, PASSWORD) FROM "+config.TABLE_USERS+" WHERE USERNAME=%(a)s);",{"a":id,"p":password})
+        self.connection.commit()
+
+
+
+    def validateUser(self, id, password):
+        self.cursor.execute(
+            "SELECT PASSWORD = crypt(%(a)s, PASSWORD) FROM " + config.TABLE_USERS + " WHERE USERNAME = %(b)s;", {"a":password,"b":id}
+        )
+        return self.cursor.fetchall()
 
     #get ids for all the submissions for a single assignement
     def get_submissions_for(self, aid):
@@ -191,8 +206,8 @@ class DatabaseManager:
         ret = self.cursor.fetchall()
         return ret
 
-    def get_offering_list(self, cid):
-        self.cursor.execute("SELECT ID,SEMESTER FROM " + config.TABLE_OFFERINGS + " WHERE CLASS_ID=%(a)s;",{"a":cid})
+    def get_offering_list(self, cid,uid):
+        self.cursor.execute("SELECT ID,SEMESTER FROM " + config.TABLE_OFFERINGS + "," + config.TABLE_OFFERING_OWNERS +" WHERE "+ config.TABLE_OFFERINGS +".CLASS_ID=%(a)s and " + config.TABLE_OFFERING_OWNERS +".OFFERINGID=" + config.TABLE_OFFERINGS + ".ID and " + config.TABLE_OFFERING_OWNERS +".USERID=%(b)s;",{"a":cid,"b":uid})
         return self.cursor.fetchall()
 
     def get_assignment_list(self, oid):
@@ -205,6 +220,35 @@ class DatabaseManager:
             self.gen_student(uName)
         self.cursor.execute("SELECT ID FROM " + config.TABLE_USERS + " WHERE USERNAME = '" + uName + "';")
         return self.cursor.fetchone() 
+
+    def make_class(self, cid):
+        self.cursor.execute("SELECT * FROM " + config.TABLE_CLASSES+ " WHERE COURSECODE = '" + cid + "';")
+        ret = self.cursor.fetchall()
+        print(ret)
+        if len(ret) == 0:
+            self.cursor.execute("INSERT INTO "+ config.TABLE_CLASSES +"(COURSECODE) VALUES (%(a)s) ",{"a":cid})
+            self.connection.commit()
+            return True
+        else:
+            return False
+
+    def own_offering(self, oid, uid):
+        self.cursor.execute(
+            "INSERT INTO " + config.TABLE_OFFERING_OWNERS + " (USERID, OFFERINGID) VALUES (%(a)s, %(b)s);", {"a":uid, "b":oid})
+        self.connection.commit()
+        return True 
+
+    def make_offering(self, cid):
+        self.cursor.execute("INSERT INTO "+ config.TABLE_OFFERINGS +"(CLASS_ID,SEMESTER,DONE) VALUES (%(a)s,%(b)s,%(c)s) RETURNING ID;",{"a":cid,"b":datetime.datetime.today(),"c":0})
+        id_of_new_row = self.cursor.fetchone()[0]
+        self.connection.commit()
+        
+        return id_of_new_row
+
+    def make_assignment(self, oid):
+        self.cursor.execute("INSERT INTO "+ config.TABLE_ASSIGNMENTS +"(OFFERING_ID,OPENING,CLOSE) VALUES (%(a)s,%(b)s,%(c)s) ",{"a":oid,"b":datetime.datetime.today(),"c":datetime.datetime.today()})
+        self.connection.commit()
+        return True
 
     #close the database connection
     def close(self):

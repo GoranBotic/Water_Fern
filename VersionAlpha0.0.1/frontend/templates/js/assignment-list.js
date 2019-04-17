@@ -6,11 +6,45 @@ function buildAssignmentList() {
     let content = document.getElementById("assign-list");
     content.innerHTML = "";
  
+    content.appendChild(buildAddAssignmentButton())
+
     for (let i = 0; i < assignList.length; i++) {
        let assign = buildAssignment(assignList[i]);
        content.appendChild(assign);
     }
  
+}
+
+function buildAddAssignmentButton(){
+    let li = document.createElement("li");
+    li.setAttribute("onclick", "postCreateAssignment()");
+ 
+    let text = document.createTextNode("+Add New Assignment");
+ 
+    li.appendChild(text);
+ 
+    return li;
+}
+
+function postCreateAssignment() {
+    let oId = $.cookie("offeringId");
+    $.ajax({
+        type: "POST",
+        url: "/api/v1/makeAssignment",
+        data: {
+            'oid': oId
+        },
+        async:false,
+        success: function(data, status){
+            alert(data)
+            alert(status)
+            if(status == "success") {
+                window.open("assignmentPage.html", "_self");
+            } else {
+                alert(data)
+            }
+        }
+    })
 }
  
 function buildAssignment(assign) {
