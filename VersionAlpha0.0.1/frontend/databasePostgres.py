@@ -117,6 +117,7 @@ class DatabaseManager:
         # else:
         #     return 1
 
+        print(assign_id)
         self.cursor.execute("\
         SELECT \
             COUNT(ID)\

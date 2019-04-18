@@ -14,7 +14,8 @@ function move() {
     } else {
       // width++;
       old_width = width;
-      width = progress(0)*100.0;//mabye not hardcode this?
+      let assId = $.cookie("assign");
+      width = progress(assId)*100.0;//mabye not hardcode this?
       console.log(width);
 
       if(width == old_width){
