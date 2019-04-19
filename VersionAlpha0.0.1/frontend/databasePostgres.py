@@ -58,6 +58,23 @@ class DatabaseManager:
             ORDER BY scr DESC", {"a":aid})
         return self.cursor.fetchall()
 
+    def get_submissions_similar_to(self, aid, doc):
+        
+        
+        self.cursor.execute(
+            "SELECT doc, USR.USERNAME, SUB.NAME, sim \
+            FROM (  SELECT doc, avg(similarity) AS sim \
+                    FROM  ( SELECT document2 as doc, similarity \
+                            FROM " + config.TABLE_ASSOCIATIONS + " \
+                            WHERE document1 = %(a)s \
+                            UNION \
+                            SELECT document1 as doc, similarity \
+                            FROM " + config.TABLE_ASSOCIATIONS + " \
+                            WHERE document2 = %(a)s) as t GROUP BY doc) AS t2, \
+                    " + config.TABLE_SUBMISSIONS + " AS SUB, " + config.TABLE_USERS + " AS USR \
+            WHERE doc = SUB.id and assign_id = %(b)s and SUB.USER_ID = USR.ID order by sim desc;", {"a":doc,"b":aid}) 
+        return self.cursor.fetchall()
+
     #generate a student if they dont exist already
     def gen_student(self, uid):
         self.cursor.execute("INSERT INTO "+config.TABLE_USERS+" (USERNAME,PASSWORD) SELECT %(a)s, %(p)s \

@@ -66,7 +66,7 @@ function goToReport(id) {
 function buildSideSubmissionsList() {
     let assign = $.cookie("assign");
     let sida = $.cookie("submissionA");
-    let list = submissions(assign);
+    let list = submissionsSimilarTo(sida, assign);
 
     let sideList = document.getElementById("side-list");
     sideList.innerHTML = "";

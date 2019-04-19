@@ -71,6 +71,41 @@ function submissions(assignment) {
   // ];
 }
 
+function submissionsSimilarTo(doc, assignment) {
+  list = JSON.parse($.ajax({
+    type: "POST",
+    url: "/api/v1/getSubmissionsSimilarTo",
+    data: {
+        'assignmentID': assignment,
+        'docID':doc
+    },
+    async:false
+  }).responseText);
+
+  let theMax = 1//0
+  let theMin = 1
+
+  for (let i = 0; i < list.length; i++) {
+      let scr = list[i][3]
+      if(scr < theMin) theMin = scr
+      // if(scr > theMax) theMax = scr 
+  }
+
+  theMin = theMin*0.99999999
+
+  for (let i = 0; i < list.length; i++) {
+      list[i][3] = (list[i][3] - theMin)/(theMax - theMin)
+  }
+
+  return list
+  // return [
+  //     [1,"Adam"],
+  //     [2,"Alice"],
+  //     [3,"Bob"],
+  //     [4,"Eve"]
+  // ];
+}
+
 function progress(ass){
   return JSON.parse($.ajax({
     type: "POST",

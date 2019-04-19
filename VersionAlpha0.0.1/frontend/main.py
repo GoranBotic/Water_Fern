@@ -310,6 +310,24 @@ def get_submissions():
         print("failed")
         return "Malformed input.", 400
 
+#get submissions to assignment ordered by similarity to a document
+@app.route('/api/v1/getSubmissionsSimilarTo', methods=['POST'])
+@login_required
+def get_submissions_similar_to():
+    print("getting similar to")
+    print(request.form)
+    if "assignmentID" in request.form and "docID" in request.form:
+        aID = request.form["assignmentID"] 
+        sID = request.form["docID"]
+        thing = manager.get_submissions_similar_to(aID, sID)
+        print("here")
+        print(thing)
+        ret = jsonify(thing)
+        return ret
+    else:
+        print("failed")
+        return "Malformed input.", 400
+
 #get list of assignments for an offering
 @app.route('/api/v1/getSubmission', methods=['POST'])
 @login_required
