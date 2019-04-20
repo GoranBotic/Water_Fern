@@ -152,7 +152,10 @@ class DatabaseManager:
 
         finished = self.cursor.fetchone()[0]
 
-        return finished/total 
+        if total == 0:
+            return 1
+        else:
+            return finished/total 
 
     #store an index vector for a subsection of a file
     def store_index(self, itype, submission_id, index, start_line=0, end_line=0):

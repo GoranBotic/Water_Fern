@@ -148,15 +148,19 @@ def upload_submission():
         try:
             zipf = ZipFile(fi)
             names = zipf.namelist() 
+        except Exception as e:
+            print(e)
+            return "Invalid Zip Archive", 400
 
-            #this dictionary defines the data to be posted to the backend server
-            dictToSend = dict() 
-            dictToSend["ids"] = []
-            dictToSend["lang"] = [] 
+        #this dictionary defines the data to be posted to the backend server
+        dictToSend = dict() 
+        dictToSend["ids"] = []
+        dictToSend["lang"] = [] 
 
-            failedToSubmit = [] 
+        failedToSubmit = [] 
 
-            for name in names:
+        for name in names:
+            try:
                 extensionStart = name.rfind(".") 
                 if extensionStart == -1:
                     continue 
@@ -171,34 +175,34 @@ def upload_submission():
                 if extension in config.C_EXTENSIONS:
                     lang = "C" 
 
-                
+                    
                 if lang == None:
                     failedToSubmit.append(name)
                     continue 
-                
+                    
                 if bulkUpload:
                     userID = None
                     uIDStop = name.find("/")
-                    #TODO: extract the userame from the top level folder 
-                    #When the bulk upload flag is set, the sytem will assume that a zip file containing folders is sent 
-                    #each folder is assumed to be named according to the user name of the user who submit the assignment in that folder 
-                    #everying under the top folder is considered to be the submission 
-                    #ex cd15oy <- a folder in the zip file VV contents
-                    #       src 
-                    #           file1
-                    #           file2
-                    #       tests
-                    #           file1
-                    #           file2
-                    #we need to check that the user actually exists
-                    #if not, we need to warn the user, however, we should still process the other folders
-                    #if one student screws up the formatting, it should not stop the entire bulk submission 
+                        #TODO: extract the userame from the top level folder 
+                        #When the bulk upload flag is set, the sytem will assume that a zip file containing folders is sent 
+                        #each folder is assumed to be named according to the user name of the user who submit the assignment in that folder 
+                        #everying under the top folder is considered to be the submission 
+                        #ex cd15oy <- a folder in the zip file VV contents
+                        #       src 
+                        #           file1
+                        #           file2
+                        #       tests
+                        #           file1
+                        #           file2
+                        #we need to check that the user actually exists
+                        #if not, we need to warn the user, however, we should still process the other folders
+                        #if one student screws up the formatting, it should not stop the entire bulk submission 
                     if uIDStop == -1:
                         failedToSubmit.append(name) 
                         continue
                     else:
                         userID = manager.look_up_user_ID(name[:uIDStop],True) #get the user id, or make one if it is missing
-                        
+                            
                 with zipf.open(name, 'r') as theFile: 
                     nameStart = name.rfind("/")
                     name = name[nameStart+1:]
@@ -206,34 +210,47 @@ def upload_submission():
 
                     dictToSend["ids"].append(theid)
 
+            except Exception as e:
+                print(e)
+                print("Error on " + name)
+                failedToSubmit.append(name)
             
-            idStr = "["
-            for i in dictToSend['ids']:
-                idStr = idStr + str(i) + "," 
-            idStr = idStr[:-1] 
-            idStr += "]"
-            print("poke")
-            print(dictToSend)
-            print(names)
+        idStr = "["
+        for i in dictToSend['ids']:
+            idStr = idStr + str(i) + "," 
+        idStr = idStr[:-1] 
+        idStr += "]"
+        print("poke")
+        print(dictToSend)
+        print(names)
 
             #TODO:once we have an actual unchanging address we need to change verify=False to verify=/path/to/public/cert
             #A certificate is only valid on a specific address, and as of right now all our components are using the computers assigned IP, not local host, this means that when we host things externally we should skip some problems 
             # it also means that in order to verify the backend certificate, we would need to remake a certficate every time the laptops IP changes, so for now we use verify=False  
 
-            if len(dictToSend["ids"]) > 0:
-                res = requests.post("https://"+config.BACKEND_ADDRESS+":12345/api/v1/index_submissions", data = {'ids':idStr}, verify=False)
+        if len(dictToSend["ids"]) > 0:
+            res = requests.post("https://"+config.BACKEND_ADDRESS+":12345/api/v1/index_submissions", data = {'ids':idStr}, verify=False)
             
-            #TODO: this needs to redirect the user, and it should explain any issues which came up 
-            if len(failedToSubmit) > 0:
-                return "Failed to submit: " + str(failedToSubmit), 200
-            else:
+        #TODO: this needs to redirect the user, and it should explain any issues which came up 
+        if len(failedToSubmit) > 0:
+            didSubmit = [] 
+            for name in names:
+                if not (name in failedToSubmit):
+                    didSubmit.append(name) 
+            ret = "" 
+            ret += "<a href='https://0.0.0.0:8001'> Click here to go home </a> <br>" 
+            ret += "Navigate to the assignment page to see the analyzed files.\n"
+            ret += "Some files were not processed. A list of which files were processed and which were not follows.<br><br><br>" 
+            ret += "These files were submit successfully: <br>" + str(didSubmit) + "<br><br>" 
+            ret += "These files were ignored: <br>" + str(failedToSubmit) + "<br><br>"
 
-                return redirect("/progressBar.html", code=302)#str(manager.find_progress(dictToSend["ids"]))#
+            return ret, 200
+        else:
+
+            return redirect("/progressBar.html", code=302)#str(manager.find_progress(dictToSend["ids"]))#
 
 
-        except Exception as e:
-            print(e)
-            return "Invalid Zip Archive", 400
+      
         
 #get the progress of an indexing
 @app.route('/api/v1/getProgress', methods=['POST'])

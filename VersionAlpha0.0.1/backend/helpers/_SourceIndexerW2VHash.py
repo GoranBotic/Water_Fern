@@ -29,6 +29,7 @@ def getSourceIndexer(argDB, argtheID, arglang):
             self.indexerID = "w2v_"+lang+"_n_000"
             self.DB = DB
             self.theID = theID
+            self.theaID = self.DB.get_assign_id(self.theID)[0]
             self.model = Word2Vec.load('helpers/word2vec_models/'+lang+'Model.bin')
             __import__("helpers."+parserLang+"Parser")
             self.Parser = getattr(sys.modules["helpers."+parserLang+"Parser"],parserLang+"Parser")
@@ -194,12 +195,12 @@ def getSourceIndexer(argDB, argtheID, arglang):
                 contextList = (theHash, maxDepth, strtLine, endLine)
                 #(contextList[1] > 20 and contextList[1] < 30) or
                 if ((contextList[3] - contextList[2] >= 2) and (contextList[3] - contextList[2] <= 20)):
-                    block_id = self.DB.store_index(self.indexerID, self.theID, theHash, contextList[2], contextList[3])
+                    block_id = self.DB.store_index(self.indexerID, self.theID, self.theaID, theHash, contextList[2], contextList[3])
 
                     #block_id = self.DB.store_index() 
 
                     #add associations between this sub-tree and the most similar sub-trees
-                    similarBlocks = self.DB.find_cosine_similar_indicies(self.indexerID, theHash, self.theID)
+                    similarBlocks = self.DB.find_cosine_similar_indicies(self.indexerID, theHash, self.theID, self.theaID)
                     similarity = []
                     for r in similarBlocks:
                         similarity.append(cosineSimilarity(theHash, r[2]))

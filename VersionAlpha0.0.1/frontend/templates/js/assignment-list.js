@@ -66,5 +66,6 @@ function goToAssignList(assign) {
        path    : '/'
     });
  
-    window.open("submissionsPage.html", "_self");
+    //window.open("submissionsPage.html", "_self");
+    window.open("progressBar.html", "_self");
 }
