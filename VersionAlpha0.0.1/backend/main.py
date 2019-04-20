@@ -33,7 +33,7 @@ def index_submissions():
             #for each file
             for i in indexers:
                 #generate an index for each indexer (dont store result of function, index handles that itself)
-                job_queue.enqueue(i.index,s,result_ttl=0)
+                job_queue.enqueue(i.index,s,result_ttl=0,job_timeout=600)
 
         return "Ok.", 200
     else:

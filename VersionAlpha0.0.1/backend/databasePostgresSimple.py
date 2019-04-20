@@ -58,8 +58,7 @@ class DatabaseManager:
         return id_of_new_row
 
     def find_cosine_similar_indicies(self, itype, index, sID, aID):
-        
-        print(aID)
+    
         LIMITSKIP = 0
         LIMITPERDIM = 25
 
