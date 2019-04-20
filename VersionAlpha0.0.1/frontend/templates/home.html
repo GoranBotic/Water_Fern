@@ -41,17 +41,6 @@
     <div class="content">
         <div class="content-text">
             <h3 id="welcome-message">Welcome to WaterFern, this application was built to help ease your navigation of assignments, courses, students and more.</h3>
-
-            <form action='/api/v1/uploadsubmission' method='POST' enctype='multipart/form-data'>
-                <!--User ID is a users ID number in the DB-->
-                User ID: <input type='textbox' name='uID' value = '0'/><br>
-                <!--An assignment ID identifies an assignment associated with a specific offering-->
-                Assingment ID:<input type='textbox' name='aID' value = '0'/><br>
-
-                Bulk Upload (True or False):<input type='textbox' name='bulkUpload' value = 'False'/>
-                <input type='submit' value='Submit' />
-                <input type='file' accept='.zip' name = "file" id='uploadbar' />
-              </form>
         </div>
     </div>
 
